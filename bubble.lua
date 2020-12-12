@@ -56,7 +56,7 @@ function bubble:on_collide(e1, e2, dx, dy)
 	elseif e2.type == "bubble" then
 		self.xaccel = 0
 		self.yaccel = 0
-		self.xspeed = 0
+		self.xspeed = self.xspeed/2
 		self.yspeed = 0
 		self.x = self.x + dx/2
 	elseif e2.type == "character" then

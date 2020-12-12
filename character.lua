@@ -14,23 +14,25 @@ function newCharacter(n)
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
+	n.skin = "frog"
+	if n.pad == 2 then n.skin = "fox" end
 
 	n.animations = {
 		stand = {
-			left  = newAnimation(love.graphics.newImage("assets/knight_stand_left.png"),  16, 16, 2, 10),
-			right = newAnimation(love.graphics.newImage("assets/knight_stand_right.png"), 16, 16, 2, 10)
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_left.png"),  16, 16, 2, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_right.png"), 16, 16, 2, 10)
 		},
 		run = {
-			left  = newAnimation(love.graphics.newImage("assets/knight_run_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/knight_run_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_right.png"), 16, 16, 1, 10)
 		},
 		jump = {
-			left  = newAnimation(love.graphics.newImage("assets/knight_jump_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/knight_jump_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_right.png"), 16, 16, 1, 10)
 		},
 		fall = {
-			left  = newAnimation(love.graphics.newImage("assets/knight_fall_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/knight_fall_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_right.png"), 16, 16, 1, 10)
 		},
 	}
 
@@ -41,25 +43,25 @@ end
 
 function character:on_the_ground()
 	return solid_at(self.x + 1, self.y + 16, self)
-		or solid_at(self.x + 11, self.y + 16, self)
+		or solid_at(self.x + 15, self.y + 16, self)
 end
 
 function character:on_a_bridge()
 	return bridge_at(self.x + 1, self.y + 16, self)
-		or bridge_at(self.x + 11, self.y + 16, self)
+		or bridge_at(self.x + 15, self.y + 16, self)
 end
 
 function character:update(dt)
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
-	local JOY_LEFT  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_LEFT)
-	local JOY_RIGHT = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-	local JOY_UP = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_UP)
-	local JOY_DOWN = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_DOWN)
-	local JOY_B = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_B)
-	local JOY_Y = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_Y)
-	local JOY_A = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_A)
+	local JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
+	local JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
+	local JOY_UP = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_UP)
+	local JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
+	local JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
+	local JOY_Y = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_Y)
+	local JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel
@@ -125,7 +127,7 @@ function character:update(dt)
 
 	if self.y >= SCREEN_HEIGHT then self.y = 0 end
 	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x >= SCREEN_WIDTH then self.x = 0 end
+	if self.x > SCREEN_WIDTH then self.x = 0 end
 	if self.x < 0 then self.x = SCREEN_WIDTH end
 
 	-- decelerating
@@ -225,6 +227,16 @@ function character:on_collide(e1, e2, dx, dy)
 				table.remove(entities, i)
 				table.insert(effects, newBubbleexp(e2))
 			end
+		end
+	elseif e2.type == "character" then
+		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
+			self.yspeed = -1
+			self.y = self.y + dy
+		end
+
+		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
+			self.xspeed = 0
+			self.x = self.x + dx/2
 		end
 	end
 end

@@ -12,7 +12,6 @@ function love.conf(t)
 end
 
 function love.load()
-	character = nil
 	camera_x = 0
 	camera_y = 0
 	love.graphics.setBackgroundColor(0, 10, 10)
@@ -46,7 +45,8 @@ function love.load()
 		end
 	end
 
-	table.insert(entities, newCharacter({x=32,y=32}))
+	table.insert(entities, newCharacter({x=32,y=32,pad=1}))
+	table.insert(entities, newCharacter({x=64,y=32,pad=2}))
 end
 
 function love.update(dt)
