@@ -16,6 +16,9 @@ function love.load()
 	camera_y = 0
 	love.graphics.setBackgroundColor(0, 10, 10)
 	img_ground = love.graphics.newImage("assets/ground.png")
+	sfx_jump = love.audio.newSource("assets/jump.wav", "static")
+	sfx_bubble = love.audio.newSource("assets/bubble.wav", "static")
+	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
 
 	math.randomseed(os.time())
 

@@ -79,6 +79,7 @@ function character:update(dt)
 		if otg then
 			self.y = self.y - 1
 			self.yspeed = -4
+			love.audio.play(sfx_jump)
 		end
 	end
 
@@ -97,6 +98,7 @@ function character:update(dt)
 	end
 
 	if self.DO_ATTACK == 1 then
+		love.audio.play(sfx_bubble)
 		if self.direction == "left" then
 			table.insert(entities, newBubble({x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
@@ -226,6 +228,7 @@ function character:on_collide(e1, e2, dx, dy)
 			if entities[i] == e2 then
 				table.remove(entities, i)
 				table.insert(effects, newBubbleexp(e2))
+				love.audio.play(sfx_explode)
 			end
 		end
 	elseif e2.type == "character" then
