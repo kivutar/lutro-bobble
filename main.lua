@@ -16,6 +16,8 @@ function love.load()
 	camera_y = 0
 	love.graphics.setBackgroundColor(0, 10, 10)
 	img_ground = love.graphics.newImage("assets/ground.png")
+	img_ground_top = love.graphics.newImage("assets/ground_top.png")
+	img_bg = love.graphics.newImage("assets/bg.png")
 	sfx_jump = love.audio.newSource("assets/jump.wav", "static")
 	sfx_bubble = love.audio.newSource("assets/bubble.wav", "static")
 	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
@@ -69,6 +71,8 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.draw(img_bg, 0, 0)
+
 	for i=1, #solids do
 		if solids[i].draw then
 			solids[i]:draw()
