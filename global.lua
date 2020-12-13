@@ -23,3 +23,19 @@ RETRO_DEVICE_ID_JOYPAD_L2       = 13
 RETRO_DEVICE_ID_JOYPAD_R2       = 14
 RETRO_DEVICE_ID_JOYPAD_L3       = 15
 RETRO_DEVICE_ID_JOYPAD_R3       = 16
+
+function effect_remove(e)
+	for i=1, #effects do
+		if effects[i] == e then
+			table.remove(effects, i)
+		end
+	end
+end
+
+function entity_remove(e)
+	for i=1, #entities do
+		if entities[i] == e then
+			table.remove(entities, i)
+		end
+	end
+end

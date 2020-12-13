@@ -15,6 +15,7 @@ function newBubble(n)
 	n.yspeed = 0
 	n.yaccel = 0
 	n.die = -1
+	n.child = nil
 
 	n.anim = newAnimation(love.graphics.newImage("assets/bubble.png"), 16, 16, 1, 10)
 
@@ -35,6 +36,11 @@ function bubble:update(dt)
 
 	if self.x >= SCREEN_WIDTH then self.x = 0 end
 	if self.x < 0 then self.x = SCREEN_WIDTH end
+
+	if self.child ~= nil then
+		self.child.x = self.x
+		self.child.y = self.y
+	end
 
 	self.anim:update(dt)
 	solid_collisions(self)

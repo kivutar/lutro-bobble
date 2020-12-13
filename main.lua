@@ -24,6 +24,7 @@ function love.load()
 	sfx_bubble = love.audio.newSource("assets/bubble.wav", "static")
 	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
 	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
+	sfx_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
 
 	math.randomseed(os.time())
 
@@ -55,8 +56,8 @@ function love.load()
 		end
 	end
 
-	table.insert(entities, newCharacter({x=32,y=32,pad=1}))
-	table.insert(entities, newCharacter({x=64,y=32,pad=2}))
+	table.insert(entities, newCharacter({x=7*16,y=7*16,pad=1}))
+	table.insert(entities, newCharacter({x=8*16,y=7*16,pad=2}))
 
 	love.audio.play(bgm_bgm)
 end

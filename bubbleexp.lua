@@ -11,11 +11,7 @@ end
 function bubbleexp:update(dt)
 	self.t = self.t + 1
 	if self.t == 10 then
-		for i=1, #effects do
-			if effects[i] == self then
-				table.remove(effects, i)
-			end
-		end
+		effect_remove(self)
 	end
 	self.anim:update(dt)
 end

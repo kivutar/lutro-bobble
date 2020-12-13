@@ -14,12 +14,22 @@ function newEye(n)
 	n.yspeed = 0
 	n.yaccel = 0.17
 	n.xaccel = 0
+	n.captured = false
+	n.dead = false
 	n.stance = "run"
 
 	n.animations = {
 		run = {
 			left  = newAnimation(love.graphics.newImage("assets/eye_run_left.png"),  16, 16, 1, 10),
 			right = newAnimation(love.graphics.newImage("assets/eye_run_right.png"), 16, 16, 1, 10)
+		},
+		captured = {
+			left  = newAnimation(love.graphics.newImage("assets/eye_captured_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/eye_captured_right.png"), 16, 16, 1, 10)
+		},
+		die = {
+			left  = newAnimation(love.graphics.newImage("assets/eye_die_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/eye_die_right.png"), 16, 16, 1, 10)
 		},
 	}
 
@@ -33,13 +43,37 @@ function eye:on_the_ground()
 		or solid_at(self.x + 15, self.y + 16, self)
 end
 
+function eye:die()
+	self.dead = true
+	self.yspeed = -1
+	self.stance = "die"
+	love.audio.play(sfx_enemy_die)
+end
+
 function eye:update(dt)
+	if self.dead then
+		self.yspeed = self.yspeed + self.yaccel
+		if (self.yspeed > 3) then self.yspeed = 3 end
+		self.y = self.y + self.yspeed
+		self.anim = self.animations[self.stance][self.direction]
+		self.anim:update(dt)
+		return
+	end
+
+	if self.captured then
+		self.stance = "captured"
+		self.anim = self.animations[self.stance][self.direction]
+		self.anim:update(dt)
+		return
+	end
+
 	local otg = self:on_the_ground()
 
 	self.xspeed = self.xspeed + self.xaccel
 	self.yspeed = self.yspeed + self.yaccel
 	if (self.yspeed > 3) then self.yspeed = 3 end
 	if otg then self.yspeed = 0 end
+
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
 
@@ -60,6 +94,9 @@ function eye:draw()
 end
 
 function eye:on_collide(e1, e2, dx, dy)
+
+	if self.captured or self.dead then return end
+
 	if e2.type == "ground" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
@@ -71,6 +108,16 @@ function eye:on_collide(e1, e2, dx, dy)
 			if self.direction == "right" then self.direction = "left"
 			elseif self.direction == "left" then self.direction = "right" end
 			self.xspeed = -self.xspeed
+		end
+	elseif e2.type == "bubble" then
+		if math.abs(e2.xspeed) < 0.5 then
+			self.x = self.x + dx
+			if self.direction == "right" then self.direction = "left"
+			elseif self.direction == "left" then self.direction = "right" end
+			self.xspeed = -self.xspeed
+		elseif math.abs(e2.xspeed) >= 0.5 and e2.child == nil then
+			self.captured = true
+			e2.child = self
 		end
 	end
 end
