@@ -258,9 +258,14 @@ function character:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == "bubble" and self.yspeed > 0 and self.y < e2.y then
 		self.yspeed = -5
-		if e2.child ~= nil then e2.child:die() end
+		if e2.child ~= nil then
+			e2.child:die()
+			table.insert(effects, newNotif({x=self.x, y=self.y, text="500"}))
+		else
+			table.insert(effects, newNotif({x=self.x, y=self.y, text="100"}))
+			love.audio.play(sfx_explode)
+		end
 		table.insert(effects, newBubbleexp(e2))
-		love.audio.play(sfx_explode)
 		entity_remove(e2)
 	elseif e2.type == "character" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then

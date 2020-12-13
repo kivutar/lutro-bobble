@@ -6,6 +6,7 @@ require "ground"
 require "bubble"
 require "bubbleexp"
 require "eye"
+require "notif"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -26,6 +27,9 @@ function love.load()
 	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
 	sfx_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
 	sfx_die = love.audio.newSource("assets/die.wav", "static")
+
+	font = love.graphics.newImageFont("assets/points.png", "0123456789")
+	love.graphics.setFont(font)
 
 	math.randomseed(os.time())
 
