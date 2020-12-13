@@ -18,9 +18,11 @@ function love.load()
 	img_ground = love.graphics.newImage("assets/ground.png")
 	img_ground_top = love.graphics.newImage("assets/ground_top.png")
 	img_bg = love.graphics.newImage("assets/bg.png")
+	bgm_bgm = love.audio.newSource("assets/bgm.wav", "static")
 	sfx_jump = love.audio.newSource("assets/jump.wav", "static")
 	sfx_bubble = love.audio.newSource("assets/bubble.wav", "static")
 	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
+	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
 
 	math.randomseed(os.time())
 
@@ -52,6 +54,8 @@ function love.load()
 
 	table.insert(entities, newCharacter({x=32,y=32,pad=1}))
 	table.insert(entities, newCharacter({x=64,y=32,pad=2}))
+
+	love.audio.play(bgm_bgm)
 end
 
 function love.update(dt)

@@ -15,6 +15,7 @@ function newCharacter(n)
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
 	n.skin = "frog"
+	n.ko = 0
 	if n.pad == 2 then n.skin = "fox" end
 
 	n.animations = {
@@ -33,6 +34,10 @@ function newCharacter(n)
 		fall = {
 			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_left.png"),  16, 16, 1, 10),
 			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_right.png"), 16, 16, 1, 10)
+		},
+		ko = {
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_right.png"), 16, 16, 1, 10)
 		},
 	}
 
@@ -150,8 +155,12 @@ function character:update(dt)
 		end
 	end
 
+	if self.ko > 0 then self.ko = self.ko - 1 end
+
 	-- animations
-	if otg then
+	if self.ko > 0 then
+		self.stance = "ko"
+	elseif otg then
 		if self.xspeed == 0 then
 			self.stance = "stand"
 		else
@@ -235,6 +244,8 @@ function character:on_collide(e1, e2, dx, dy)
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -1
 			self.y = self.y + dy
+			love.audio.play(sfx_ko)
+			e2.ko = 10
 		end
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
