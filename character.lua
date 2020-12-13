@@ -274,7 +274,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "eye" then
+	elseif e2.type == "eye" and not e2.captured then
 		self:die()
 	end
 end
