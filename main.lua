@@ -25,6 +25,7 @@ function love.load()
 	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
 	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
 	sfx_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
+	sfx_die = love.audio.newSource("assets/die.wav", "static")
 
 	math.randomseed(os.time())
 

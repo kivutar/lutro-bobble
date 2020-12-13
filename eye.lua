@@ -57,6 +57,7 @@ function eye:update(dt)
 		self.y = self.y + self.yspeed
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)
+		if self.y > SCREEN_HEIGHT then entity_remove(self) end
 		return
 	end
 

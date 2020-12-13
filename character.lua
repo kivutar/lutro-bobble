@@ -16,6 +16,7 @@ function newCharacter(n)
 	n.speedlimit = 1.5
 	n.skin = "frog"
 	n.ko = 0
+	n.dead = false
 	if n.pad == 2 then n.skin = "fox" end
 
 	n.animations = {
@@ -39,6 +40,10 @@ function newCharacter(n)
 			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_left.png"),  16, 16, 1, 10),
 			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_right.png"), 16, 16, 1, 10)
 		},
+		die = {
+			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_left.png"),  16, 16, 1, 10),
+			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_right.png"), 16, 16, 1, 10)
+		},
 	}
 
 	n.anim = n.animations[n.stance][n.direction]
@@ -56,7 +61,24 @@ function character:on_a_bridge()
 		or bridge_at(self.x + 15, self.y + 16, self)
 end
 
+function character:die()
+	self.dead = true
+	self.yspeed = -1
+	self.stance = "die"
+	love.audio.play(sfx_die)
+end
+
 function character:update(dt)
+	if self.dead then
+		self.yspeed = self.yspeed + self.yaccel
+		if (self.yspeed > 3) then self.yspeed = 3 end
+		self.y = self.y + self.yspeed
+		self.anim = self.animations[self.stance][self.direction]
+		self.anim:update(dt)
+		if self.y > SCREEN_HEIGHT then entity_remove(self) end
+		return
+	end
+
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
@@ -216,6 +238,9 @@ function character:draw()
 end
 
 function character:on_collide(e1, e2, dx, dy)
+
+	if self.dead then return end
+
 	if e2.type == "ground" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
@@ -249,5 +274,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
+	elseif e2.type == "eye" then
+		self:die()
 	end
 end
