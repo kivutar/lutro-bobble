@@ -16,7 +16,7 @@ end
 function love.load()
 	camera_x = 0
 	camera_y = 0
-	love.graphics.setBackgroundColor(0, 10, 10)
+	love.graphics.setBackgroundColor(0, 0, 0)
 	img_ground = love.graphics.newImage("assets/ground.png")
 	img_ground_top = love.graphics.newImage("assets/ground_top.png")
 	img_bg = love.graphics.newImage("assets/bg.png")
@@ -63,6 +63,7 @@ function love.load()
 
 	table.insert(entities, newCharacter({x=7*16,y=7*16,pad=1}))
 	table.insert(entities, newCharacter({x=8*16,y=7*16,pad=2}))
+	table.insert(entities, newCharacter({x=9*16,y=7*16,pad=3}))
 
 	love.audio.play(bgm_bgm)
 end

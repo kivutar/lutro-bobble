@@ -14,10 +14,11 @@ function newCharacter(n)
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
-	n.skin = "frog"
 	n.ko = 0
 	n.dead = false
+	n.skin = "bird"
 	if n.pad == 2 then n.skin = "fox" end
+	if n.pad == 3 then n.skin = "frog" end
 
 	n.animations = {
 		stand = {
