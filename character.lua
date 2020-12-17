@@ -15,7 +15,7 @@ function newCharacter(n)
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
 	n.ko = 0
-	n.dead = false
+	n.dead = 0
 	n.skin = "bird"
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "frog" end
@@ -63,20 +63,23 @@ function character:on_a_bridge()
 end
 
 function character:die()
-	self.dead = true
+	self.dead = 240
 	self.yspeed = -1
 	self.stance = "die"
 	love.audio.play(sfx_die)
 end
 
 function character:update(dt)
-	if self.dead then
-		self.yspeed = self.yspeed + self.yaccel
-		if (self.yspeed > 3) then self.yspeed = 3 end
-		self.y = self.y + self.yspeed
+	if self.dead > 0 then
+		if self.dead < 180 then
+			self.yspeed = self.yspeed + self.yaccel
+			if (self.yspeed > 3) then self.yspeed = 3 end
+			self.y = self.y + self.yspeed
+		end
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)
 		if self.y > SCREEN_HEIGHT then entity_remove(self) end
+		self.dead = self.dead - 1
 		return
 	end
 
@@ -240,7 +243,7 @@ end
 
 function character:on_collide(e1, e2, dx, dy)
 
-	if self.dead then return end
+	if self.dead > 0 then return end
 
 	if e2.type == "ground" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
@@ -258,7 +261,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.y = self.y + dy
 		end
 	elseif e2.type == "bubble" and self.yspeed > 0 and self.y < e2.y then
-		self.yspeed = -5
+		self.yspeed = -4
 		if e2.child ~= nil then
 			e2.child:die()
 			table.insert(effects, newNotif({x=self.x, y=self.y, text="500"}))

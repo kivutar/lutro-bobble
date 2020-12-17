@@ -6,11 +6,11 @@ function newBubble(n)
 	n.width = 16
 	n.height = 16
 	if n.direction == "left" then
-		n.xspeed = -3
+		n.xspeed = -2.5
 		n.xaccel = 0.05
 	else
 		n.xaccel = -0.05
-		n.xspeed = 3
+		n.xspeed = 2.5
 	end
 	n.yspeed = 0
 	n.yaccel = 0
