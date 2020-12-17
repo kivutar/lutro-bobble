@@ -285,5 +285,7 @@ function character:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == "eye" and not e2.captured then
 		self:die()
+	elseif e2.type == "spikes" then
+		self:die()
 	end
 end

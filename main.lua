@@ -6,6 +6,7 @@ require "ground"
 require "bubble"
 require "bubbleexp"
 require "eye"
+require "spikes"
 require "notif"
 
 function love.conf(t)
@@ -47,7 +48,7 @@ function love.load()
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,},
-		{1,0,2,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,},
+		{1,0,2,0,0,0,0,0,3,3,3,3,3,1,1,1,1,1,1,1,},
 		{1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,},
 	}
 
@@ -57,6 +58,8 @@ function love.load()
 				table.insert(solids, newGround({x=(x-1)*16,y=(y-1)*16}))
 			elseif map[y][x] == 2 then
 				table.insert(entities, newEye({x=(x-1)*16,y=(y-1)*16}))
+			elseif map[y][x] == 3 then
+				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
