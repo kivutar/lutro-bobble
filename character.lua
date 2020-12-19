@@ -209,27 +209,6 @@ function character:update(dt)
 
 	self.anim:update(dt)
 
-	-- camera
-	new_camera_x = - self.x + SCREEN_WIDTH/2 - self.width/2
-	new_camera_y = - self.y + SCREEN_HEIGHT/2 - self.height/2
-	camera_x = camera_x + (new_camera_x-camera_x) / 10.0
-	camera_y = camera_y + (new_camera_y-camera_y) / 10.0
-
-	if camera_x > 0 then
-		camera_x = 0
-	end
-	if camera_y > 0 then
-		camera_y = 0
-	end
-
-	-- if camera_x < -(#map[1] * 16) + SCREEN_WIDTH then
-	-- 	camera_x = -(#map[1] * 16) + SCREEN_WIDTH
-	-- end
-	
-	-- if camera_y < -(#map * 16) + SCREEN_HEIGHT then
-	-- 	camera_y = -(#map * 16) + SCREEN_HEIGHT
-	-- end
-
 	solid_collisions(self)
 end
 
