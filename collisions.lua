@@ -77,8 +77,7 @@ function solid_at(x, y, exclude)
 	for i = 1, #SOLIDS do
 		local e = SOLIDS[i];
 
-		if (e.type == "ground" or e.type == "bridge" or e.type == "fatknight" and e.hp > 0)
-		and e ~= exclude
+		if e ~= exclude
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then
@@ -88,12 +87,11 @@ function solid_at(x, y, exclude)
 	return false;
 end
 
-function ground_at(x, y, exclude)
+function ground_at(x, y)
 	for i = 1, #SOLIDS do
 		local e = SOLIDS[i];
 
 		if (e.type == "ground")
-		and e ~= exclude
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then
@@ -103,12 +101,11 @@ function ground_at(x, y, exclude)
 	return false;
 end
 
-function bridge_at(x, y, exclude)
+function bridge_at(x, y)
 	for i = 1, #SOLIDS do
 		local e = SOLIDS[i];
 
 		if (e.type == "bridge")
-		and e ~= exclude
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then

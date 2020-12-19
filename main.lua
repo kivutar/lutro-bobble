@@ -11,6 +11,7 @@ require "bouncer"
 require "gem"
 require "shadow"
 require "notif"
+require "bridge"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -85,7 +86,25 @@ function love.load()
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
 	}
 
-	MAP = MAP_plain
+	MAP_bridge = {
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+		{1,0,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,9,9,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,0,9,9,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,},
+		{1,8,8,8,8,8,8,8,1,1,1,1,8,8,8,8,8,8,8,1,},
+		{0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,0,0,0,0,},
+		{0,0,0,9,9,0,0,0,1,1,1,1,0,0,0,9,9,0,0,0,},
+		{0,0,0,9,9,0,0,0,1,1,1,1,0,0,0,9,9,0,0,0,},
+		{1,0,0,7,0,0,0,0,1,1,1,1,0,0,0,0,2,0,0,1,},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+	}
+
+	MAP = MAP_bridge
 
 	for y = 1, #MAP, 1 do
 		for x = 1, #MAP[y] do
@@ -104,13 +123,15 @@ function love.load()
 				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
 			elseif MAP[y][x] == 7 then
 				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
+			elseif MAP[y][x] == 8 then
+				table.insert(SOLIDS, newBridge({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 9 then
 				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
 
-	table.insert(ENTITIES, newCharacter({x=1*16,y=7*16,pad=1}))
+	table.insert(ENTITIES, newCharacter({x=1*16,y=10*16,pad=1}))
 	-- table.insert(ENTITIES, newCharacter({x=2*16,y=7*16,pad=2}))
 	-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
 

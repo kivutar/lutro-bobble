@@ -16,6 +16,7 @@ function newCharacter(n)
 	n.speedlimit = 1.5
 	n.ko = 0
 	n.dead = 0
+
 	n.skin = "bird"
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "frog" end
@@ -53,13 +54,13 @@ function newCharacter(n)
 end
 
 function character:on_the_ground()
-	return solid_at(self.x + 1, self.y + 16, self)
-		or solid_at(self.x + 15, self.y + 16, self)
+	return ground_at(self.x + 1, self.y + self.height)
+		or ground_at(self.x + 15, self.y + self.height)
 end
 
 function character:on_a_bridge()
-	return bridge_at(self.x + 1, self.y + 16, self)
-		or bridge_at(self.x + 15, self.y + 16, self)
+	return bridge_at(self.x + 1, self.y + self.height)
+		or bridge_at(self.x + 15, self.y + self.height)
 end
 
 function character:die()
@@ -88,16 +89,14 @@ function character:update(dt)
 
 	local JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
 	local JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-	local JOY_UP = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_UP)
 	local JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
 	local JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
-	local JOY_Y = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_Y)
 	local JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel
 	if (self.yspeed > 3) then self.yspeed = 3 end
-	if otg then self.yspeed = 0 end
+	if (otg or oab) and self.yspeed > 0 then self.yspeed = 0 end
 
 	-- jumping
 	if JOY_B then
@@ -107,7 +106,7 @@ function character:update(dt)
 	end
 
 	if self.DO_JUMP == 1 and not JOY_DOWN then
-		if otg then
+		if otg or oab then
 			self.y = self.y - 1
 			self.yspeed = -4
 			love.audio.play(SFX_jump)
@@ -121,7 +120,7 @@ function character:update(dt)
 		end
 	end
 
-	-- jumping
+	-- attacking
 	if JOY_A then
 		self.DO_ATTACK = self.DO_ATTACK + 1
 	else
@@ -158,6 +157,7 @@ function character:update(dt)
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
 
+	-- screen wrapping
 	if self.y >= SCREEN_HEIGHT then self.y = 0 end
 	if self.y < 0 then self.y = SCREEN_HEIGHT end
 	if self.x > SCREEN_WIDTH then self.x = 0 end
@@ -166,7 +166,7 @@ function character:update(dt)
 	-- decelerating
 	if  ((not JOY_RIGHT and self.xspeed > 0)
 	or  (not JOY_LEFT  and self.xspeed < 0))
-	and otg
+	and (otg or oab)
 	then
 		if self.xspeed > 0 then
 			self.xspeed = self.xspeed - 10
@@ -186,7 +186,7 @@ function character:update(dt)
 	-- animations
 	if self.ko > 0 then
 		self.stance = "ko"
-	elseif otg then
+	elseif otg or oab then
 		if self.xspeed == 0 then
 			self.stance = "stand"
 		else
@@ -201,7 +201,7 @@ function character:update(dt)
 	end
 
 	local anim = self.animations[self.stance][self.direction]
-	-- always animate from first frame 
+	-- always animate from first frame
 	if anim ~= self.anim then
 		anim.timer = 0
 	end
@@ -234,8 +234,8 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx
 		end
-	elseif e2.type == "bridge" and self.yspeed > 0 and self.y+14 < e2.y then
-		if math.abs(dy) < math.abs(dx) and dy ~= 0 then
+	elseif e2.type == "bridge" then
+		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 then
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
@@ -264,7 +264,7 @@ function character:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == "bouncer" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
-			self.yspeed = -5
+			self.yspeed = -6
 			self.y = self.y + dy
 			love.audio.play(SFX_ko)
 		end
@@ -276,7 +276,12 @@ function character:on_collide(e1, e2, dx, dy)
 	elseif e2.type == "eye" and not e2.captured then
 		self:die()
 	elseif e2.type == "spikes" then
-		self:die()
+		if (e2.direction == "down" and self.yspeed < 0)
+		or (e2.direction == "up" and self.yspeed > 0)
+		or (e2.direction == "right" and self.xspeed < 0)
+		or (e2.direction == "left" and self.xspeed > 0) then
+			self:die()
+		end
 	elseif e2.type == "gem" then
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="200"}))
