@@ -4,6 +4,7 @@ SCREEN_HEIGHT = 240
 ENTITIES = {}
 SOLIDS = {}
 EFFECTS = {}
+SHADOWS = {}
 
 MAP = {}
 

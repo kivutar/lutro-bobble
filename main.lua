@@ -40,7 +40,7 @@ function love.load()
 	for y = 1, #MAP, 1 do
 		for x = 1, #MAP[y] do
 			if MAP[y][x] == 1 then
-				table.insert(EFFECTS, newShadow({x=(x-1)*16+8,y=(y-1)*16+8}))
+				table.insert(SHADOWS, newShadow({x=(x-1)*16+8,y=(y-1)*16+8}))
 				table.insert(SOLIDS, newGround({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 2 then
 				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
@@ -55,7 +55,7 @@ function love.load()
 			elseif MAP[y][x] == 7 then
 				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 8 then
-				table.insert(EFFECTS, newShadow({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SHADOWS, newShadow({x=(x-1)*16,y=(y-1)*16}))
 				table.insert(SOLIDS, newBridge({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 9 then
 				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))
@@ -92,9 +92,9 @@ end
 function love.draw()
 	love.graphics.draw(IMG_bg, 0, 0)
 
-	for i=1, #EFFECTS do
-		if EFFECTS[i].draw then
-			EFFECTS[i]:draw()
+	for i=1, #SHADOWS do
+		if SHADOWS[i].draw then
+			SHADOWS[i]:draw()
 		end
 	end
 
@@ -107,6 +107,12 @@ function love.draw()
 	for i=1, #ENTITIES do
 		if ENTITIES[i].draw then
 			ENTITIES[i]:draw()
+		end
+	end
+
+	for i=1, #EFFECTS do
+		if EFFECTS[i].draw then
+			EFFECTS[i]:draw()
 		end
 	end
 end
