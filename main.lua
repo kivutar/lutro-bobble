@@ -13,6 +13,7 @@ require "shadow"
 require "notif"
 require "bridge"
 require "maps"
+require "title"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -32,45 +33,14 @@ function love.load()
 	SFX_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
 	SFX_die = love.audio.newSource("assets/die.wav", "static")
 	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
+	SFX_ok = love.audio.newSource("assets/ok.wav", "static")
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
 
-	MAP = MAP_classic2
-
-	for y = 1, #MAP, 1 do
-		for x = 1, #MAP[y] do
-			if MAP[y][x] == 1 then
-				table.insert(SHADOWS, newShadow({x=(x-1)*16+8,y=(y-1)*16+8}))
-				table.insert(SOLIDS, newGround({x=(x-1)*16,y=(y-1)*16}))
-			elseif MAP[y][x] == 2 then
-				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
-			elseif MAP[y][x] == 3 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="up"}))
-			elseif MAP[y][x] == 4 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="down"}))
-			elseif MAP[y][x] == 5 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="right"}))
-			elseif MAP[y][x] == 6 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
-			elseif MAP[y][x] == 7 then
-				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
-			elseif MAP[y][x] == 8 then
-				table.insert(SHADOWS, newShadow({x=(x-1)*16,y=(y-1)*16}))
-				table.insert(SOLIDS, newBridge({x=(x-1)*16,y=(y-1)*16}))
-			elseif MAP[y][x] == 9 then
-				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))
-			end
-		end
-	end
-
-	table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1,direction="right"}))
-	table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2,direction="left"}))
-	-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
-
 	love.graphics.setBackgroundColor(0, 0, 0)
-	love.graphics.setFont(FNT_points)
-	love.audio.play(BGM_bgm)
 	math.randomseed(os.time())
+
+	table.insert(ENTITIES, newTitle({}))
 end
 
 function love.update(dt)

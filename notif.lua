@@ -21,5 +21,6 @@ function notif:update(dt)
 end
 
 function notif:draw()
+	lutro.graphics.setFont(FNT_points)
 	lutro.graphics.print(self.text, self.x, self.y)
 end
