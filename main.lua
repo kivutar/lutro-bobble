@@ -31,6 +31,7 @@ function love.load()
 	SFX_die = love.audio.newSource("assets/die.wav", "static")
 	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
+	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
 
 	MAP_3p = {
 		{1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,},
@@ -124,6 +125,7 @@ function love.load()
 			elseif MAP[y][x] == 7 then
 				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 8 then
+				table.insert(EFFECTS, newShadow({x=(x-1)*16,y=(y-1)*16}))
 				table.insert(SOLIDS, newBridge({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 9 then
 				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))

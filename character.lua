@@ -229,7 +229,6 @@ function character:on_collide(e1, e2, dx, dy)
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
-
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
 			self.xspeed = 0
 			self.x = self.x + dx
