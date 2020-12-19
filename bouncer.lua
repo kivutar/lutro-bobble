@@ -1,5 +1,3 @@
-require "collisions"
-
 local bouncer = {}
 bouncer.__index = bouncer
 

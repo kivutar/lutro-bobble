@@ -1,5 +1,3 @@
-require "collisions"
-
 local notif = {}
 notif.__index = notif
 

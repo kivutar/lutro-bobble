@@ -8,6 +8,7 @@ require "bubbleexp"
 require "eye"
 require "spikes"
 require "bouncer"
+require "gem"
 require "notif"
 
 function love.conf(t)
@@ -29,13 +30,14 @@ function love.load()
 	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
 	sfx_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
 	sfx_die = love.audio.newSource("assets/die.wav", "static")
+	sfx_gem = love.audio.newSource("assets/gem.wav", "static")
 
 	font = love.graphics.newImageFont("assets/points.png", "0123456789")
 	love.graphics.setFont(font)
 
 	math.randomseed(os.time())
 
-	map = {
+	local m3p = {
 		{1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
@@ -53,6 +55,26 @@ function love.load()
 		{1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,},
 	}
 
+	local mspikes = {
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+		{1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,},
+		{1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
+		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
+		{1,0,0,0,0,9,9,9,9,9,9,9,9,9,9,0,0,0,0,1,},
+		{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,0,0,0,0,0,},
+		{0,0,0,0,0,9,9,9,9,9,9,9,9,9,9,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
+		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,},
+		{1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,},
+		{1,1,1,1,3,3,3,3,3,3,3,3,3,3,3,3,1,1,1,1,},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
+	}
+
+	map = mspikes
+
 	for y = 1, #map, 1 do
 		for x = 1, #map[y] do
 			if map[y][x] == 1 then
@@ -69,13 +91,15 @@ function love.load()
 				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
 			elseif map[y][x] == 7 then
 				table.insert(entities, newBouncer({x=(x-1)*16,y=(y-1)*16}))
+			elseif map[y][x] == 9 then
+				table.insert(entities, newGem({x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
 
-	table.insert(entities, newCharacter({x=7*16,y=7*16,pad=1}))
-	table.insert(entities, newCharacter({x=8*16,y=7*16,pad=2}))
-	table.insert(entities, newCharacter({x=9*16,y=7*16,pad=3}))
+	table.insert(entities, newCharacter({x=1*16,y=7*16,pad=1}))
+	-- table.insert(entities, newCharacter({x=2*16,y=7*16,pad=2}))
+	-- table.insert(entities, newCharacter({x=3*16,y=7*16,pad=3}))
 
 	love.audio.play(bgm_bgm)
 end

@@ -298,5 +298,9 @@ function character:on_collide(e1, e2, dx, dy)
 		self:die()
 	elseif e2.type == "spikes" then
 		self:die()
+	elseif e2.type == "gem" then
+		love.audio.play(sfx_gem)
+		table.insert(effects, newNotif({x=e2.x, y=e2.y, text="200"}))
+		entity_remove(e2)
 	end
 end

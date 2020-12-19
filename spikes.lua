@@ -1,5 +1,3 @@
-require "collisions"
-
 local spikes = {}
 spikes.__index = spikes
 

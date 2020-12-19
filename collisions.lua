@@ -1,5 +1,3 @@
-require "global"
-
 function detect_collisions()
 	for i = 1, #entities do
 		for j = 1, #entities do
