@@ -15,6 +15,7 @@ require "bridge"
 require "maps"
 require "title"
 require "counter"
+require "inter"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -36,7 +37,7 @@ function love.load()
 	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
 	SFX_ok = love.audio.newSource("assets/ok.wav", "static")
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
-	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ ")
+	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
 
 	love.graphics.setBackgroundColor(0, 0, 0)
 	math.randomseed(os.time())

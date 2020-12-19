@@ -19,6 +19,7 @@ function counter:update(dt)
 		self.t = 100
 		BGM_bgm:stop()
 		PHASE = "victory"
+		STAGE = STAGE + 1
 	end
 
 	if self.t > 0 then
@@ -29,15 +30,8 @@ function counter:update(dt)
 			EFFECTS = {}
 			SHADOWS = {}
 			MAP = {}
-	
-			load_map(MAP_classic)
-	
-			table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1,direction="right"}))
-			table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2,direction="left"}))
-			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
-	
-			love.audio.play(BGM_bgm)
-			PHASE = "game"
+			PHASE = "inter"
+			table.insert(ENTITIES, newInter({}))
 		end
 	end
 end

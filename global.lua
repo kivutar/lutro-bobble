@@ -7,6 +7,7 @@ EFFECTS = {}
 SHADOWS = {}
 MAP = {}
 PHASE = nil
+STAGE = 1
 
 RETRO_DEVICE_ID_JOYPAD_B        = 1
 RETRO_DEVICE_ID_JOYPAD_Y        = 2
