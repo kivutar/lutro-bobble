@@ -14,7 +14,6 @@ function newBubble(n)
 	end
 	n.yspeed = 0
 	n.yaccel = 0
-	n.die = -1
 	n.child = nil
 
 	n.anim = newAnimation(love.graphics.newImage("assets/bubble.png"), 16, 16, 1, 10)
@@ -52,6 +51,18 @@ function bubble:draw()
 	self.anim:draw(self.x-SCREEN_WIDTH, self.y)
 end
 
+function bubble:die()
+	if self.child ~= nil then
+		self.child:die()
+		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
+	else
+		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
+		love.audio.play(SFX_explode)
+	end
+	table.insert(EFFECTS, newBubbleexp(self))
+	entity_remove(self)
+end
+
 function bubble:on_collide(e1, e2, dx, dy)
 	if e2.type == "ground" then
 		self.xaccel = 0
@@ -74,14 +85,6 @@ function bubble:on_collide(e1, e2, dx, dy)
 			self.x = self.x + dx/2
 		end
 	elseif e2.type == "spikes" then
-		if self.child ~= nil then
-			self.child:die()
-			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
-		else
-			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
-			love.audio.play(SFX_explode)
-		end
-		table.insert(EFFECTS, newBubbleexp(self))
-		entity_remove(self)
+		self:die()
 	end
 end

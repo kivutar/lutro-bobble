@@ -5,7 +5,6 @@ ENTITIES = {}
 SOLIDS = {}
 EFFECTS = {}
 SHADOWS = {}
-
 MAP = {}
 
 RETRO_DEVICE_ID_JOYPAD_B        = 1

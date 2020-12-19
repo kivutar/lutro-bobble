@@ -27,6 +27,8 @@ function load_map(m)
 			end
 		end
 	end
+
+	table.insert(EFFECTS, newCounter({}))
 end
 
 MAP_3p = {

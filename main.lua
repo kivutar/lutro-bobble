@@ -14,6 +14,7 @@ require "notif"
 require "bridge"
 require "maps"
 require "title"
+require "counter"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
