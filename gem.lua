@@ -11,6 +11,7 @@ function newGem(n)
 end
 
 function gem:update(dt)
+	if PHASE == "victory" then return end
 	self.anim:update(dt)
 end
 

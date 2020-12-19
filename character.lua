@@ -70,6 +70,8 @@ function character:die()
 end
 
 function character:update(dt)
+	if PHASE == "victory" then return end
+
 	if self.dead > 0 then
 		if self.dead < 180 then
 			self.yspeed = self.yspeed + self.yaccel

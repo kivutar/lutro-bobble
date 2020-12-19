@@ -51,6 +51,8 @@ function eye:die()
 end
 
 function eye:update(dt)
+	if PHASE == "victory" then return end
+
 	if self.dead then
 		self.yspeed = self.yspeed + self.yaccel
 		if (self.yspeed > 3) then self.yspeed = 3 end

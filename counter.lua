@@ -18,6 +18,7 @@ function counter:update(dt)
 	if gems == 0 and self.t == 0 then
 		self.t = 100
 		BGM_bgm:stop()
+		PHASE = "victory"
 	end
 
 	if self.t > 0 then
@@ -36,6 +37,7 @@ function counter:update(dt)
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
 	
 			love.audio.play(BGM_bgm)
+			PHASE = "game"
 		end
 	end
 end
