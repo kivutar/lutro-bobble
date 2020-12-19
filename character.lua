@@ -1,6 +1,8 @@
 local character = {}
 character.__index = character
 
+JUMP_FORGIVENESS = 8
+
 function newCharacter(n)
 	n.type = "character"
 	n.width = 16
@@ -16,6 +18,7 @@ function newCharacter(n)
 	n.speedlimit = 1.5
 	n.ko = 0
 	n.dead = 0
+	n.ungrounded_time = 0
 
 	n.skin = "frog"
 	if n.pad == 2 then n.skin = "fox" end
@@ -101,8 +104,14 @@ function character:update(dt)
 		self.DO_JUMP = 0
 	end
 
+	if otg or oab then
+		self.ungrounded_time = 0
+	else
+		self.ungrounded_time = self.ungrounded_time + 1
+	end
+
 	if self.DO_JUMP == 1 and not JOY_DOWN then
-		if otg or oab then
+		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
 			self.yspeed = -4
 			love.audio.play(SFX_jump)
