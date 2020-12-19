@@ -73,7 +73,7 @@ function eye:update(dt)
 	self.xspeed = self.xspeed + self.xaccel
 	self.yspeed = self.yspeed + self.yaccel
 	if (self.yspeed > 3) then self.yspeed = 3 end
-	if otg then self.yspeed = 0 end
+	if otg and self.yspeed > 0 then self.yspeed = 0 end
 
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
@@ -99,6 +99,18 @@ function eye:on_collide(e1, e2, dx, dy)
 	if self.captured or self.dead then return end
 
 	if e2.type == "ground" then
+		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
+			self.yspeed = 0
+			self.y = self.y + dy
+		end
+
+		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
+			self.x = self.x + dx
+			if self.direction == "right" then self.direction = "left"
+			elseif self.direction == "left" then self.direction = "right" end
+			self.xspeed = -self.xspeed
+		end
+	elseif e2.type == "bridge" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
