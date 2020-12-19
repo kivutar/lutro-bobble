@@ -9,6 +9,7 @@ require "eye"
 require "spikes"
 require "bouncer"
 require "gem"
+require "shadow"
 require "notif"
 
 function love.conf(t)
@@ -71,6 +72,7 @@ function love.load()
 	for y = 1, #MAP, 1 do
 		for x = 1, #MAP[y] do
 			if MAP[y][x] == 1 then
+				table.insert(EFFECTS, newShadow({x=(x-1)*16+8,y=(y-1)*16+8}))
 				table.insert(SOLIDS, newGround({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 2 then
 				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
@@ -119,15 +121,15 @@ end
 function love.draw()
 	love.graphics.draw(IMG_bg, 0, 0)
 
-	for i=1, #SOLIDS do
-		if SOLIDS[i].draw then
-			SOLIDS[i]:draw()
-		end
-	end
-
 	for i=1, #EFFECTS do
 		if EFFECTS[i].draw then
 			EFFECTS[i]:draw()
+		end
+	end
+
+	for i=1, #SOLIDS do
+		if SOLIDS[i].draw then
+			SOLIDS[i]:draw()
 		end
 	end
 
