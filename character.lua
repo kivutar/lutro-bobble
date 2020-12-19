@@ -283,6 +283,17 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
+	elseif e2.type == "bouncer" then
+		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
+			self.yspeed = -5
+			self.y = self.y + dy
+			love.audio.play(sfx_ko)
+		end
+
+		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
+			self.xspeed = 0
+			self.x = self.x + dx/2
+		end
 	elseif e2.type == "eye" and not e2.captured then
 		self:die()
 	elseif e2.type == "spikes" then

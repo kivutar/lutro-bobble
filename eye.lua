@@ -121,6 +121,6 @@ function eye:on_collide(e1, e2, dx, dy)
 			e2.child = self
 		end
 	elseif e2.type == "spikes" then
-		self.dead = true
+		self:die()
 	end
 end

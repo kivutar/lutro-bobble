@@ -7,6 +7,7 @@ require "bubble"
 require "bubbleexp"
 require "eye"
 require "spikes"
+require "bouncer"
 require "notif"
 
 function love.conf(t)
@@ -39,12 +40,12 @@ function love.load()
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,},
+		{0,0,6,1,1,1,1,1,1,1,5,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,},
 		{0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,},
-		{0,0,2,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0,0,},
+		{0,7,2,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0,0,},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,1,},
-		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
+		{1,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,},
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,},
@@ -60,6 +61,14 @@ function love.load()
 				table.insert(entities, newEye({x=(x-1)*16,y=(y-1)*16}))
 			elseif map[y][x] == 3 then
 				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16}))
+			elseif map[y][x] == 4 then
+				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="down"}))
+			elseif map[y][x] == 5 then
+				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="right"}))
+			elseif map[y][x] == 6 then
+				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
+			elseif map[y][x] == 7 then
+				table.insert(entities, newBouncer({x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
