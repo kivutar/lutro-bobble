@@ -76,12 +76,12 @@ function bubble:on_collide(e1, e2, dx, dy)
 	elseif e2.type == "spikes" then
 		if self.child ~= nil then
 			self.child:die()
-			table.insert(effects, newNotif({x=self.x, y=self.y, text="500"}))
+			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
 		else
-			table.insert(effects, newNotif({x=self.x, y=self.y, text="100"}))
-			love.audio.play(sfx_explode)
+			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
+			love.audio.play(SFX_explode)
 		end
-		table.insert(effects, newBubbleexp(self))
+		table.insert(EFFECTS, newBubbleexp(self))
 		entity_remove(self)
 	end
 end

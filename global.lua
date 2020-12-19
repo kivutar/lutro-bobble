@@ -1,11 +1,11 @@
 SCREEN_WIDTH = 320
 SCREEN_HEIGHT = 240
 
-entities = {}
-solids = {}
-effects = {}
+ENTITIES = {}
+SOLIDS = {}
+EFFECTS = {}
 
-map = {}
+MAP = {}
 
 RETRO_DEVICE_ID_JOYPAD_B        = 1
 RETRO_DEVICE_ID_JOYPAD_Y        = 2
@@ -25,17 +25,17 @@ RETRO_DEVICE_ID_JOYPAD_L3       = 15
 RETRO_DEVICE_ID_JOYPAD_R3       = 16
 
 function effect_remove(e)
-	for i=1, #effects do
-		if effects[i] == e then
-			table.remove(effects, i)
+	for i=1, #EFFECTS do
+		if EFFECTS[i] == e then
+			table.remove(EFFECTS, i)
 		end
 	end
 end
 
 function entity_remove(e)
-	for i=1, #entities do
-		if entities[i] == e then
-			table.remove(entities, i)
+	for i=1, #ENTITIES do
+		if ENTITIES[i] == e then
+			table.remove(ENTITIES, i)
 		end
 	end
 end

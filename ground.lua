@@ -5,9 +5,9 @@ function newGround(n)
 	n.type = "ground"
 	n.width = 16
 	n.height = 16
-	n.img = img_ground
+	n.img = IMG_ground
 
-	if not solid_at(n.x, n.y-1) then n.img = img_ground_top end
+	if not solid_at(n.x, n.y-1) then n.img = IMG_ground_top end
 
 	return setmetatable(n, ground)
 end

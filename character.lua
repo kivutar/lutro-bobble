@@ -66,7 +66,7 @@ function character:die()
 	self.dead = 240
 	self.yspeed = -1
 	self.stance = "die"
-	love.audio.play(sfx_die)
+	love.audio.play(SFX_die)
 end
 
 function character:update(dt)
@@ -110,7 +110,7 @@ function character:update(dt)
 		if otg then
 			self.y = self.y - 1
 			self.yspeed = -4
-			love.audio.play(sfx_jump)
+			love.audio.play(SFX_jump)
 		end
 	end
 
@@ -129,11 +129,11 @@ function character:update(dt)
 	end
 
 	if self.DO_ATTACK == 1 then
-		love.audio.play(sfx_bubble)
+		love.audio.play(SFX_bubble)
 		if self.direction == "left" then
-			table.insert(entities, newBubble({x=self.x-16-4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, newBubble({x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
-			table.insert(entities, newBubble({x=self.x+16+4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, newBubble({x=self.x+16+4,y=self.y,direction=self.direction}))
 		end
 	end
 
@@ -264,18 +264,18 @@ function character:on_collide(e1, e2, dx, dy)
 		self.yspeed = -4
 		if e2.child ~= nil then
 			e2.child:die()
-			table.insert(effects, newNotif({x=self.x, y=self.y, text="500"}))
+			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
 		else
-			table.insert(effects, newNotif({x=self.x, y=self.y, text="100"}))
-			love.audio.play(sfx_explode)
+			table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
+			love.audio.play(SFX_explode)
 		end
-		table.insert(effects, newBubbleexp(e2))
+		table.insert(EFFECTS, newBubbleexp(e2))
 		entity_remove(e2)
 	elseif e2.type == "character" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -1
 			self.y = self.y + dy
-			love.audio.play(sfx_ko)
+			love.audio.play(SFX_ko)
 			e2.ko = 10
 		end
 
@@ -287,7 +287,7 @@ function character:on_collide(e1, e2, dx, dy)
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -5
 			self.y = self.y + dy
-			love.audio.play(sfx_ko)
+			love.audio.play(SFX_ko)
 		end
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
@@ -299,8 +299,8 @@ function character:on_collide(e1, e2, dx, dy)
 	elseif e2.type == "spikes" then
 		self:die()
 	elseif e2.type == "gem" then
-		love.audio.play(sfx_gem)
-		table.insert(effects, newNotif({x=e2.x, y=e2.y, text="200"}))
+		love.audio.play(SFX_gem)
+		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
 	end
 end

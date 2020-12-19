@@ -1,9 +1,9 @@
 function detect_collisions()
-	for i = 1, #entities do
-		for j = 1, #entities do
+	for i = 1, #ENTITIES do
+		for j = 1, #ENTITIES do
 			if j ~= i then
-				local e1 = entities[i]
-				local e2 = entities[j]
+				local e1 = ENTITIES[i]
+				local e2 = ENTITIES[j]
 
 				if e1 and e2
 				and	e1.on_collide
@@ -39,8 +39,8 @@ function detect_collisions()
 end
 
 function solid_collisions(e1)
-	for j = 1, #solids do
-		local e2 = solids[j]
+	for j = 1, #SOLIDS do
+		local e2 = SOLIDS[j]
 
 		if e1 and e2
 		and	e1.on_collide
@@ -74,8 +74,8 @@ function solid_collisions(e1)
 end
 
 function solid_at(x, y, exclude)
-	for i = 1, #solids do
-		local e = solids[i];
+	for i = 1, #SOLIDS do
+		local e = SOLIDS[i];
 
 		if (e.type == "ground" or e.type == "bridge" or e.type == "fatknight" and e.hp > 0)
 		and e ~= exclude
@@ -89,8 +89,8 @@ function solid_at(x, y, exclude)
 end
 
 function ground_at(x, y, exclude)
-	for i = 1, #solids do
-		local e = solids[i];
+	for i = 1, #SOLIDS do
+		local e = SOLIDS[i];
 
 		if (e.type == "ground")
 		and e ~= exclude
@@ -104,8 +104,8 @@ function ground_at(x, y, exclude)
 end
 
 function bridge_at(x, y, exclude)
-	for i = 1, #solids do
-		local e = solids[i];
+	for i = 1, #SOLIDS do
+		local e = SOLIDS[i];
 
 		if (e.type == "bridge")
 		and e ~= exclude
@@ -119,11 +119,11 @@ function bridge_at(x, y, exclude)
 end
 
 function object_collide(entity, type)
-	for i = 1, #entities do
-		for j = 1, #entities do
+	for i = 1, #ENTITIES do
+		for j = 1, #ENTITIES do
 			if j ~= i then
-				local e1 = entities[i]
-				local e2 = entities[j]
+				local e1 = ENTITIES[i]
+				local e2 = ENTITIES[j]
 
 				if e1 == entity
 				and e2.type == type

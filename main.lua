@@ -17,25 +17,18 @@ function love.conf(t)
 end
 
 function love.load()
-	camera_x = 0
-	camera_y = 0
-	love.graphics.setBackgroundColor(0, 0, 0)
-	img_ground = love.graphics.newImage("assets/ground.png")
-	img_ground_top = love.graphics.newImage("assets/ground_top.png")
-	img_bg = love.graphics.newImage("assets/bg.png")
-	bgm_bgm = love.audio.newSource("assets/bgm.wav", "static")
-	sfx_jump = love.audio.newSource("assets/jump.wav", "static")
-	sfx_bubble = love.audio.newSource("assets/bubble.wav", "static")
-	sfx_explode = love.audio.newSource("assets/explode.wav", "static")
-	sfx_ko = love.audio.newSource("assets/ko.wav", "static")
-	sfx_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
-	sfx_die = love.audio.newSource("assets/die.wav", "static")
-	sfx_gem = love.audio.newSource("assets/gem.wav", "static")
-
-	font = love.graphics.newImageFont("assets/points.png", "0123456789")
-	love.graphics.setFont(font)
-
-	math.randomseed(os.time())
+	IMG_ground = love.graphics.newImage("assets/ground.png")
+	IMG_ground_top = love.graphics.newImage("assets/ground_top.png")
+	IMG_bg = love.graphics.newImage("assets/bg.png")
+	BGM_bgm = love.audio.newSource("assets/bgm.wav", "static")
+	SFX_jump = love.audio.newSource("assets/jump.wav", "static")
+	SFX_bubble = love.audio.newSource("assets/bubble.wav", "static")
+	SFX_explode = love.audio.newSource("assets/explode.wav", "static")
+	SFX_ko = love.audio.newSource("assets/ko.wav", "static")
+	SFX_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
+	SFX_die = love.audio.newSource("assets/die.wav", "static")
+	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
+	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 
 	local m3p = {
 		{1,1,1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,},
@@ -73,47 +66,50 @@ function love.load()
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,},
 	}
 
-	map = mspikes
+	MAP = mspikes
 
-	for y = 1, #map, 1 do
-		for x = 1, #map[y] do
-			if map[y][x] == 1 then
-				table.insert(solids, newGround({x=(x-1)*16,y=(y-1)*16}))
-			elseif map[y][x] == 2 then
-				table.insert(entities, newEye({x=(x-1)*16,y=(y-1)*16}))
-			elseif map[y][x] == 3 then
-				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16}))
-			elseif map[y][x] == 4 then
-				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="down"}))
-			elseif map[y][x] == 5 then
-				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="right"}))
-			elseif map[y][x] == 6 then
-				table.insert(entities, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
-			elseif map[y][x] == 7 then
-				table.insert(entities, newBouncer({x=(x-1)*16,y=(y-1)*16}))
-			elseif map[y][x] == 9 then
-				table.insert(entities, newGem({x=(x-1)*16,y=(y-1)*16}))
+	for y = 1, #MAP, 1 do
+		for x = 1, #MAP[y] do
+			if MAP[y][x] == 1 then
+				table.insert(SOLIDS, newGround({x=(x-1)*16,y=(y-1)*16}))
+			elseif MAP[y][x] == 2 then
+				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
+			elseif MAP[y][x] == 3 then
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16}))
+			elseif MAP[y][x] == 4 then
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="down"}))
+			elseif MAP[y][x] == 5 then
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="right"}))
+			elseif MAP[y][x] == 6 then
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
+			elseif MAP[y][x] == 7 then
+				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
+			elseif MAP[y][x] == 9 then
+				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
 
-	table.insert(entities, newCharacter({x=1*16,y=7*16,pad=1}))
-	-- table.insert(entities, newCharacter({x=2*16,y=7*16,pad=2}))
-	-- table.insert(entities, newCharacter({x=3*16,y=7*16,pad=3}))
+	table.insert(ENTITIES, newCharacter({x=1*16,y=7*16,pad=1}))
+	-- table.insert(ENTITIES, newCharacter({x=2*16,y=7*16,pad=2}))
+	-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
 
-	love.audio.play(bgm_bgm)
+	love.graphics.setBackgroundColor(0, 0, 0)
+	love.graphics.setFont(FNT_points)
+	love.audio.play(BGM_bgm)
+	math.randomseed(os.time())
 end
 
 function love.update(dt)
-	for i=1, #entities do
-		if entities[i] and entities[i].update then
-			entities[i]:update(dt)
+	for i=1, #ENTITIES do
+		if ENTITIES[i] and ENTITIES[i].update then
+			ENTITIES[i]:update(dt)
 		end
 	end
 
-	for i=1, #effects do
-		if effects[i] and effects[i].update then
-			effects[i]:update(dt)
+	for i=1, #EFFECTS do
+		if EFFECTS[i] and EFFECTS[i].update then
+			EFFECTS[i]:update(dt)
 		end
 	end
 
@@ -121,23 +117,23 @@ function love.update(dt)
 end
 
 function love.draw()
-	love.graphics.draw(img_bg, 0, 0)
+	love.graphics.draw(IMG_bg, 0, 0)
 
-	for i=1, #solids do
-		if solids[i].draw then
-			solids[i]:draw()
+	for i=1, #SOLIDS do
+		if SOLIDS[i].draw then
+			SOLIDS[i]:draw()
 		end
 	end
 
-	for i=1, #effects do
-		if effects[i].draw then
-			effects[i]:draw()
+	for i=1, #EFFECTS do
+		if EFFECTS[i].draw then
+			EFFECTS[i]:draw()
 		end
 	end
 
-	for i=1, #entities do
-		if entities[i].draw then
-			entities[i]:draw()
+	for i=1, #ENTITIES do
+		if ENTITIES[i].draw then
+			ENTITIES[i]:draw()
 		end
 	end
 end

@@ -47,7 +47,7 @@ function eye:die()
 	self.dead = true
 	self.yspeed = -1
 	self.stance = "die"
-	love.audio.play(sfx_enemy_die)
+	love.audio.play(SFX_enemy_die)
 end
 
 function eye:update(dt)
