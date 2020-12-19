@@ -63,8 +63,8 @@ function love.load()
 		end
 	end
 
-	table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1}))
-	table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2}))
+	table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1,direction="right"}))
+	table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2,direction="left"}))
 	-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
 
 	love.graphics.setBackgroundColor(0, 0, 0)

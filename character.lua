@@ -9,7 +9,7 @@ function newCharacter(n)
 	n.yspeed = 0
 	n.xaccel = 0.5
 	n.yaccel = 0.17
-	n.direction = "right"
+	if n.direction == nil then n.direction = "right" end
 	n.stance = "jump"
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
@@ -17,9 +17,9 @@ function newCharacter(n)
 	n.ko = 0
 	n.dead = 0
 
-	n.skin = "bird"
+	n.skin = "frog"
 	if n.pad == 2 then n.skin = "fox" end
-	if n.pad == 3 then n.skin = "frog" end
+	if n.pad == 3 then n.skin = "bird" end
 
 	n.animations = {
 		stand = {
@@ -206,10 +206,12 @@ end
 
 function character:draw()
 	self.anim:draw(self.x, self.y)
-	self.anim:draw(self.x+SCREEN_WIDTH, self.y)
-	self.anim:draw(self.x-SCREEN_WIDTH, self.y)
-	self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
-	self.anim:draw(self.x, self.y-SCREEN_HEIGHT)
+	if self.dead == 0 then
+		self.anim:draw(self.x+SCREEN_WIDTH, self.y)
+		self.anim:draw(self.x-SCREEN_WIDTH, self.y)
+		self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
+		self.anim:draw(self.x, self.y-SCREEN_HEIGHT)
+	end
 end
 
 function character:on_collide(e1, e2, dx, dy)
