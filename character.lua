@@ -9,8 +9,8 @@ function newCharacter(n)
 	n.yspeed = 0
 	n.xaccel = 0.5
 	n.yaccel = 0.17
-	n.direction = "left"
-	n.stance = "fall"
+	n.direction = "right"
+	n.stance = "jump"
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
@@ -33,10 +33,6 @@ function newCharacter(n)
 		jump = {
 			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_left.png"),  16, 16, 1, 10),
 			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_right.png"), 16, 16, 1, 10)
-		},
-		fall = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_fall_right.png"), 16, 16, 1, 10)
 		},
 		ko = {
 			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_left.png"),  16, 16, 1, 10),
@@ -193,11 +189,7 @@ function character:update(dt)
 			self.stance = "run"
 		end
 	else
-		if self.yspeed > 0 then
-			self.stance = "fall"
-		else
-			self.stance = "jump"
-		end
+		self.stance = "jump"
 	end
 
 	local anim = self.animations[self.stance][self.direction]
