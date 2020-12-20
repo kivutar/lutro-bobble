@@ -42,5 +42,7 @@ end
 function title:draw()
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("PRESS START")
-	lutro.graphics.print("PRESS START", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
+	if self.t/2 % 2 == 0 then
+		lutro.graphics.print("PRESS START", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
+	end
 end
