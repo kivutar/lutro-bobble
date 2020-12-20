@@ -34,6 +34,8 @@ function gameover:update(dt)
 end
 
 function gameover:draw()
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("GAME OVER")
 	if self.t/2 % 2 == 0 then

@@ -31,6 +31,8 @@ function inter:update(dt)
 end
 
 function inter:draw()
+	love.graphics.setColor(0, 0, 0, 1)
+	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("STAGE "..STAGE.."! READY ?")
 	lutro.graphics.print("STAGE "..STAGE.."! READY?", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
