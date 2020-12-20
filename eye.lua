@@ -136,5 +136,22 @@ function eye:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == "spikes" then
 		self:die()
+	elseif e2.type == "eye" then
+		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
+			self.yspeed = 0
+			self.y = self.y + dy
+		end
+
+		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
+			self.x = self.x + dx
+			if self.direction == "right" then self.direction = "left"
+			elseif self.direction == "left" then self.direction = "right" end
+			self.xspeed = -self.xspeed
+
+			e2.x = e2.x - dx
+			if e2.direction == "right" then e2.direction = "left"
+			elseif e2.direction == "left" then e2.direction = "right" end
+			e2.xspeed = -e2.xspeed
+		end
 	end
 end
