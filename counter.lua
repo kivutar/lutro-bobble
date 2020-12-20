@@ -9,9 +9,17 @@ end
 
 function counter:update(dt)
 	local gems = 0
+	local chars = 0
+
 	for i=1, #ENTITIES do
 		if ENTITIES[i].type == "gem" then
 			gems = gems + 1
+		end
+	end
+
+	for i=1, #ENTITIES do
+		if ENTITIES[i].type == "character" then
+			chars = chars + 1
 		end
 	end
 
@@ -20,6 +28,19 @@ function counter:update(dt)
 		BGM_bgm:stop()
 		PHASE = "victory"
 		STAGE = STAGE + 1
+	end
+
+	if chars == 0 and self.t == 0 then
+		self.t = 100
+		BGM_bgm:stop()
+		PHASE = "gameover"
+		STAGE = 0
+		ENTITIES = {}
+		SOLIDS = {}
+		EFFECTS = {}
+		SHADOWS = {}
+		MAP = {}
+		table.insert(ENTITIES, newTitle({}))
 	end
 
 	if self.t > 0 then
