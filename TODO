@@ -1,0 +1,18 @@
+GAME DESIGN
+
+players start in human form
+a player hit by an enemy dies
+animal pajama appear after a certain number of points are collected
+animal pajama grant super powers
+players can loose their animal pajama when hit by enemies
+
+ - frog pajama super power is throwing bubbles
+ - fox pajama super power is throwing dynamite
+ - pingoo pajama super power is freezing enemies
+
+some terrain blocks are breakable by dynamite
+
+killing all enemies in a level can unlock a revive item if one of the players is dead
+killing all enemies in a level can unlock an animal pajama if one of the players is human
+
+dead players can move around as ghosts but can do nothing

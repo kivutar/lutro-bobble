@@ -3,7 +3,7 @@ inter.__index = inter
 
 function newInter(n)
 	n.type = "inter"
-	n.t = 60
+	n.t = 100
 	n.PRESSED = 0
 	return setmetatable(n, inter)
 end
@@ -19,7 +19,7 @@ function inter:update(dt)
 			MAP = {}
 			PHASE = "game"
 
-			load_map(MAP_classic)
+			load_map(STAGES[STAGE])
 
 			table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1,direction="right"}))
 			table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2,direction="left"}))

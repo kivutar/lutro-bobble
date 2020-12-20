@@ -28,7 +28,7 @@ function title:update(dt)
 			SHADOWS = {}
 			MAP = {}
 	
-			load_map(MAP_classic2)
+			load_map(STAGES[STAGE])
 	
 			table.insert(ENTITIES, newCharacter({x=1*16,y=13*16,pad=1,direction="right"}))
 			table.insert(ENTITIES, newCharacter({x=18*16,y=13*16,pad=2,direction="left"}))
