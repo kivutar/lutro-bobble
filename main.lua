@@ -16,6 +16,7 @@ require "maps"
 require "title"
 require "counter"
 require "inter"
+require "gameover"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH

@@ -40,7 +40,7 @@ function counter:update(dt)
 		EFFECTS = {}
 		SHADOWS = {}
 		MAP = {}
-		table.insert(ENTITIES, newTitle({}))
+		table.insert(ENTITIES, newGameOver({}))
 	end
 
 	if self.t > 0 then
