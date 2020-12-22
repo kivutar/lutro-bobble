@@ -50,8 +50,6 @@ function love.load()
 end
 
 function love.update(dt)
-	dt = 0.016
-
 	for i=1, #ENTITIES do
 		if ENTITIES[i] and ENTITIES[i].update then
 			ENTITIES[i]:update(dt)

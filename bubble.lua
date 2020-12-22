@@ -70,6 +70,7 @@ function bubble:on_collide(e1, e2, dx, dy)
 		self.xspeed = 0
 		self.yspeed = 0
 		self.x = self.x + dx
+		if math.abs(dx) > 8 then self:die() end
 	elseif e2.type == "bubble" then
 		self.xaccel = 0
 		self.yaccel = 0
@@ -79,7 +80,7 @@ function bubble:on_collide(e1, e2, dx, dy)
 	elseif e2.type == "character" then
 		self.xaccel = 0
 		self.yaccel = 0
-		self.xspeed = 0
+		self.xspeed = self.xspeed/2
 		self.yspeed = 0
 		if dx ~= 0 then
 			self.x = self.x + dx/2
