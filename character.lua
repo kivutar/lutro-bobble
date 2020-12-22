@@ -282,5 +282,9 @@ function character:on_collide(e1, e2, dx, dy)
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
+	elseif e2.type == "cross" then
+		love.audio.play(SFX_gem)
+		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="1000"}))
+		entity_remove(e2)
 	end
 end

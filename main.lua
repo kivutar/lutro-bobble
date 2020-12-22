@@ -17,6 +17,7 @@ require "title"
 require "counter"
 require "inter"
 require "gameover"
+require "cross"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -37,6 +38,8 @@ function love.load()
 	SFX_die = love.audio.newSource("assets/die.wav", "static")
 	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
 	SFX_ok = love.audio.newSource("assets/ok.wav", "static")
+	SFX_cross = love.audio.newSource("assets/cross.wav", "static")
+
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
 
@@ -47,6 +50,8 @@ function love.load()
 end
 
 function love.update(dt)
+	dt = 0.016
+
 	for i=1, #ENTITIES do
 		if ENTITIES[i] and ENTITIES[i].update then
 			ENTITIES[i]:update(dt)
