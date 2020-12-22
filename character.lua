@@ -17,7 +17,8 @@ function newCharacter(n)
 	n.DO_ATTACK = 0
 	n.speedlimit = 1.5
 	n.ko = 0
-	n.dead = 0
+	n.dead_t = 0
+	n.dead = false
 	n.ungrounded_time = 0
 
 	n.skin = "frog"
@@ -63,18 +64,19 @@ function character:on_a_bridge()
 end
 
 function character:die()
-	self.dead = 240
+	self.dead = true
+	self.dead_t = 240
 	self.yspeed = -1
 	self.stance = "die"
 	love.audio.play(SFX_die)
-	table.insert(ENTITIES, newGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin}))
+	table.insert(ENTITIES, newGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction}))
 end
 
 function character:update(dt)
 	if PHASE == "victory" then return end
 
-	if self.dead > 0 then
-		if self.dead < 180 then
+	if self.dead_t > 0 then
+		if self.dead_t < 180 then
 			self.yspeed = self.yspeed + self.yaccel
 			if (self.yspeed > 3) then self.yspeed = 3 end
 			self.y = self.y + self.yspeed
@@ -82,7 +84,7 @@ function character:update(dt)
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)
 		if self.y > SCREEN_HEIGHT then entity_remove(self) end
-		self.dead = self.dead - 1
+		self.dead_t = self.dead_t - 1
 		return
 	end
 
@@ -218,7 +220,7 @@ end
 
 function character:draw()
 	self.anim:draw(self.x, self.y)
-	if self.dead == 0 then
+	if self.dead then
 		self.anim:draw(self.x+SCREEN_WIDTH, self.y)
 		self.anim:draw(self.x-SCREEN_WIDTH, self.y)
 		self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
@@ -228,7 +230,7 @@ end
 
 function character:on_collide(e1, e2, dx, dy)
 
-	if self.dead > 0 then return end
+	if self.dead then return end
 
 	if e2.type == "ground" then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then

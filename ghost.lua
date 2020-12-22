@@ -135,7 +135,16 @@ function ghost:on_collide(e1, e2, dx, dy)
 	if e2.type == "cross" then
 		love.audio.play(SFX_revive)
 		entity_remove(e2)
-		table.insert(ENTITIES, newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin}))
+		if self.pad == 1 then
+			CHAR1 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			table.insert(ENTITIES, CHAR1)
+		elseif self.pad == 2 then
+			CHAR2 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			table.insert(ENTITIES, CHAR2)
+		elseif self.pad == 3 then
+			CHAR3 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			table.insert(ENTITIES, CHAR3)
+		end
 		entity_remove(self)
 
 	end
