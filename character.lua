@@ -67,6 +67,7 @@ function character:die()
 	self.yspeed = -1
 	self.stance = "die"
 	love.audio.play(SFX_die)
+	table.insert(ENTITIES, newGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin}))
 end
 
 function character:update(dt)

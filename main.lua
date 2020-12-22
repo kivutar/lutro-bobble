@@ -18,6 +18,7 @@ require "counter"
 require "inter"
 require "gameover"
 require "cross"
+require "ghost"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -39,6 +40,7 @@ function love.load()
 	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
 	SFX_ok = love.audio.newSource("assets/ok.wav", "static")
 	SFX_cross = love.audio.newSource("assets/cross.wav", "static")
+	SFX_revive = love.audio.newSource("assets/revive.wav", "static")
 
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
