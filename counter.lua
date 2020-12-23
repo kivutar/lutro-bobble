@@ -64,3 +64,17 @@ function counter:update(dt)
 		end
 	end
 end
+
+function counter:serialize()
+	return {
+		type = self.type,
+		t = self.t,
+		cross = self.cross
+	}
+end
+
+function counter:unserialize(n)
+	self.type = n.type
+	self.t = n.t
+	self.cross = n.cross
+end

@@ -291,3 +291,45 @@ function character:on_collide(e1, e2, dx, dy)
 		entity_remove(e2)
 	end
 end
+
+function character:serialize()
+	return {
+		type = self.type,
+		pad = self.pad,
+		direction = self.direction,
+		x = self.x,
+		y = self.y,
+		xspeed = self.xspeed,
+		xaccel = self.xaccel,
+		yspeed = self.yspeed,
+		yaccel = self.yaccel,
+		ko = self.ko,
+		dead_t = self.dead_t,
+		ungrounded_time = self.ungrounded_time,
+		skin = self.skin,
+		dead = self.dead,
+		stance = self.stance,
+		DO_JUMP = self.DO_JUMP,
+		DO_ATTACK = self.DO_ATTACK,
+	}
+end
+
+function character:unserialize(n)
+	self.type = n.type
+	self.direction = n.direction
+	self.pad = n.pad
+	self.x = n.x
+	self.y = n.y
+	self.xspeed = n.xspeed
+	self.xaccel = n.xaccel
+	self.yspeed = n.yspeed
+	self.yaccel = n.yaccel
+	self.ko = n.ko
+	self.dead_t = n.dead_t
+	self.ungrounded_time = n.ungrounded_time
+	self.skin = n.skin
+	self.dead = n.dead
+	self.stance = n.stance
+	self.DO_JUMP = n.DO_JUMP
+	self.DO_ATTACK = n.DO_ATTACK
+end

@@ -3,8 +3,6 @@ notif.__index = notif
 
 function newNotif(n)
 	n.y = n.y - 16
-	n.width = 0
-	n.height = 0
 	n.yspeed = -2
 	n.yaccel = 0.1
 
@@ -23,4 +21,24 @@ end
 function notif:draw()
 	lutro.graphics.setFont(FNT_points)
 	lutro.graphics.print(self.text, self.x, self.y)
+end
+
+function notif:serialize()
+	return {
+		type = self.type,
+		text = self.text,
+		x = self.x,
+		y = self.y,
+		yspeed = self.yspeed,
+		yaccel = self.yaccel,
+	}
+end
+
+function notif:unserialize(n)
+	self.type = n.type
+	self.text = n.text
+	self.x = n.x
+	self.y = n.y
+	self.yspeed = n.yspeed
+	self.yaccel = n.yaccel
 end

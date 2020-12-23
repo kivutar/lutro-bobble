@@ -16,3 +16,16 @@ function ground:draw()
 	lutro.graphics.draw(self.img, self.x, self.y)
 end
 
+function ground:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+	}
+end
+
+function ground:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
+end

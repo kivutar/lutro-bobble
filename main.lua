@@ -73,6 +73,20 @@ function love.update(dt)
 	end
 
 	detect_collisions()
+
+	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+	if JOY_L then L = L + 1 else L = 0 end
+	if L == 1 then
+		print('saving')
+		serialize()
+	end
+
+	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
+	if JOY_R then R = R + 1 else R = 0 end
+	if R == 1 then
+		print('loading')
+		unserialize()
+	end
 end
 
 function love.draw()
@@ -101,4 +115,124 @@ function love.draw()
 			EFFECTS[i]:draw()
 		end
 	end
+end
+
+function table.deep_copy(t)
+	if not t then return nil end
+	local t2 = {}
+	for k,v in pairs(t) do
+		if type(v) == "table" then
+			t2[k] = table.deep_copy(v)
+		else
+			t2[k] = v
+		end
+	end
+	return t2
+end
+
+STATE = {}
+function serialize()
+	STATE = {
+		MAP = table.deep_copy(MAP),
+		PHASE = PHASE,
+		STAGE = STAGE,
+		CHAR1 = table.deep_copy(CHAR1),
+		CHAR2 = table.deep_copy(CHAR2),
+	}
+
+	STATE.SHADOWS = {}
+	for i=1, #SHADOWS do
+		if SHADOWS[i].serialize then
+			STATE.SHADOWS[i] = SHADOWS[i]:serialize()
+		end
+	end
+
+	STATE.SOLIDS = {}
+	for i=1, #SOLIDS do
+		if SOLIDS[i].serialize then
+			STATE.SOLIDS[i] = SOLIDS[i]:serialize()
+		end
+	end
+
+	STATE.ENTITIES = {}
+	for i=1, #ENTITIES do
+		if ENTITIES[i].serialize then
+			STATE.ENTITIES[i] = ENTITIES[i]:serialize()
+		end
+	end
+
+	STATE.EFFECTS = {}
+	for i=1, #EFFECTS do
+		if EFFECTS[i].serialize then
+			STATE.EFFECTS[i] = EFFECTS[i]:serialize()
+		end
+	end
+end
+
+function unserialize()
+	SHADOWS = {}
+	SOLIDS = {}
+	ENTITIES = {}
+	EFFECTS = {}
+
+	MAP = STATE.MAP
+	PHASE = STATE.PHASE
+	STAGE = STATE.STAGE
+
+	for i=1, #STATE.SHADOWS do
+		if STATE.SHADOWS[i].type == "shadow" then
+			SHADOWS[i] = newShadow({})
+		end
+		SHADOWS[i]:unserialize(STATE.SHADOWS[i])
+	end
+
+	for i=1, #STATE.SOLIDS do
+		if STATE.SOLIDS[i].type == "ground" then
+			SOLIDS[i] = newGround(STATE.SOLIDS[i])
+		elseif STATE.SOLIDS[i].type == "bridge" then
+			SOLIDS[i] = newBridge({})
+		end
+		SOLIDS[i]:unserialize(STATE.SOLIDS[i])
+	end
+
+	for i=1, #STATE.ENTITIES do
+		if STATE.ENTITIES[i].type == "title" then
+			ENTITIES[i] = newTitle({})
+		elseif STATE.ENTITIES[i].type == "inter" then
+			ENTITIES[i] = newInter({})
+		elseif STATE.ENTITIES[i].type == "gameover" then
+			ENTITIES[i] = newGameOver({})
+		elseif STATE.ENTITIES[i].type == "gem" then
+			ENTITIES[i] = newGem({})
+		elseif STATE.ENTITIES[i].type == "eye" then
+			ENTITIES[i] = newEye({})
+		elseif STATE.ENTITIES[i].type == "spikes" then
+			ENTITIES[i] = newSpikes({})
+		elseif STATE.ENTITIES[i].type == "bubble" then
+			ENTITIES[i] = newBubble({})
+		elseif STATE.ENTITIES[i].type == "cross" then
+			ENTITIES[i] = newCross({})
+		elseif STATE.ENTITIES[i].type == "bouncer" then
+			ENTITIES[i] = newBouncer({})
+		elseif STATE.ENTITIES[i].type == "character" then
+			ENTITIES[i] = newCharacter({pad = STATE.ENTITIES[i].pad})
+		elseif STATE.ENTITIES[i].type == "ghost" then
+			ENTITIES[i] = newGhost({pad = STATE.ENTITIES[i].pad})
+		end
+		ENTITIES[i]:unserialize(STATE.ENTITIES[i])
+	end
+
+	for i=1, #STATE.EFFECTS do
+		if STATE.EFFECTS[i].type == "notif" then
+			EFFECTS[i] = newNotif({})
+		elseif STATE.EFFECTS[i].type == "bubbleexp" then
+			EFFECTS[i] = newBubbleexp({})
+		elseif STATE.EFFECTS[i].type == "counter" then
+			EFFECTS[i] = newCounter({})
+		end
+		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
+	end
+
+	CHAR1 = STATE.CHAR1
+	CHAR2 = STATE.CHAR2
 end

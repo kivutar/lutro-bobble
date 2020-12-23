@@ -50,3 +50,17 @@ function title:draw()
 		lutro.graphics.print("PRESS START", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
 	end
 end
+
+function title:serialize()
+	return {
+		type = self.type,
+		t = self.t,
+		PRESSED = self.PRESSED,
+	}
+end
+
+function title:unserialize(n)
+	self.type = n.type
+	self.t = n.t
+	self.PRESSED = n.PRESSED
+end

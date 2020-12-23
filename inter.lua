@@ -4,7 +4,6 @@ inter.__index = inter
 function newInter(n)
 	n.type = "inter"
 	n.t = 100
-	n.PRESSED = 0
 	return setmetatable(n, inter)
 end
 
@@ -46,4 +45,16 @@ function inter:draw()
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("STAGE "..STAGE.."! READY ?")
 	lutro.graphics.print("STAGE "..STAGE.."! READY?", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
+end
+
+function inter:serialize()
+	return {
+		type = self.type,
+		t = self.t,
+	}
+end
+
+function inter:unserialize(n)
+	self.type = n.type
+	self.t = n.t
 end

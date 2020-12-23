@@ -16,3 +16,17 @@ end
 function shadow:draw()
 	lutro.graphics.draw(self.img, self.x, self.y)
 end
+
+function shadow:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+	}
+end
+
+function shadow:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
+end

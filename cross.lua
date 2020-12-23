@@ -17,3 +17,17 @@ end
 function cross:draw()
 	self.anim:draw(self.x, self.y)
 end
+
+function cross:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+	}
+end
+
+function cross:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
+end

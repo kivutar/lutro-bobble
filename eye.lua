@@ -155,3 +155,33 @@ function eye:on_collide(e1, e2, dx, dy)
 		end
 	end
 end
+
+function eye:serialize()
+	return {
+		type = self.type,
+		direction = self.direction,
+		x = self.x,
+		y = self.y,
+		xspeed = self.xspeed,
+		xaccel = self.xaccel,
+		yspeed = self.yspeed,
+		yaccel = self.yaccel,
+		captured = self.captured,
+		dead = self.dead,
+		stance = self.stance,
+	}
+end
+
+function eye:unserialize(n)
+	self.type = n.type
+	self.direction = n.direction
+	self.x = n.x
+	self.y = n.y
+	self.xspeed = n.xspeed
+	self.xaccel = n.xaccel
+	self.yspeed = n.yspeed
+	self.yaccel = n.yaccel
+	self.captured = n.captured
+	self.dead = n.dead
+	self.stance = n.stance
+end

@@ -27,24 +27,36 @@ end
 
 function bouncer:on_collide(e1, e2, dx, dy)
 	if e2.type == "ground" then
-		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = 0
 		self.yspeed = 0
 		self.x = self.x + dx
 	elseif e2.type == "bubble" then
-		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = self.xspeed/2
 		self.yspeed = 0
 		self.x = self.x + dx/2
 	elseif e2.type == "character" and e2.yspeed <= 0 then
-		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = 0
 		self.yspeed = 0
 		if dx ~= 0 then
 			self.x = self.x + dx/2
 		end
 	end
+end
+
+function bouncer:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+		xspeed = self.xspeed,
+		yspeed = self.yspeed,
+	}
+end
+
+function bouncer:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
+	self.xspeed = n.xspeed
+	self.yspeed = n.yspeed
 end

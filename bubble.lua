@@ -12,8 +12,6 @@ function newBubble(n)
 		n.xaccel = -0.05
 		n.xspeed = 2.5
 	end
-	n.yspeed = 0
-	n.yaccel = 0
 	n.child = nil
 
 	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
@@ -23,7 +21,6 @@ end
 
 function bubble:update(dt)
 	self.xspeed = self.xspeed + self.xaccel
-	self.yspeed = self.yspeed + self.yaccel
 
 	if self.direction == "left" and self.xspeed > 0 then
 		self.xspeed = 0
@@ -66,26 +63,44 @@ end
 function bubble:on_collide(e1, e2, dx, dy)
 	if e2.type == "ground" then
 		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = 0
-		self.yspeed = 0
 		self.x = self.x + dx
 		if math.abs(dx) > 8 then self:die() end
 	elseif e2.type == "bubble" then
 		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = self.xspeed/2
-		self.yspeed = 0
 		self.x = self.x + dx/2
 	elseif e2.type == "character" then
 		self.xaccel = 0
-		self.yaccel = 0
 		self.xspeed = self.xspeed/2
-		self.yspeed = 0
 		if dx ~= 0 then
 			self.x = self.x + dx/2
 		end
 	elseif e2.type == "spikes" then
 		self:die()
 	end
+end
+
+function bubble:serialize()
+	local child = nil
+	if self.child then child = self.child:serialize() end
+	return {
+		type = self.type,
+		direction = self.direction,
+		x = self.x,
+		y = self.y,
+		xspeed = self.xspeed,
+		xaccel = self.xaccel,
+		child = child
+	}
+end
+
+function bubble:unserialize(n)
+	self.type = n.type
+	self.direction = n.direction
+	self.x = n.x
+	self.y = n.y
+	self.xspeed = n.xspeed
+	self.xaccel = n.xaccel
+	self.child = nil -- TODO
 end

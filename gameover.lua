@@ -42,3 +42,17 @@ function gameover:draw()
 		lutro.graphics.print("GAME OVER", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
 	end
 end
+
+function gameover:serialize()
+	return {
+		type = self.type,
+		t = self.t,
+		PRESSED = self.PRESSED,
+	}
+end
+
+function gameover:unserialize(n)
+	self.type = n.type
+	self.t = n.t
+	self.PRESSED = n.PRESSED
+end

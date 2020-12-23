@@ -19,3 +19,19 @@ end
 function bubbleexp:draw()
 	self.anim:draw(self.x, self.y)
 end
+
+function bubbleexp:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+		t = self.t,
+	}
+end
+
+function bubbleexp:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
+	self.t = n.t
+end

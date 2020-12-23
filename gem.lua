@@ -5,7 +5,7 @@ function newGem(n)
 	n.type = "gem"
 	n.width = 16
 	n.height = 16
-	n.anim = newAnimation(love.graphics.newImage("assets/gem.png"),  16, 16, 1, 10)
+	n.anim = newAnimation(IMG_gem,  16, 16, 1, 10)
 
 	return setmetatable(n, gem)
 end
@@ -17,4 +17,18 @@ end
 
 function gem:draw()
 	self.anim:draw(self.x, self.y)
+end
+
+function gem:serialize()
+	return {
+		type = self.type,
+		x = self.x,
+		y = self.y,
+	}
+end
+
+function gem:unserialize(n)
+	self.type = n.type
+	self.x = n.x
+	self.y = n.y
 end

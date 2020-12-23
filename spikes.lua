@@ -36,3 +36,23 @@ function spikes:draw()
 		lutro.graphics.draw(self.img, self.x, self.y)
 	end
 end
+
+function spikes:serialize()
+	return {
+		type = self.type,
+		direction = self.direction,
+		x = self.x,
+		y = self.y,
+		width = self.width,
+		height = self.height,
+	}
+end
+
+function spikes:unserialize(n)
+	self.type = n.type
+	self.direction = n.direction
+	self.x = n.x
+	self.y = n.y
+	self.width = n.width
+	self.height = n.height
+end

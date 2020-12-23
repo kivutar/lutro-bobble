@@ -149,3 +149,33 @@ function ghost:on_collide(e1, e2, dx, dy)
 
 	end
 end
+
+function ghost:serialize()
+	return {
+		type = self.type,
+		pad = self.pad,
+		direction = self.direction,
+		x = self.x,
+		y = self.y,
+		xspeed = self.xspeed,
+		xaccel = self.xaccel,
+		yspeed = self.yspeed,
+		yaccel = self.yaccel,
+		skin = self.skin,
+		stance = self.stance,
+	}
+end
+
+function ghost:unserialize(n)
+	self.type = n.type
+	self.direction = n.direction
+	self.pad = n.pad
+	self.x = n.x
+	self.y = n.y
+	self.xspeed = n.xspeed
+	self.xaccel = n.xaccel
+	self.yspeed = n.yspeed
+	self.yaccel = n.yaccel
+	self.skin = n.skin
+	self.stance = n.stance
+end
