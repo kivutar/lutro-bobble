@@ -5,7 +5,7 @@ function newBridge(n)
 	n.type = "bridge"
 	n.width = 16
 	n.height = 1
-	n.img = lutro.graphics.newImage("assets/bridge.png")
+	n.img = IMG_bridge
 
 	return setmetatable(n, bridge)
 end

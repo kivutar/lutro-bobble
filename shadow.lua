@@ -5,7 +5,7 @@ function newShadow(n)
 	n.type = "shadow"
 	n.width = 16
 	n.height = 16
-	n.img = lutro.graphics.newImage("assets/shadow.png")
+	n.img = IMG_shadow
 
 	return setmetatable(n, shadow)
 end

@@ -5,7 +5,7 @@ function newCross(n)
 	n.type = "cross"
 	n.width = 16
 	n.height = 16
-	n.anim = newAnimation(love.graphics.newImage("assets/cross.png"),  16, 16, 1, 10)
+	n.anim = newAnimation(IMG_cross,  16, 16, 1, 10)
 
 	return setmetatable(n, cross)
 end

@@ -4,7 +4,7 @@ bubbleexp.__index = bubbleexp
 function newBubbleexp(n)
 	n.type = "bubbleexp"
 	n.t = 0
-	n.anim = newAnimation(love.graphics.newImage("assets/bubble_explode.png"), 16, 16, 1, 10)
+	n.anim = newAnimation(IMG_bubbleexp, 16, 16, 1, 10)
 	return setmetatable(n, bubbleexp)
 end
 

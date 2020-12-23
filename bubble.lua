@@ -16,7 +16,7 @@ function newBubble(n)
 	n.yaccel = 0
 	n.child = nil
 
-	n.anim = newAnimation(love.graphics.newImage("assets/bubble.png"), 16, 16, 1, 10)
+	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
 
 	return setmetatable(n, bubble)
 end
