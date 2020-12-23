@@ -27,14 +27,14 @@ function counter:update(dt)
 
 	if gems == 0 and self.t == 0 then
 		self.t = 100
-		BGM_bgm:stop()
+		BGM:stop()
 		PHASE = "victory"
 		STAGE = STAGE + 1
 	end
 
 	if chars == 0 and self.t == 0 then
 		self.t = 100
-		BGM_bgm:stop()
+		BGM:stop()
 		PHASE = "gameover"
 		STAGE = 0
 		ENTITIES = {}

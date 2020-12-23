@@ -38,7 +38,7 @@ function love.load()
 	IMG_shadow = lutro.graphics.newImage("assets/shadow.png")
 
 	BGM_bgm = love.audio.newSource("assets/bgm.wav", "static")
-	BGM_bgm:setLooping(true)
+
 	SFX_jump = love.audio.newSource("assets/jump.wav", "static")
 	SFX_bubble = love.audio.newSource("assets/bubble.wav", "static")
 	SFX_explode = love.audio.newSource("assets/explode.wav", "static")
@@ -55,6 +55,9 @@ function love.load()
 
 	love.graphics.setBackgroundColor(0, 0, 0)
 	math.randomseed(os.time())
+
+	BGM = BGM_bgm
+	BGM:setLooping(true)
 
 	table.insert(ENTITIES, newTitle({}))
 end
@@ -138,6 +141,7 @@ function serialize()
 		STAGE = STAGE,
 		CHAR1 = table.deep_copy(CHAR1),
 		CHAR2 = table.deep_copy(CHAR2),
+		BGM = BGM,
 	}
 
 	STATE.SHADOWS = {}
@@ -178,6 +182,7 @@ function unserialize()
 	MAP = STATE.MAP
 	PHASE = STATE.PHASE
 	STAGE = STATE.STAGE
+	BGM = STATE.BGM
 
 	for i=1, #STATE.SHADOWS do
 		if STATE.SHADOWS[i].type == "shadow" then
