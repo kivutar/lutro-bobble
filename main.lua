@@ -204,9 +204,9 @@ end
 function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
 	if CHAR1 and CHAR2 then
-		return love.data.pack("string", SYNC_DATA_FORMAT_STRING, math.floor(CHAR1.x), math.floor(CHAR2.x))
+		return love.data.pack("string", "nnnn", math.floor(CHAR1.x), math.floor(CHAR1.y), math.floor(CHAR2.x), math.floor(CHAR2.y))
 	end
-	return love.data.pack("string", SYNC_DATA_FORMAT_STRING, 0, 0)
+	return love.data.pack("string", "nnnn", 0, 0, 0, 0)
 end
 
 -- Checks whether or not a game state desync has occurred between the local and remote clients.
