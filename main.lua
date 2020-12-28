@@ -235,14 +235,14 @@ function Game:SyncCheck()
 
 	local desynced, desyncFrame = Network:DesyncCheck()
 	if not desynced then
-		return 
+		return
 	end
 
 	-- Detect when the sync data doesn't match then halt the game
 	NetLog("Desync detected at tick: " .. desyncFrame)
 
 	love.window.showMessageBox("Alert", "Desync detected", "info", true)
-	-- the log afterward is pretty useless so exiting here. It also helps to know when a desync occurred. 
+	-- the log afterward is pretty useless so exiting here. It also helps to know when a desync occurred.
 	love.event.quit(0)
 end
 
@@ -436,7 +436,6 @@ function love.update(dt)
 			-- Set the input state fo[r the current tick for the remote player's character.
 			Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
 			Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
-
 		end
 
 		-- Increment the tick count only when the game actually updates.
@@ -456,7 +455,7 @@ function love.update(dt)
 			if  (Network.lastSyncedTick + 1) == lastGameTick and lastGameTick <= Network.confirmedTick then
 
 				-- Increment the synced tick number if we have inputs
-				Network.lastSyncedTick = lastGameTick	
+				Network.lastSyncedTick = lastGameTick
 
 				-- Applied the remote player's input, so this game frame should synced.
 				Game:StoreState()

@@ -76,10 +76,8 @@ function ghost:update(dt)
 	self.y = self.y + self.yspeed
 
 	-- screen wrapping
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	-- decelerating
 	if  ((not JOY_RIGHT and self.xspeed > 0)
