@@ -25,28 +25,76 @@ function newCharacter(n)
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "bird" end
 
-	n.animations = {
-		stand = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_left.png"),  16, 16, 2, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_right.png"), 16, 16, 2, 10)
-		},
-		run = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_right.png"), 16, 16, 1, 10)
-		},
-		jump = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_right.png"), 16, 16, 1, 10)
-		},
-		ko = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_right.png"), 16, 16, 1, 10)
-		},
-		die = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_right.png"), 16, 16, 1, 10)
-		},
-	}
+	if n.skin == "frog" then
+		n.animations = {
+			stand = {
+				left  = newAnimation(IMG_frog_stand_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_frog_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				left  = newAnimation(IMG_frog_run_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_frog_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				left  = newAnimation(IMG_frog_jump_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_frog_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				left  = newAnimation(IMG_frog_ko_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_frog_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				left  = newAnimation(IMG_frog_die_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_frog_die_right, 16, 16, 1, 10)
+			},
+		}
+	elseif n.skin == "fox" then
+		n.animations = {
+			stand = {
+				left  = newAnimation(IMG_fox_stand_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_fox_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				left  = newAnimation(IMG_fox_run_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_fox_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				left  = newAnimation(IMG_fox_jump_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_fox_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				left  = newAnimation(IMG_fox_ko_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_fox_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				left  = newAnimation(IMG_fox_die_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_fox_die_right, 16, 16, 1, 10)
+			},
+		}
+	elseif n.skin == "bird" then
+		n.animations = {
+			stand = {
+				left  = newAnimation(IMG_bird_stand_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_bird_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				left  = newAnimation(IMG_bird_run_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_bird_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				left  = newAnimation(IMG_bird_jump_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_bird_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				left  = newAnimation(IMG_bird_ko_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_bird_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				left  = newAnimation(IMG_bird_die_left,  16, 16, 1, 10),
+				right = newAnimation(IMG_bird_die_right, 16, 16, 1, 10)
+			},
+		}
+	end
 
 	n.anim = n.animations[n.stance][n.direction]
 
