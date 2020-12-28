@@ -203,7 +203,6 @@ function love.load()
 	Game:StoreState()
 end
 
-
 -- Gets the sync data to confirm the client game states are in sync
 function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
@@ -243,7 +242,7 @@ function Game:SyncCheck()
 	-- Detect when the sync data doesn't match then halt the game
 	NetLog("Desync detected at tick: " .. desyncFrame)
 
-	love.window.showMessageBox( "Alert", "Desync detected", "info", true )
+	love.window.showMessageBox("Alert", "Desync detected", "info", true)
 	-- the log afterward is pretty useless so exiting here. It also helps to know when a desync occurred. 
 	love.event.quit(0)
 end
@@ -298,7 +297,7 @@ function TestRollbacks()
 		if Game.tick >= ROLLBACK_TEST_FRAMES then
 
 			-- Get sync data that we'll test after the rollback 
-			local syncData = love.data.pack("string", "nn", Game.players[1].physics.y, Game.players[2].physics.y)
+			local syncData = Game:GetSyncData()
 
 			Game:RestoreState()
 
@@ -318,10 +317,10 @@ function TestRollbacks()
 			end
 
 			-- Get the sync data after a rollback and check to see if it matches the data before the rollback.
-			local postSyncData = love.data.pack("string", "nn", Game.players[1].physics.y, Game.players[2].physics.y)
+			local postSyncData = Game:GetSyncData()
 
 			if syncData ~= postSyncData then
-				love.window.showMessageBox( "Alert", "Rollback Desync Detected", "info", true )
+				love.window.showMessageBox("Alert", "Rollback Desync Detected", "info", true)
 				love.event.quit(0)
 			end
 		end
