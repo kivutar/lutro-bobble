@@ -20,16 +20,16 @@ function newEye(n)
 
 	n.animations = {
 		run = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_run_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_run_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(IMG_eye_run_left,  16, 16, 1, 10),
+			right = newAnimation(IMG_eye_run_right, 16, 16, 1, 10)
 		},
 		captured = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_captured_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_captured_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(IMG_eye_captured_left,  16, 16, 1, 10),
+			right = newAnimation(IMG_eye_captured_right, 16, 16, 1, 10)
 		},
 		die = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_die_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_die_right.png"), 16, 16, 1, 10)
+			left  = newAnimation(IMG_eye_die_left,  16, 16, 1, 10),
+			right = newAnimation(IMG_eye_die_right, 16, 16, 1, 10)
 		},
 	}
 

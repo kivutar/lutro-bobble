@@ -7,19 +7,22 @@ function newSpikes(n)
 	if n.direction == "down" then
 		n.width = 16
 		n.height = 8
+		n.img = IMG_spikes_down
 	elseif n.direction == "up" then
 		n.y = n.y + 8
 		n.width = 16
 		n.height = 8
+		n.img = IMG_spikes_up
 	elseif n.direction == "right" then
 		n.width = 8
 		n.height = 16
+		n.img = IMG_spikes_right
 	elseif n.direction == "left" then
 		n.x = n.x + 8
 		n.width = 8
 		n.height = 16
+		n.img = IMG_spikes_left
 	end
-	n.img = love.graphics.newImage("assets/spikes_"..n.direction..".png")
 
 	return setmetatable(n, spikes)
 end

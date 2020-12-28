@@ -18,12 +18,28 @@ function newGhost(n)
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "bird" end
 
-	n.animations = {
-		ghost = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ghost_left.png"),  16, 16, 2, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ghost_right.png"), 16, 16, 2, 10)
-		},
-	}
+	if n.skin == "frog" then
+		n.animations = {
+			ghost = {
+				left  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	elseif n.skin == "fox" then
+		n.animations = {
+			ghost = {
+				left  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	elseif n.skin == "bird" then
+		n.animations = {
+			ghost = {
+				left  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
+				right = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	end
 
 	n.anim = n.animations[n.stance][n.direction]
 
