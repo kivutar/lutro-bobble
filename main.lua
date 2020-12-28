@@ -128,13 +128,13 @@ function Game:Update()
 				ENTITIES[i]:update(dt)
 			end
 		end
-	
+
 		for i=1, #EFFECTS do
 			if EFFECTS[i] and EFFECTS[i].update then
 				EFFECTS[i]:update(dt)
 			end
 		end
-	
+
 		detect_collisions()
 	--end
 end
@@ -283,7 +283,7 @@ function HandleRollbacks()
 				-- Confirm the game clients are in sync
 				Game:SyncCheck()
 			end
-		end			
+		end
 	end
 
 end
@@ -415,7 +415,6 @@ function love.update(dt)
 				end
 			end
 		end
-
 	end
 
 	if updateGame then	
@@ -466,7 +465,6 @@ function love.update(dt)
 
 		end
 	end
-
 
 	-- Since our input is update in Game:Update() we want to send the input as soon as possible. 
 	-- Previously this as happening before the Game:Update() and adding uneeded latency.  
@@ -628,12 +626,14 @@ function unserialize()
 	for i=1, #STATE.EFFECTS do
 		if STATE.EFFECTS[i].type == "notif" then
 			EFFECTS[i] = newNotif({y=0})
+			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		elseif STATE.EFFECTS[i].type == "bubbleexp" then
 			EFFECTS[i] = newBubbleexp({})
+			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		elseif STATE.EFFECTS[i].type == "counter" then
 			EFFECTS[i] = newCounter({})
+			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		end
-		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 	end
 
 	CHAR1 = STATE.CHAR1
