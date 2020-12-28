@@ -207,9 +207,10 @@ function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
 	if CHAR1 and CHAR2 then
 		print(math.floor(CHAR1.x), math.floor(CHAR2.x))
-		return love.data.pack("string", "nn", math.floor(CHAR1.x), math.floor(CHAR2.x))
+		return love.data.pack("string", SYNC_DATA_FORMAT_STRING, math.floor(CHAR1.x), math.floor(CHAR2.x))
 	end
-	return love.data.pack("string", "nn", 0, 0)
+	print(0, 0)
+	return love.data.pack("string", SYNC_DATA_FORMAT_STRING, 0, 0)
 end
 
 -- Checks whether or not a game state desync has occurred between the local and remote clients.
@@ -326,7 +327,7 @@ function TestRollbacks()
 	end
 end
 
--- Used for testing performance. 
+-- Used for testing performance
 local lastTime = love.timer.getTime()
 
 function love.update(dt)
@@ -419,7 +420,7 @@ function love.update(dt)
 		end
 	end
 
-	if updateGame then	
+	if updateGame then
 		-- Test rollbacks
 		TestRollbacks()
 
@@ -453,7 +454,6 @@ function love.update(dt)
 			-- Check whether or not the game state is confirmed to be in sync.
 			-- Since we previously rolled back, it's safe to set the lastSyncedTick here since we know any previous frames will be synced.
 			if  (Network.lastSyncedTick + 1) == lastGameTick and lastGameTick <= Network.confirmedTick then
-
 				-- Increment the synced tick number if we have inputs
 				Network.lastSyncedTick = lastGameTick
 
@@ -470,7 +470,6 @@ function love.update(dt)
 	-- Since our input is update in Game:Update() we want to send the input as soon as possible. 
 	-- Previously this as happening before the Game:Update() and adding uneeded latency.  
 	if Network.enabled and Network.connectedToClient  then
-
 		-- if updateGame then
 		-- 	PacketLog("Sending Input: " .. Network:GetLocalInputEncoded(lastGameTick + Network.inputDelay) .. ' @ ' .. lastGameTick + Network.inputDelay  )
 		-- end

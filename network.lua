@@ -42,7 +42,7 @@ local InputCode = {
 local INPUT_FORMAT_STRING = string.format('Bjj%.' .. NET_SEND_HISTORY_SIZE .. 's', 'BBBBBBBBBBBBBBBBBB')
 
 -- Packing string for sync data
-local SYNC_DATA_FORMAT_STRING = 'Bjs8'
+SYNC_DATA_FORMAT_STRING = "nn"
 
 -- This object will handle all network related functionality 
 Network = {
