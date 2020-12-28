@@ -11,7 +11,11 @@ end
 function gameover:update(dt)
 	BGM_bgm:stop()
 
-	local JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
+	local JOY_START  = love.keyboard.isDown("return")
+	if lutro ~= nil then
+		JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
+	end
+
 	if JOY_START then
 		self.PRESSED = self.PRESSED + 1
 	end

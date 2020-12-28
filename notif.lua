@@ -20,7 +20,7 @@ end
 
 function notif:draw()
 	love.graphics.setFont(FNT_points)
-	love.graphics.print(self.text, self.x, self.y)
+	love.graphics.print(self.text, math.floor(self.x), math.floor(self.y))
 end
 
 function notif:serialize()

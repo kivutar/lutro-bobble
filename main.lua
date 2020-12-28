@@ -26,6 +26,10 @@ function love.conf(t)
 end
 
 function love.load()
+	love.graphics.setBackgroundColor(0, 0, 0)
+	love.graphics.setDefaultFilter("nearest", "nearest")
+	math.randomseed(os.time())
+
 	IMG_ground = love.graphics.newImage("assets/ground.png")
 	IMG_ground_top = love.graphics.newImage("assets/ground_top.png")
 	IMG_bg = love.graphics.newImage("assets/bg.png")
@@ -53,9 +57,6 @@ function love.load()
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
 
-	love.graphics.setBackgroundColor(0, 0, 0)
-	math.randomseed(os.time())
-
 	BGM = BGM_bgm
 	BGM:setLooping(true)
 
@@ -77,16 +78,19 @@ function love.update(dt)
 
 	detect_collisions()
 
-	-- JOY_L = love.keyboard.isDown("q")
-	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+	JOY_L = love.keyboard.isDown("q")
+	JOY_R = love.keyboard.isDown("w")
+	if lutro ~= nil then
+		JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+		JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
+	end
+
 	if JOY_L then L = L + 1 else L = 0 end
 	if L == 1 then
 		print('saving')
 		serialize()
 	end
 
-	-- JOY_R = love.keyboard.isDown("w")
-	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
 	if JOY_R then R = R + 1 else R = 0 end
 	if R == 1 then
 		print('loading')

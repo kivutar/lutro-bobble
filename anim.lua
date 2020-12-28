@@ -40,6 +40,6 @@ function animation:draw(x, y)
 	love.graphics.draw(
 		self.image,
 		q,
-		x, y
+		math.floor(x), math.floor(y)
 	)
 end
