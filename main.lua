@@ -208,7 +208,8 @@ end
 function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
 	if CHAR1 and CHAR2 then
-		return love.data.pack("string", "nn", CHAR1.x, CHAR2.x)
+		print(math.floor(CHAR1.x), math.floor(CHAR2.x))
+		return love.data.pack("string", "nn", math.floor(CHAR1.x), math.floor(CHAR2.x))
 	end
 	return love.data.pack("string", "nn", 0, 0)
 end
