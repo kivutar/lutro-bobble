@@ -1,3 +1,4 @@
+-- require "RunOverride"
 require "global"
 require "anim"
 require "collisions"
@@ -99,6 +100,9 @@ function love.update(dt)
 end
 
 function love.draw()
+	love.graphics.push()
+	love.graphics.scale(2)
+
 	love.graphics.draw(IMG_bg, 0, 0)
 
 	for i=1, #SHADOWS do
@@ -124,6 +128,8 @@ function love.draw()
 			EFFECTS[i]:draw()
 		end
 	end
+
+	love.graphics.pop()
 end
 
 function table.deep_copy(t)
