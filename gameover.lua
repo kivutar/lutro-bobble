@@ -11,7 +11,7 @@ end
 function gameover:update(dt)
 	BGM_bgm:stop()
 
-	self.PRESSED = InputSystem:CurrentInputState(1).start_pressed
+	self.PRESSED = Input:CurrentInputState(1).start_pressed
 	if self.PRESSED then
 		self.t = 60
 	end

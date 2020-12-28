@@ -9,7 +9,7 @@ function newTitle(n)
 end
 
 function title:update(dt)
-	self.PRESSED = InputSystem:CurrentInputState(1).start_pressed
+	self.PRESSED = Input:CurrentInputState(1).start_pressed
 	if self.PRESSED then
 		love.audio.play(SFX_ok)
 		self.t = 60

@@ -5,7 +5,6 @@ local socket = require("socket")
 local netlogName = 'netlog-'.. os.time(os.date("!*t")) ..'.txt'
 local packetLogName = 'packetLog-'.. os.time(os.date("!*t")) ..'.txt'
 
-
 -- Create net log file
 love.filesystem.write(netlogName, 'Network log start\r\n')
 love.filesystem.write(packetLogName, 'Packet log start\r\n')
@@ -21,8 +20,7 @@ function PacketLog(data)
 end
 
 -- Network code indicating the type of message.
-local MsgCode =
-{
+local MsgCode = {
 	Handshake = 1,		-- Used when sending the hand shake.
 	PlayerInput = 2,	-- Sends part of the player's input buffer.
 	Ping = 3,			-- Used to tracking packet round trip time. Expect a "Pong" back.
@@ -31,8 +29,7 @@ local MsgCode =
  }
 
 -- Bit flags used to convert input state to a form suitable for network transmission. 
-local InputCode =
-{
+local InputCode = {
 	Up 		= bit.lshift(1, 0),
 	Down 	= bit.lshift(1, 1),
 	Left 	= bit.lshift(1, 2),
@@ -50,8 +47,7 @@ local INPUT_FORMAT_STRING = string.format('Bjj%.' .. NET_SEND_HISTORY_SIZE .. 's
 local SYNC_DATA_FORMAT_STRING = 'Bjs8'
 
 -- This object will handle all network related functionality 
-Network =
-{
+Network = {
 	enabled = false,				-- Set to true when the network is running.
 	connectedToClient = false,		-- Indicates whether or not the game is connected to another client
 	isServer = false,				-- Indicates whether or not this game is the server.
@@ -262,7 +258,7 @@ function Network:ProcessDelayedPackets()
 	local newPacketList = {}	-- List of packets that haven't been sent yet.
 	local timeInterval = (NET_SEND_DELAY_FRAMES/60) -- How much time must pass (converting from frames into seconds)
 
-	for index,data in pairs(self.toSendPackets) do
+	for _,data in pairs(self.toSendPackets) do
 		if (love.timer.getTime() - data.time) > timeInterval then
 			self:SendPacketRaw(data.packet)		-- Send packet when enough time as passed.
 		else
@@ -300,7 +296,7 @@ function Network:ReceiveData()
 	end
 
 	-- For now we'll process all packets every frame.
-	repeat 
+	repeat
 		local data,msg,ip,port = self:ReceivePacket()
 
 		if data then
@@ -327,7 +323,7 @@ function Network:ReceiveData()
 			elseif code == MsgCode.PlayerInput then
 				-- Break apart the packet into its parts.
 				local results = { love.data.unpack(INPUT_FORMAT_STRING, data, 1) } -- Final parameter is the start position
-				
+
 				local tickDelta = results[2]
 				local receivedTick = results[3]
 
@@ -367,12 +363,12 @@ function Network:ReceiveData()
 				if not self.isStateDesynced and tick > self.remoteSyncDataTick then
 					self.remoteSyncDataTick = tick
 					self.remoteSyncData = syncData
-					
+
 					-- Check for a desync
 					self:DesyncCheck()
 				end
 
-			end 
+			end
 		elseif msg and msg ~= 'timeout' then 
 			error("Network error: "..tostring(msg))
 		end

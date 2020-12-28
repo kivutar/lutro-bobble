@@ -1,4 +1,3 @@
-
 --[[
     Original Author: https://github.com/Leandros
     Updated Author: https://github.com/jakebesworth

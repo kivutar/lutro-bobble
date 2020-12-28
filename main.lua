@@ -1,4 +1,4 @@
-require("InputSystem")		-- Manages player inputs.
+require("input")
 require("RunOverride")		-- Includes an overrided love.run function for handling fixed time step.
 require("Network")			-- Handles networking
 
@@ -75,7 +75,7 @@ function Game:StoreState()
 
 	-- -- All rollbackable objects and systems will have a CopyState() method.
 	-- self.storedState.world = World:CopyState()
-	-- self.storedState.inputSystem = InputSystem:CopyState()
+	self.storedState.input = Input:serialize()
 	-- self.storedState.matchSystem = MatchSystem:CopyState()
 	-- self.storedState.players = {self.players[1]:CopyState(), self.players[2]:CopyState()}
 
@@ -94,7 +94,7 @@ function Game:RestoreState()
 
 	-- -- All rollbackable objects and systems will have a SetState() method.
 	-- World:SetState(self.storedState.world)
-	-- InputSystem:SetState(self.storedState.inputSystem)
+	Input:unserialize(self.storedState.input)
 	-- MatchSystem:SetState(self.storedState.matchSystem)
 	-- self.players[1]:SetState(self.storedState.players[1])
 	-- self.players[2]:SetState(self.storedState.players[2])
@@ -119,7 +119,7 @@ function Game:Update()
 	end
 
 	-- Update the input system
-	InputSystem:Update()
+	Input:Update()
 
 	-- When the world state is paused, don't update any of the players
 	--if not World.stop then
@@ -145,18 +145,18 @@ function love.conf(t)
 end
 
 function love.load()
-	InputSystem.joysticks = love.joystick.getJoysticks()
-	for _, stick in pairs(InputSystem.joysticks) do
+	Input.joysticks = love.joystick.getJoysticks()
+	for _, stick in pairs(Input.joysticks) do
 		print("Found Gamepad: " .. stick:getName())
 	end
 
 	love.keyboard.setKeyRepeat(false)
 
-	InputSystem.game = Game
+	Input.game = Game
 
 	-- Initialize player input command buffers
-	InputSystem:InitializeBuffer(1)
-	InputSystem:InitializeBuffer(2)
+	Input:InitializeBuffer(1)
+	Input:InitializeBuffer(2)
 
 	love.graphics.setBackgroundColor(0, 0, 0)
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -266,8 +266,8 @@ function HandleRollbacks()
 
 		for i=1,rollbackFrames do
 			-- Get input from the input history buffer. The network system will predict input after the last confirmed tick (for the remote player).
-			InputSystem:SetInputState(InputSystem.localPlayerIndex, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
-			InputSystem:SetInputState(InputSystem.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+			Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
+			Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
 
 			local lastRolledBackGameTick = Game.tick
 			Game:Update()
@@ -301,8 +301,8 @@ function TestRollbacks()
 			-- Prevent polling for input since we set it directly from the input history.
 			for i=1,ROLLBACK_TEST_FRAMES do
 				-- Get input from a input history buffer that we update below
-				InputSystem:SetInputState(InputSystem.localPlayerIndex, Network:GetLocalInputState(Game.tick))
-				InputSystem:SetInputState(InputSystem.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+				Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick))
+				Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
 
 				Game.tick = Game.tick + 1
 				Game:Update()
@@ -341,7 +341,7 @@ function love.update(dt)
 		-- Setup the local input delay to match the network input delay. 
 		-- If this isn't done, the two game clients will be out of sync with each other as the local player's input will be applied on the current frame,
 		-- while the opponent's will be applied to a frame inputDelay frames in the input buffer.
-		InputSystem.inputDelay = Network.inputDelay
+		Input.inputDelay = Network.inputDelay
 
 		-- First get any data that has been sent from the other client
 		Network:ReceiveData()
@@ -424,17 +424,17 @@ function love.update(dt)
 
 		-- Poll inputs for this frame. In network mode the network manager will handle updating player command buffers.
 		local updateCommandBuffers = not Network.enabled
-		InputSystem:PollInputs(updateCommandBuffers)
+		Input:PollInputs(updateCommandBuffers)
 
 		-- Network manager will handle updating inputs.
 		if Network.enabled then
 			-- Update local input history
-			local sendInput = InputSystem:GetLatestInput(InputSystem.localPlayerIndex)
+			local sendInput = Input:GetLatestInput(Input.localPlayerIndex)
 			Network:SetLocalInput(sendInput, lastGameTick+Network.inputDelay)
 
 			-- Set the input state fo[r the current tick for the remote player's character.
-			InputSystem:SetInputState(InputSystem.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
-			InputSystem:SetInputState(InputSystem.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
+			Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
+			Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
 
 		end
 
@@ -446,7 +446,7 @@ function love.update(dt)
 		-- Save stage after an update if testing rollbacks
 		if ROLLBACK_TEST_ENABLED then
 			-- Save local input history for this game tick
-			Network:SetLocalInput(InputSystem:GetLatestInput(InputSystem.localPlayerIndex), lastGameTick)
+			Network:SetLocalInput(Input:GetLatestInput(Input.localPlayerIndex), lastGameTick)
 		end
 
 		if Network.enabled then

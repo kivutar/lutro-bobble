@@ -1,8 +1,7 @@
 require("Util")
 
 -- The input system is an abstraction layer between system input and commands used to control player objects.
-InputSystem = 
-{
+Input = {
 	MAX_INPUT_FRAMES = 60,			-- The maximum number of input commands stored in the player controller ring buff.
 	localPlayerIndex 	= 1,		-- The player index for the player on the local client.
 	remotePlayerIndex 	= 2,		-- The player index for the player on the remote client.
@@ -14,31 +13,31 @@ InputSystem =
 	joysticks = {},					-- Available joysticks
 }
 
-function InputSystem:InputIndex(offset)
+function Input:InputIndex(offset)
 	local tick = self.game.tick
 	if offset then
 		tick = tick + offset
 	end
 
-	return 1 + ((InputSystem.MAX_INPUT_FRAMES + tick) % InputSystem.MAX_INPUT_FRAMES)
+	return 1 + ((Input.MAX_INPUT_FRAMES + tick) % Input.MAX_INPUT_FRAMES)
 end
 
 -- Used in the rollback system to make a copy of the input system state
-function InputSystem:CopyState()
+function Input:serialize()
 	local state = {}
 	state.playerCommandBuffer = table.deep_copy(self.playerCommandBuffer)
 	return state
 end
 
 -- Used in the rollback system to restore the old state of the input system
-function InputSystem:SetState(state)
+function Input:unserialize(state)
 	self.playerCommandBuffer = table.deep_copy(state.playerCommandBuffer)
 end
 
 -- Get the entire input state for the current from a player's input command buffer.
-function InputSystem:GetInputState(bufferIndex, tick)
+function Input:GetInputState(bufferIndex, tick)
 	-- The 1 appearing here is because lua arrays used 1 based and not 0 based indexes.
-	local inputFrame = 1 + ((InputSystem.MAX_INPUT_FRAMES + tick ) % InputSystem.MAX_INPUT_FRAMES)
+	local inputFrame = 1 + ((Input.MAX_INPUT_FRAMES + tick ) % Input.MAX_INPUT_FRAMES)
 
 	local state = self.playerCommandBuffer[bufferIndex][inputFrame]
 	if not state then
@@ -47,33 +46,32 @@ function InputSystem:GetInputState(bufferIndex, tick)
 	return state
 end
 
-function InputSystem:GetLatestInput(bufferIndex)
+function Input:GetLatestInput(bufferIndex)
 	return self.polledInput[bufferIndex]
 end
 
 -- Get the current input state for a player
-function InputSystem:CurrentInputState(bufferIndex)
+function Input:CurrentInputState(bufferIndex)
 	return self:GetInputState(bufferIndex, self.game.tick)
 end
 
 -- Directly set the input state or the player. This is used for a online match.
-function InputSystem:SetInputState(playerIndex, state)
+function Input:SetInputState(playerIndex, state)
 	local stateCopy = table.copy(state)
 	self.playerCommandBuffer[playerIndex][self:InputIndex()] = stateCopy
 end
 
 -- Initialize the player input command ring buffer.
-function InputSystem:InitializeBuffer(bufferIndex)
-	for i=1,InputSystem.MAX_INPUT_FRAMES do
+function Input:InitializeBuffer(bufferIndex)
+	for i=1,Input.MAX_INPUT_FRAMES do
 		self.playerCommandBuffer[bufferIndex][i] = { up = false, down = false, left = false, right = false, attack = false, jump = false, start = false}
 	end
 end
 
 -- Record inputs the player pressed this frame.
-function InputSystem:UpdateInputChanges()
+function Input:UpdateInputChanges()
 	local inputIndex = self:InputIndex()
 	local previousInputIndex = self:InputIndex(-1)
-	
 
 	for i=1,2 do
 		local state = self.playerCommandBuffer[i][inputIndex]
@@ -89,8 +87,7 @@ function InputSystem:UpdateInputChanges()
 	end
 end
 
-function InputSystem:PollInputs(updateBuffers)
-	
+function Input:PollInputs(updateBuffers)
 	-- Input polling from the system can be disabled for setting inputs from a buffer. Used in testing rollbacks.
 	-- Update the local player's command buffer for the current frame.
 	self.polledInput[self.localPlayerIndex] = table.copy(self.keyboardState)
@@ -155,71 +152,71 @@ function InputSystem:PollInputs(updateBuffers)
 end
 
 -- The update method syncs the keyboard and joystick input with the internal player input state. It also handles syncing the remote player's inputs.
-function InputSystem:Update()
+function Input:Update()
 	-- Update input changes
-	InputSystem:UpdateInputChanges()
-end	
+	Input:UpdateInputChanges()
+end
 
 -- Set the internal keyboard state input to true on pressed.
 function love.keypressed(key, scancode, isrepeat)
 
 	if key == 'up'  then
-		InputSystem.keyboardState.up = true
+		Input.keyboardState.up = true
 	elseif key == 'down' then
-		InputSystem.keyboardState.down = true
+		Input.keyboardState.down = true
 	elseif key == 'left'  then
-		InputSystem.keyboardState.left = true
+		Input.keyboardState.left = true
 	elseif key == 'right' then
-		InputSystem.keyboardState.right = true
+		Input.keyboardState.right = true
 	elseif key == 'x' then
-		InputSystem.keyboardState.attack = true
+		Input.keyboardState.attack = true
 	elseif key == 'z' then
-		InputSystem.keyboardState.jump = true
+		Input.keyboardState.jump = true
 	elseif key == 'return' then
-		InputSystem.keyboardState.start = true
+		Input.keyboardState.start = true
 	end
-	
+
 	if key == 'f5' then
-		InputSystem.game:Reset()
+		Input.game:Reset()
 	elseif key == 'f3' then
-		InputSystem.game.paused = not InputSystem.game.paused
+		Input.game.paused = not Input.game.paused
 	elseif key == 'f2' then
-		InputSystem.game.frameStep = true
+		Input.game.frameStep = true
 	elseif key == 'f1' then
 		SHOW_DEBUG_INFO = not SHOW_DEBUG_INFO
 	elseif key == "space" then
-		InputSystem.game.forcePause = true;
+		Input.game.forcePause = true;
 	-- Test controls for storing/restoring state.
 	elseif key == 'f7' then
-		InputSystem.game:StoreState()
+		Input.game:StoreState()
 	elseif key == 'f8' then
-		InputSystem.game:RestoreState()
+		Input.game:RestoreState()
 	elseif key == 'f9' then
-		InputSystem.game.network:StartConnection()
-		InputSystem.localPlayerIndex = 2	-- Right now the client is always player 2.
-		InputSystem.remotePlayerIndex = 1 	-- Right now the server is always players 1.
+		Input.game.network:StartConnection()
+		Input.localPlayerIndex = 2	-- Right now the client is always player 2.
+		Input.remotePlayerIndex = 1 	-- Right now the server is always players 1.
 	elseif key == 'f10' then
-		InputSystem.game.network:StartServer()
-		InputSystem.localPlayerIndex = 1 	-- Right now the server is always players 1.
-		InputSystem.remotePlayerIndex = 2	-- Right now the client is always player 2.
+		Input.game.network:StartServer()
+		Input.localPlayerIndex = 1 	-- Right now the server is always players 1.
+		Input.remotePlayerIndex = 2	-- Right now the client is always player 2.
 	end
 end
 
 -- Set the internal keyboard state input to false on release.
 function love.keyreleased(key, scancode, isrepeat)
 	if key == 'up'  then
-		InputSystem.keyboardState.up = false
+		Input.keyboardState.up = false
 	elseif key == 'down' then
-		InputSystem.keyboardState.down = false
+		Input.keyboardState.down = false
 	elseif key == 'left'  then
-		InputSystem.keyboardState.left = false
+		Input.keyboardState.left = false
 	elseif key == 'right' then
-		InputSystem.keyboardState.right = false
+		Input.keyboardState.right = false
 	elseif key == 'x' then
-		InputSystem.keyboardState.attack = false
+		Input.keyboardState.attack = false
 	elseif key == 'z' then
-		InputSystem.keyboardState.jump = false
+		Input.keyboardState.jump = false
 	elseif key == "return" then
-		InputSystem.keyboardState.start = false;
+		Input.keyboardState.start = false;
 	end
 end

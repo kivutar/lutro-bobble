@@ -35,10 +35,10 @@ function ghost:update(dt)
 
 	self.t = self.t + 1
 
-	local JOY_LEFT  = InputSystem:CurrentInputState(self.pad).left
-	local JOY_RIGHT = InputSystem:CurrentInputState(self.pad).right
-	local JOY_DOWN  = InputSystem:CurrentInputState(self.pad).down
-	local JOY_UP    = InputSystem:CurrentInputState(self.pad).up
+	local JOY_LEFT  = Input:CurrentInputState(self.pad).left
+	local JOY_RIGHT = Input:CurrentInputState(self.pad).right
+	local JOY_DOWN  = Input:CurrentInputState(self.pad).down
+	local JOY_UP    = Input:CurrentInputState(self.pad).up
 
 	-- moving
 	if JOY_LEFT then
