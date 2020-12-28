@@ -17,7 +17,7 @@ NET_SEND_HISTORY_SIZE = 5			-- The number of inputs we send from the input histo
 NET_SEND_DELAY_FRAMES = 0			-- Delay sending packets when this value is great than 0. Set on both clients to not have one ended latency.
 
 -- Rollback test settings
-ROLLBACK_TEST_ENABLED   = true
+ROLLBACK_TEST_ENABLED   = false
 ROLLBACK_TEST_FRAMES    = 10		-- Number of frames to rollback for tests.
 
 ENTITIES = {}
