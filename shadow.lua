@@ -14,7 +14,7 @@ function shadow:update(dt)
 end
 
 function shadow:draw()
-	lutro.graphics.draw(self.img, self.x, self.y)
+	love.graphics.draw(self.img, self.x, self.y)
 end
 
 function shadow:serialize()

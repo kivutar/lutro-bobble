@@ -19,8 +19,8 @@ function notif:update(dt)
 end
 
 function notif:draw()
-	lutro.graphics.setFont(FNT_points)
-	lutro.graphics.print(self.text, self.x, self.y)
+	love.graphics.setFont(FNT_points)
+	love.graphics.print(self.text, self.x, self.y)
 end
 
 function notif:serialize()

@@ -9,7 +9,8 @@ function newTitle(n)
 end
 
 function title:update(dt)
-	local JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
+	local JOY_START  = love.keyboard.isDown("return")
+	--local JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
 	if JOY_START then
 		self.PRESSED = self.PRESSED + 1
 	end
@@ -46,8 +47,9 @@ function title:draw()
 	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("PRESS START")
+	love.graphics.setColor(1, 1, 1, 1)
 	if self.t/2 % 2 == 0 then
-		lutro.graphics.print("PRESS START", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
+		love.graphics.print("PRESS START", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
 	end
 end
 

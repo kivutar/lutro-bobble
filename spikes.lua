@@ -19,7 +19,7 @@ function newSpikes(n)
 		n.width = 8
 		n.height = 16
 	end
-	n.img = lutro.graphics.newImage("assets/spikes_"..n.direction..".png")
+	n.img = love.graphics.newImage("assets/spikes_"..n.direction..".png")
 
 	return setmetatable(n, spikes)
 end
@@ -29,11 +29,11 @@ end
 
 function spikes:draw()
 	if self.direction == "up" then
-		lutro.graphics.draw(self.img, self.x, self.y-8)
+		love.graphics.draw(self.img, self.x, self.y-8)
 	elseif self.direction == "left" then
-		lutro.graphics.draw(self.img, self.x-8, self.y)	
+		love.graphics.draw(self.img, self.x-8, self.y)	
 	else
-		lutro.graphics.draw(self.img, self.x, self.y)
+		love.graphics.draw(self.img, self.x, self.y)
 	end
 end
 

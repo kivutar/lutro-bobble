@@ -40,8 +40,9 @@ function gameover:draw()
 	love.graphics.rectangle("fill", 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 	love.graphics.setFont(FNT_letters)
 	local w = FNT_letters:getWidth("GAME OVER")
+	love.graphics.setColor(1, 1, 1, 1)
 	if self.t/2 % 2 == 0 then
-		lutro.graphics.print("GAME OVER", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
+		love.graphics.print("GAME OVER", SCREEN_WIDTH/2 - w/2, SCREEN_HEIGHT/2 - 16/2)
 	end
 end
 

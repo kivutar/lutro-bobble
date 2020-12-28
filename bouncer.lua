@@ -22,7 +22,7 @@ function bouncer:update(dt)
 end
 
 function bouncer:draw()
-	lutro.graphics.draw(self.img, self.x, self.y)
+	love.graphics.draw(self.img, self.x, self.y)
 end
 
 function bouncer:on_collide(e1, e2, dx, dy)

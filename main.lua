@@ -29,13 +29,13 @@ function love.load()
 	IMG_ground = love.graphics.newImage("assets/ground.png")
 	IMG_ground_top = love.graphics.newImage("assets/ground_top.png")
 	IMG_bg = love.graphics.newImage("assets/bg.png")
-	IMG_bouncer = lutro.graphics.newImage("assets/bouncer.png")
-	IMG_bridge = lutro.graphics.newImage("assets/bridge.png")
+	IMG_bouncer = love.graphics.newImage("assets/bouncer.png")
+	IMG_bridge = love.graphics.newImage("assets/bridge.png")
 	IMG_bubble = love.graphics.newImage("assets/bubble.png")
 	IMG_bubbleexp = love.graphics.newImage("assets/bubble_explode.png")
 	IMG_cross = love.graphics.newImage("assets/cross.png")
 	IMG_gem = love.graphics.newImage("assets/gem.png")
-	IMG_shadow = lutro.graphics.newImage("assets/shadow.png")
+	IMG_shadow = love.graphics.newImage("assets/shadow.png")
 
 	BGM_bgm = love.audio.newSource("assets/bgm.wav", "static")
 
@@ -77,14 +77,16 @@ function love.update(dt)
 
 	detect_collisions()
 
-	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+	JOY_L = love.keyboard.isDown("q")
+	--JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
 	if JOY_L then L = L + 1 else L = 0 end
 	if L == 1 then
 		print('saving')
 		serialize()
 	end
 
-	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
+	JOY_R = love.keyboard.isDown("w")
+	--JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
 	if JOY_R then R = R + 1 else R = 0 end
 	if R == 1 then
 		print('loading')
@@ -142,6 +144,8 @@ function serialize()
 		CHAR1 = table.deep_copy(CHAR1),
 		CHAR2 = table.deep_copy(CHAR2),
 		BGM = BGM,
+		BGMplaying = BGM:isPlaying(),
+		BGMpos = BGM:getPosition(),
 	}
 
 	STATE.SHADOWS = {}
@@ -183,6 +187,8 @@ function unserialize()
 	PHASE = STATE.PHASE
 	STAGE = STATE.STAGE
 	BGM = STATE.BGM
+	if STATE.BGMplaying then BGM:play() else BGM:stop() end
+	BGM:setPosition(STATE.BGMpos)
 
 	for i=1, #STATE.SHADOWS do
 		if STATE.SHADOWS[i].type == "shadow" then
