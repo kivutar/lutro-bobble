@@ -91,11 +91,11 @@ function character:update(dt)
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
-	local JOY_LEFT  = Input:CurrentInputState(self.pad).left
-	local JOY_RIGHT = Input:CurrentInputState(self.pad).right
-	local JOY_DOWN  = Input:CurrentInputState(self.pad).down
-	local JOY_B     = Input:CurrentInputState(self.pad).jump
-	local JOY_A     = Input:CurrentInputState(self.pad).attack
+	local JOY_LEFT  = Input:currentState(self.pad).left
+	local JOY_RIGHT = Input:currentState(self.pad).right
+	local JOY_DOWN  = Input:currentState(self.pad).down
+	local JOY_B     = Input:currentState(self.pad).jump
+	local JOY_A     = Input:currentState(self.pad).attack
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel

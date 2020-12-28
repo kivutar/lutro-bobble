@@ -11,7 +11,7 @@ Input = {
 	joysticks = {},					-- Available joysticks
 }
 
-function Input:InputIndex(offset)
+function Input:index(offset)
 	local tick = self.game.tick
 	if offset then
 		tick = tick + offset
@@ -33,7 +33,7 @@ function Input:unserialize(state)
 end
 
 -- Get the entire input state for the current from a player's input command buffer.
-function Input:GetInputState(bufferIndex, tick)
+function Input:state(bufferIndex, tick)
 	-- The 1 appearing here is because lua arrays used 1 based and not 0 based indexes.
 	local inputFrame = 1 + ((Input.MAX_INPUT_FRAMES + tick ) % Input.MAX_INPUT_FRAMES)
 
@@ -44,23 +44,23 @@ function Input:GetInputState(bufferIndex, tick)
 	return state
 end
 
-function Input:GetLatestInput(bufferIndex)
+function Input:getLatest(bufferIndex)
 	return self.polledInput[bufferIndex]
 end
 
 -- Get the current input state for a player
-function Input:CurrentInputState(bufferIndex)
-	return self:GetInputState(bufferIndex, self.game.tick)
+function Input:currentState(bufferIndex)
+	return self:state(bufferIndex, self.game.tick)
 end
 
 -- Directly set the input state or the player. This is used for a online match.
-function Input:SetInputState(playerIndex, state)
+function Input:setState(playerIndex, state)
 	local stateCopy = table.copy(state)
-	self.playerCommandBuffer[playerIndex][self:InputIndex()] = stateCopy
+	self.playerCommandBuffer[playerIndex][self:index()] = stateCopy
 end
 
 -- Initialize the player input command ring buffer.
-function Input:InitializeBuffer(bufferIndex)
+function Input:initializeBuffer(bufferIndex)
 	for i=1,Input.MAX_INPUT_FRAMES do
 		self.playerCommandBuffer[bufferIndex][i] = {
 			up = false,
@@ -75,13 +75,13 @@ function Input:InitializeBuffer(bufferIndex)
 end
 
 -- Record inputs the player pressed this frame.
-function Input:UpdateInputChanges()
-	local inputIndex = self:InputIndex()
-	local previousInputIndex = self:InputIndex(-1)
+function Input:updateInputChanges()
+	local inputIndex = self:index()
+	local previousindex = self:index(-1)
 
 	for i=1,2 do
 		local state = self.playerCommandBuffer[i][inputIndex]
-		local previousState = self.playerCommandBuffer[i][previousInputIndex]
+		local previousState = self.playerCommandBuffer[i][previousindex]
 
 		state.up_pressed = state.up and not previousState.up
 		state.down_pressed = state.down and not previousState.down
@@ -93,7 +93,7 @@ function Input:UpdateInputChanges()
 	end
 end
 
-function Input:PollInputs(updateBuffers)
+function Input:poll(updateBuffers)
 	-- Input polling from the system can be disabled for setting inputs from a buffer. Used in testing rollbacks.
 	-- Update the local player's command buffer for the current frame.
 	self.polledInput[self.localPlayerIndex] = table.copy(self.keyboardState)
@@ -149,7 +149,7 @@ function Input:PollInputs(updateBuffers)
 
 	-- Updated the player input buffers from the polled inputs.  Set to false in network mode.
 	if updateBuffers then
-		local bufferIndex = self:InputIndex()
+		local bufferIndex = self:index()
 		for i=1,2 do
 			self.playerCommandBuffer[bufferIndex] = self.polledInput[bufferIndex]
 		end
@@ -158,9 +158,9 @@ function Input:PollInputs(updateBuffers)
 end
 
 -- The update method syncs the keyboard and joystick input with the internal player input state. It also handles syncing the remote player's inputs.
-function Input:Update()
+function Input:update()
 	-- Update input changes
-	Input:UpdateInputChanges()
+	Input:updateInputChanges()
 end
 
 -- Set the internal keyboard state input to true on pressed.
@@ -182,7 +182,7 @@ function love.keypressed(key, scancode, isrepeat)
 	end
 
 	if key == 'f5' then
-		Input.game:Reset()
+		Input.game:reset()
 	elseif key == 'f3' then
 		Input.game.paused = not Input.game.paused
 	elseif key == 'f2' then
@@ -193,9 +193,9 @@ function love.keypressed(key, scancode, isrepeat)
 		Input.game.forcePause = true;
 	-- Test controls for storing/restoring state.
 	elseif key == 'f7' then
-		Input.game:StoreState()
+		Input.game:serialize()
 	elseif key == 'f8' then
-		Input.game:RestoreState()
+		Input.game:unserialize()
 	elseif key == 'f9' then
 		Input.game.network:StartConnection()
 		Input.localPlayerIndex = 2	-- Right now the client is always player 2.

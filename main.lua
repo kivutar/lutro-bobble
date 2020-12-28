@@ -62,13 +62,13 @@ local Game = {
 }
 
 -- Resets the game.
-function Game:Reset()
+function Game:reset()
 	Game.tick = 0
 end
 
 -- Stores the state of all rollbackable objects and systems in the game.
-function Game:StoreState()
-	-- print("storestate")
+function Game:serialize()
+	-- print("serialize")
 	self.storedState = {}
 
 	-- -- All rollbackable objects and systems will have a CopyState() method.
@@ -83,8 +83,8 @@ function Game:StoreState()
 end
 
 -- Restores the state of all rollbackable objects and systems in the game.
-function Game:RestoreState()
-	print("restaurestate")
+function Game:unserialize()
+	print("unserialize")
 	-- Can't restore the state if has not been saved yet.
 	if not self.storedState then
 		return
@@ -103,7 +103,7 @@ function Game:RestoreState()
 end
 
 -- Top level update for the game state.
-function Game:Update()
+function Game:update()
 	local dt = 1 / 60
 
 	-- Pause and frame step control
@@ -117,7 +117,7 @@ function Game:Update()
 	end
 
 	-- Update the input system
-	Input:Update()
+	Input:update()
 
 	-- When the world state is paused, don't update any of the players
 	--if not World.stop then
@@ -153,8 +153,8 @@ function love.load()
 	Input.game = Game
 
 	-- Initialize player input command buffers
-	Input:InitializeBuffer(1)
-	Input:InitializeBuffer(2)
+	Input:initializeBuffer(1)
+	Input:initializeBuffer(2)
 
 	love.graphics.setBackgroundColor(0, 0, 0)
 	love.graphics.setDefaultFilter("nearest", "nearest")
@@ -194,10 +194,10 @@ function love.load()
 
 	Game.network = Network
 
-	Game:Reset()
+	Game:reset()
 
 	-- Store game state before the first update
-	Game:StoreState()
+	Game:serialize()
 end
 
 -- Gets the sync data to confirm the client game states are in sync
@@ -261,22 +261,22 @@ function HandleRollbacks()
 	if lastGameTick >= 0 and lastGameTick > (Network.lastSyncedTick + 1) and Network.confirmedTick > Network.lastSyncedTick then
 
 		-- Must revert back to the last known synced game frame.
-		Game:RestoreState()
+		Game:unserialize()
 
 		for i=1,rollbackFrames do
 			-- Get input from the input history buffer. The network system will predict input after the last confirmed tick (for the remote player).
-			Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
-			Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+			Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
+			Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
 
 			local lastRolledBackGameTick = Game.tick
-			Game:Update()
+			Game:update()
 			Game.tick = Game.tick + 1
 
 			-- Confirm that we are indeed still synced
 			if lastRolledBackGameTick <= Network.confirmedTick then
 				-- Store the state since we know it's synced. We really only need to call this on the last synced frame.
 				-- Leaving in for demonstration purposes.
-				Game:StoreState()
+				Game:serialize()
 				Network.lastSyncedTick = lastRolledBackGameTick
 
 				-- Confirm the game clients are in sync
@@ -295,20 +295,20 @@ function TestRollbacks()
 			-- Get sync data that we'll test after the rollback
 			local syncData = Game:GetSyncData()
 
-			Game:RestoreState()
+			Game:unserialize()
 
 			-- Prevent polling for input since we set it directly from the input history
 			for i=1,ROLLBACK_TEST_FRAMES do
 				-- Get input from a input history buffer that we update below
-				Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick))
-				Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+				Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick))
+				Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
 
 				Game.tick = Game.tick + 1
-				Game:Update()
+				Game:update()
 
 				-- Store only the first updated state
 				if i == 1 then
-					Game:StoreState()
+					Game:serialize()
 				end
 			end
 
@@ -422,28 +422,28 @@ function love.update(dt)
 
 		-- Poll inputs for this frame. In network mode the network manager will handle updating player command buffers.
 		local updateCommandBuffers = not Network.enabled
-		Input:PollInputs(updateCommandBuffers)
+		Input:poll(updateCommandBuffers)
 
 		-- Network manager will handle updating inputs.
 		if Network.enabled then
 			-- Update local input history
-			local sendInput = Input:GetLatestInput(Input.localPlayerIndex)
+			local sendInput = Input:getLatest(Input.localPlayerIndex)
 			Network:SetLocalInput(sendInput, lastGameTick+Network.inputDelay)
 
 			-- Set the input state fo[r the current tick for the remote player's character.
-			Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
-			Input:SetInputState(Input.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
+			Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
+			Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
 		end
 
 		-- Increment the tick count only when the game actually updates.
-		Game:Update()
+		Game:update()
 
 		Game.tick = Game.tick + 1
 
 		-- Save stage after an update if testing rollbacks
 		if ROLLBACK_TEST_ENABLED then
 			-- Save local input history for this game tick
-			Network:SetLocalInput(Input:GetLatestInput(Input.localPlayerIndex), lastGameTick)
+			Network:SetLocalInput(Input:getLatest(Input.localPlayerIndex), lastGameTick)
 		end
 
 		if Network.enabled then
@@ -454,7 +454,7 @@ function love.update(dt)
 				Network.lastSyncedTick = lastGameTick
 
 				-- Applied the remote player's input, so this game frame should synced.
-				Game:StoreState()
+				Game:serialize()
 
 				-- Confirm the game clients are in sync
 				Game:SyncCheck()
@@ -463,8 +463,8 @@ function love.update(dt)
 		end
 	end
 
-	-- Since our input is update in Game:Update() we want to send the input as soon as possible.
-	-- Previously this as happening before the Game:Update() and adding uneeded latency.
+	-- Since our input is update in Game:update() we want to send the input as soon as possible.
+	-- Previously this as happening before the Game:update() and adding uneeded latency.
 	if Network.enabled and Network.connectedToClient  then
 		-- if updateGame then
 		-- 	PacketLog("Sending Input: " .. Network:GetLocalInputEncoded(lastGameTick + Network.inputDelay) .. ' @ ' .. lastGameTick + Network.inputDelay  )
