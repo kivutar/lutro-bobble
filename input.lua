@@ -123,13 +123,13 @@ function Input:PollInputs(updateBuffers)
 
 			if axisX > axisGap then
 				commandBuffer.right = true
-			elseif axisX < -axisGap then 
+			elseif axisX < -axisGap then
 				commandBuffer.left = true
 			end
 
 			if axisY > axisGap then
 				commandBuffer.down = true
-			elseif axisY < -axisGap then 
+			elseif axisY < -axisGap then
 				commandBuffer.up = true
 			end	
 

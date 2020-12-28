@@ -41,8 +41,7 @@ for i=0,60-1 do
 end
 
 -- Manages the game state
-local Game = 
-{
+local Game = {
 	-- Enabled when the game is paused
 	paused = false,
 
@@ -256,7 +255,7 @@ function HandleRollbacks()
 	-- with a rollback.
 
 	-- The number of frames that's elasped since the game has been out of sync.
-	-- Rerun rollbackFrames number of updates. 
+	-- Rerun rollbackFrames number of updates.
 	local rollbackFrames = lastGameTick - Network.lastSyncedTick
 
 	-- Update the graph indicating the number of rollback frames
@@ -278,7 +277,7 @@ function HandleRollbacks()
 
 			-- Confirm that we are indeed still synced
 			if lastRolledBackGameTick <= Network.confirmedTick then
-				-- Store the state since we know it's synced. We really only need to call this on the last synced frame. 
+				-- Store the state since we know it's synced. We really only need to call this on the last synced frame.
 				-- Leaving in for demonstration purposes.
 				Game:StoreState()
 				Network.lastSyncedTick = lastRolledBackGameTick
@@ -296,12 +295,12 @@ function TestRollbacks()
 	if ROLLBACK_TEST_ENABLED then
 		if Game.tick >= ROLLBACK_TEST_FRAMES then
 
-			-- Get sync data that we'll test after the rollback 
+			-- Get sync data that we'll test after the rollback
 			local syncData = Game:GetSyncData()
 
 			Game:RestoreState()
 
-			-- Prevent polling for input since we set it directly from the input history.
+			-- Prevent polling for input since we set it directly from the input history
 			for i=1,ROLLBACK_TEST_FRAMES do
 				-- Get input from a input history buffer that we update below
 				Input:SetInputState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick))
@@ -341,7 +340,7 @@ function love.update(dt)
 
 	-- The network is update first
 	if Network.enabled then
-		-- Setup the local input delay to match the network input delay. 
+		-- Setup the local input delay to match the network input delay.
 		-- If this isn't done, the two game clients will be out of sync with each other as the local player's input will be applied on the current frame,
 		-- while the opponent's will be applied to a frame inputDelay frames in the input buffer.
 		Input.inputDelay = Network.inputDelay
@@ -381,7 +380,7 @@ function love.update(dt)
 
 				-- Only calculate time sync frames when we are not currently time syncing.
 				if Network.tickSyncing == false then
-					-- Calculate tick offset using the clock synchronization algorithm. 
+					-- Calculate tick offset using the clock synchronization algorithm.
 					-- See https://en.wikipedia.org/wiki/Network_Time_Protocol#Clock_synchronization_algorithm
 					Network.tickOffset = (Network.localTickDelta - Network.remoteTickDelta) / 2.0
 
@@ -398,10 +397,10 @@ function love.update(dt)
 					Network.tickOffset = Network.tickOffset - 1
 
 					-- Stop time syncing when the tick difference is less than 1 so we don't overshoot
-					if Network.tickOffset < 1 then 
+					if Network.tickOffset < 1 then
 						Network.tickSyncing = false
 					end
-				else 
+				else
 					Game.syncedLastUpdate = false
 				end
 
@@ -467,8 +466,8 @@ function love.update(dt)
 		end
 	end
 
-	-- Since our input is update in Game:Update() we want to send the input as soon as possible. 
-	-- Previously this as happening before the Game:Update() and adding uneeded latency.  
+	-- Since our input is update in Game:Update() we want to send the input as soon as possible.
+	-- Previously this as happening before the Game:Update() and adding uneeded latency.
 	if Network.enabled and Network.connectedToClient  then
 		-- if updateGame then
 		-- 	PacketLog("Sending Input: " .. Network:GetLocalInputEncoded(lastGameTick + Network.inputDelay) .. ' @ ' .. lastGameTick + Network.inputDelay  )

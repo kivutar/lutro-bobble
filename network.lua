@@ -26,7 +26,7 @@ local MsgCode = {
 	Sync = 5,			-- Used to pass sync data
  }
 
--- Bit flags used to convert input state to a form suitable for network transmission. 
+-- Bit flags used to convert input state to a form suitable for network transmission.
 local InputCode = {
 	Up 		= bit.lshift(1, 0),
 	Down 	= bit.lshift(1, 1),
@@ -44,7 +44,7 @@ local INPUT_FORMAT_STRING = string.format('Bjj%.' .. NET_SEND_HISTORY_SIZE .. 's
 -- Packing string for sync data
 SYNC_DATA_FORMAT_STRING = "nn"
 
--- This object will handle all network related functionality 
+-- This object will handle all network related functionality
 Network = {
 	enabled = false,				-- Set to true when the network is running.
 	connectedToClient = false,		-- Indicates whether or not the game is connected to another client
@@ -69,7 +69,7 @@ Network = {
 
 	latency = 0,					-- Keeps track of the latency.
 
-	toSendPackets = {},				-- Packets that have been queued for sending later. Used to test network latency. 
+	toSendPackets = {},				-- Packets that have been queued for sending later. Used to test network latency.
 
 	lastSyncedTick =-1,				-- Indicates the last game tick that was confirmed to be in sync.
 
@@ -79,7 +79,7 @@ Network = {
 	tickOffset = 0.0,				-- Current difference between remote and local ticks
 	tickSyncing = false,			-- Indicates whether or not the game is currently in time syncing mode.
 
-	desyncCheckRate = 20,			-- The rate at which we check for state desyncs. 
+	desyncCheckRate = 20,			-- The rate at which we check for state desyncs.
 	localSyncData = nil,			-- Latest local data for state desync checking.
 	remoteSyncData = nil,			-- Latest remote data for state desync checking.
 	localSyncDataTick = -1,		-- Tick for the latest local desync data.
@@ -112,7 +112,6 @@ function Network:StartConnection()
 	local address, port = SERVER_IP, SERVER_PORT	
 	self.clientIP = address
 	self.clientPort = port
-
 	self.enabled = true
 	self.isServer = false
 
@@ -120,10 +119,8 @@ function Network:StartConnection()
 
 	-- Since there isn't a seperate network thread we need non-blocking sockets.
 	self.udp:settimeout(0)
-
 	-- The client can bind to any port since the server will wait on a handshake message and record it later.
 	self.udp:setsockname('*', 0)
-
 	-- Start the connection with the server
 	self:ConnectToServer()
 end
@@ -140,7 +137,6 @@ function Network:StartServer()
 
 	-- Since there isn't a seperate network thread we need non-blocking sockets.
 	self.udp:settimeout(0)
-
 	-- Bind to a specific port since the client needs to know where to send its handshake message.
 	self.udp:setsockname('*', SERVER_PORT)
 end
@@ -190,7 +186,7 @@ function Network:DesyncCheck()
 		return
 	end
 
-	-- When the local sync data does not match the remote data indicate a desync has occurred. 
+	-- When the local sync data does not match the remote data indicate a desync has occurred.
 	if self.isStateDesynced or self.localSyncDataTick == self.remoteSyncDataTick then
 		-- print("Desync Check at: " .. self.localSyncDataTick)
 
@@ -217,7 +213,7 @@ function Network:SendInputData(tick)
 		return
 	end
 
-	self:SendPacket(self:MakeInputPacket(tick, syncData), 1)
+	self:SendPacket(self:MakeInputPacket(tick), 1)
 end
 
 function Network:SetLocalInput(inputState, tick)
@@ -265,7 +261,7 @@ function Network:ProcessDelayedPackets()
 	self.toSendPackets = newPacketList
 end
 
--- Send a packet immediately 
+-- Send a packet immediately
 function Network:SendPacketRaw(packet)
 	self.udp:sendto(packet, self.clientIP, self.clientPort)	
 end
@@ -274,7 +270,7 @@ end
 function Network:ReceivePacket(packet)
 	local data = nil
 	local msg = nil
-	local ip_or_msg = nil 
+	local ip_or_msg = nil
 	local port = nil
 
 	data, ip_or_msg, port = self.udp:receivefrom()
@@ -337,13 +333,12 @@ function Network:ReceiveData()
 
 					self.confirmedTick = receivedTick
 
-					-- PacketLog("Received Input: " .. results[3+NET_SEND_HISTORY_SIZE] .. " @ " ..  receivedTick) 
+					-- PacketLog("Received Input: " .. results[3+NET_SEND_HISTORY_SIZE] .. " @ " ..  receivedTick)
 
-					for offset=0, NET_SEND_HISTORY_SIZE-1 do 
+					for offset=0, NET_SEND_HISTORY_SIZE-1 do
 						-- Save the input history sent in the packet.
 						self:SetRemoteEncodedInput(results[3+NET_SEND_HISTORY_SIZE-offset] , receivedTick-offset)
 					end
-
 				end
 
 				-- NetLog("Received Tick: " .. receivedTick .. ",  Input: " .. self.remoteInputHistory[(self.confirmedTick % NET_INPUT_HISTORY_SIZE)+1])
@@ -355,7 +350,7 @@ function Network:ReceiveData()
 				self.latency = love.timer.getTime() - pongTime
 				--print("Got pong message: " .. self.latency)
 			elseif code == MsgCode.Sync then
-				local code, tick, syncData =  love.data.unpack(SYNC_DATA_FORMAT_STRING, data, 1)
+				local _, tick, syncData =  love.data.unpack(SYNC_DATA_FORMAT_STRING, data, 1)
 				-- Ignore any tick that isn't more recent than the last sync data
 				if not self.isStateDesynced and tick > self.remoteSyncDataTick then
 					self.remoteSyncDataTick = tick
@@ -366,8 +361,8 @@ function Network:ReceiveData()
 				end
 
 			end
-		elseif msg and msg ~= 'timeout' then 
-			error("Network error: "..tostring(msg))
+		elseif msg and msg ~= 'timeout' then
+			error("Network error: " .. tostring(msg))
 		end
 	-- When we no longer have data we're done processing packets for this frame.
 	until data == nil
@@ -416,7 +411,7 @@ function Network:MakeHandshakePacket()
 	return love.data.pack("string", "B", MsgCode.Handshake)
 end
 
--- Encodes the player input state into a compact form for network transmission. 
+-- Encodes the player input state into a compact form for network transmission.
 function Network:EncodeInput(state)
 	local data = 0
 
