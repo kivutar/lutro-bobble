@@ -88,7 +88,7 @@ end
 function Game:RestoreState()
 	print("restaurestate")
 	-- Can't restore the state if has not been saved yet.
-	if not self.storedState then 
+	if not self.storedState then
 		return
 	end
 
@@ -485,7 +485,7 @@ end
 
 function love.draw()
 	love.graphics.push()
-	love.graphics.scale(2)
+	love.graphics.scale(3)
 
 	love.graphics.draw(IMG_bg, 0, 0)
 
@@ -521,7 +521,6 @@ function love.draw()
 		love.graphics.setFont(FNT_default)
 		love.graphics.print("Network: Waiting on client to connect", 10, 40)
 	end
-
 	love.graphics.setColor(1, 1, 1, 1)
 end
 
