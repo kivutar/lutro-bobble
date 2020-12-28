@@ -91,18 +91,11 @@ function character:update(dt)
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
-	local JOY_LEFT  = love.keyboard.isDown("left")
-	local JOY_RIGHT = love.keyboard.isDown("right")
-	local JOY_DOWN = love.keyboard.isDown("down")
-	local JOY_B = love.keyboard.isDown("z")
-	local JOY_A = love.keyboard.isDown("x")
-	if lutro ~= nil then
-		JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
-		JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-		JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
-		JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
-		JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
-	end
+	local JOY_LEFT  = InputSystem:CurrentInputState(self.pad).left
+	local JOY_RIGHT = InputSystem:CurrentInputState(self.pad).right
+	local JOY_DOWN  = InputSystem:CurrentInputState(self.pad).down
+	local JOY_B     = InputSystem:CurrentInputState(self.pad).jump
+	local JOY_A     = InputSystem:CurrentInputState(self.pad).attack
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel
