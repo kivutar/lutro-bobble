@@ -34,7 +34,7 @@ function bubble:update(dt)
 	if self.x >= SCREEN_WIDTH then self.x = 0 end
 	if self.x < 0 then self.x = SCREEN_WIDTH end
 
-	if self.haschild then
+	if self.child ~= nil then
 		self.child.x = self.x
 		self.child.y = self.y
 	end
@@ -50,7 +50,7 @@ function bubble:draw()
 end
 
 function bubble:die()
-	if self.haschild then
+	if self.child ~= nil then
 		self.child:die()
 		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
 	else
