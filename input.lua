@@ -223,5 +223,7 @@ function love.keyreleased(key, scancode, isrepeat)
 		Input.keyboardState.jump = false
 	elseif key == "return" then
 		Input.keyboardState.start = false;
+	elseif key == "space" then
+		Input.game.forcePause = false;
 	end
 end

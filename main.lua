@@ -59,7 +59,6 @@ local Game = {
 
 	-- Used to force dropped frames to test network syncing code
 	forcePause = false
-
 }
 
 -- Resets the game.
