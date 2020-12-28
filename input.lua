@@ -131,7 +131,7 @@ function Input:PollInputs(updateBuffers)
 				commandBuffer.down = true
 			elseif axisY < -axisGap then
 				commandBuffer.up = true
-			end	
+			end
 
 			if joystick:isDown(1) then
 				commandBuffer.attack = true

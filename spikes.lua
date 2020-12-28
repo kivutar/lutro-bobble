@@ -31,7 +31,7 @@ function spikes:draw()
 	if self.direction == "up" then
 		love.graphics.draw(self.img, self.x, self.y-8)
 	elseif self.direction == "left" then
-		love.graphics.draw(self.img, self.x-8, self.y)	
+		love.graphics.draw(self.img, self.x-8, self.y)
 	else
 		love.graphics.draw(self.img, self.x, self.y)
 	end

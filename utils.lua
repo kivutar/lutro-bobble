@@ -1,6 +1,6 @@
 -- Makes a shallow copy of a table. Deep copies of child tables will not be duplicate.
 function table.copy(t)
-	if t == nil then return nil end	
+	if t == nil then return nil end
 	local t2 = {}
 	for k,v in pairs(t) do
 		t2[k] = v

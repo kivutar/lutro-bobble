@@ -205,10 +205,8 @@ end
 function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
 	if CHAR1 and CHAR2 then
-		print(math.floor(CHAR1.x), math.floor(CHAR2.x))
 		return love.data.pack("string", SYNC_DATA_FORMAT_STRING, math.floor(CHAR1.x), math.floor(CHAR2.x))
 	end
-	print(0, 0)
 	return love.data.pack("string", SYNC_DATA_FORMAT_STRING, 0, 0)
 end
 
@@ -372,7 +370,7 @@ function love.update(dt)
 			-- Only do time sync check when the previous confirmed tick from the remote client hasn't been used yet.
 			if Network.confirmedTick > Game.lastConfirmedTick then
 
-				Game.lastConfirmedTick = Network.confirmedTick	
+				Game.lastConfirmedTick = Network.confirmedTick
 
 				-- Prevent updating the game when the tick difference is greater on this end.
 				-- This allows the game deltas to be off by 2 frames. Our timing is only accurate to one frame so any slight increase in network latency

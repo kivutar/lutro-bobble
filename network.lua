@@ -57,7 +57,7 @@ Network = {
 	inputState = nil,				-- Current input state sent over the network
 	inputDelay = NET_INPUT_DELAY,	-- This must be set to a value of 1 more higher.
 
-	inputHistory = {},				-- The input history for the local player. Stored as bit flag encoded input states.	
+	inputHistory = {},				-- The input history for the local player. Stored as bit flag encoded input states.
 	remoteInputHistory = {},		-- The input history for the local player. Stored as bit flag encoded input states.
 
 	inputHistoryIndex = 0,			-- Current index in history buffer.
@@ -82,8 +82,8 @@ Network = {
 	desyncCheckRate = 20,			-- The rate at which we check for state desyncs.
 	localSyncData = nil,			-- Latest local data for state desync checking.
 	remoteSyncData = nil,			-- Latest remote data for state desync checking.
-	localSyncDataTick = -1,		-- Tick for the latest local desync data.
-	remoteSyncDataTick = -1,	-- Tick for the latest remote desync data.	
+	localSyncDataTick = -1,			-- Tick for the latest local desync data.
+	remoteSyncDataTick = -1,		-- Tick for the latest remote desync data.
 
 	isStateDesynced = false,		-- Set to true once a game state desync is detected.
 }
@@ -109,7 +109,7 @@ function Network:StartConnection()
 	NetLog("Starting Client")
 
 	-- the address and port of the server
-	local address, port = SERVER_IP, SERVER_PORT	
+	local address, port = SERVER_IP, SERVER_PORT
 	self.clientIP = address
 	self.clientPort = port
 	self.enabled = true
@@ -263,7 +263,7 @@ end
 
 -- Send a packet immediately
 function Network:SendPacketRaw(packet)
-	self.udp:sendto(packet, self.clientIP, self.clientPort)	
+	self.udp:sendto(packet, self.clientIP, self.clientPort)
 end
 
 -- Handles receiving packets from the other client.
