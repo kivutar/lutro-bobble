@@ -24,7 +24,7 @@ local MsgCode = {
 	Ping = 3,			-- Used to tracking packet round trip time. Expect a "Pong" back.
 	Pong = 4,			-- Sent in reply to a Ping message for testing round trip time.
 	Sync = 5,			-- Used to pass sync data
- }
+}
 
 -- Bit flags used to convert input state to a form suitable for network transmission.
 local InputCode = {

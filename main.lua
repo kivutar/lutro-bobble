@@ -624,6 +624,17 @@ function unserialize()
 		ENTITIES[i]:unserialize(STATE.ENTITIES[i])
 	end
 
+	-- hack to relink eyes to bubbles
+	for i=1, #ENTITIES do
+		if ENTITIES[i].type == "bubble" and ENTITIES[i].haschild then
+			for j=1, #ENTITIES do
+				if ENTITIES[j].type == "eye" and ENTITIES[j].x == ENTITIES[i].x and ENTITIES[j].y == ENTITIES[i].y then
+					ENTITIES[i].child = ENTITIES[j]
+				end
+			end
+		end
+	end
+
 	for i=1, #STATE.EFFECTS do
 		if STATE.EFFECTS[i].type == "notif" then
 			EFFECTS[i] = newNotif({y=0})

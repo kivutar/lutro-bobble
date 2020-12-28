@@ -130,9 +130,10 @@ function eye:on_collide(e1, e2, dx, dy)
 			if self.direction == "right" then self.direction = "left"
 			elseif self.direction == "left" then self.direction = "right" end
 			self.xspeed = -self.xspeed
-		elseif math.abs(e2.xspeed) >= 0.5 and e2.child == nil then
+		elseif math.abs(e2.xspeed) >= 0.5 and not e2.haschild then
 			self.captured = true
 			e2.child = self
+			e2.haschild = true
 		end
 	elseif e2.type == "spikes" then
 		self:die()

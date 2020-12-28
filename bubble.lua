@@ -13,6 +13,7 @@ function newBubble(n)
 		n.xspeed = 2.5
 	end
 	n.child = nil
+	n.haschild = false
 
 	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
 
@@ -33,7 +34,7 @@ function bubble:update(dt)
 	if self.x >= SCREEN_WIDTH then self.x = 0 end
 	if self.x < 0 then self.x = SCREEN_WIDTH end
 
-	if self.child ~= nil then
+	if self.haschild then
 		self.child.x = self.x
 		self.child.y = self.y
 	end
@@ -49,7 +50,7 @@ function bubble:draw()
 end
 
 function bubble:die()
-	if self.child ~= nil then
+	if self.haschild then
 		self.child:die()
 		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
 	else
@@ -82,8 +83,6 @@ function bubble:on_collide(e1, e2, dx, dy)
 end
 
 function bubble:serialize()
-	local child = nil
-	if self.child then child = self.child:serialize() end
 	return {
 		type = self.type,
 		direction = self.direction,
@@ -91,7 +90,7 @@ function bubble:serialize()
 		y = self.y,
 		xspeed = self.xspeed,
 		xaccel = self.xaccel,
-		child = child
+		haschild = self.haschild,
 	}
 end
 
@@ -102,5 +101,5 @@ function bubble:unserialize(n)
 	self.y = n.y
 	self.xspeed = n.xspeed
 	self.xaccel = n.xaccel
-	self.child = nil -- TODO
+	self.haschild = n.haschild
 end
