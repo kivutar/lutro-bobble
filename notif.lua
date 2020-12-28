@@ -10,7 +10,6 @@ function newNotif(n)
 end
 
 function notif:update(dt)
-	print(self.yspeed)
 	self.yspeed = self.yspeed + self.yaccel
 	self.y = self.y + self.yspeed
 
