@@ -531,8 +531,8 @@ function serialize()
 		MAP = table.deep_copy(MAP),
 		PHASE = PHASE,
 		STAGE = STAGE,
-		CHAR1 = table.deep_copy(CHAR1),
-		CHAR2 = table.deep_copy(CHAR2),
+		CHAR1 = nil,
+		CHAR2 = nil,
 		BGM = BGM,
 		BGMplaying = BGM:isPlaying(),
 		BGMsamples = BGM:tell("samples"),
@@ -616,7 +616,13 @@ function unserialize()
 		elseif STATE.ENTITIES[i].type == "bouncer" then
 			ENTITIES[i] = newBouncer({})
 		elseif STATE.ENTITIES[i].type == "character" then
-			ENTITIES[i] = newCharacter({pad = STATE.ENTITIES[i].pad})
+			if STATE.ENTITIES[i].pad == 1 then
+				CHAR1 = newCharacter({pad = 1})
+				ENTITIES[i] = CHAR1
+			elseif STATE.ENTITIES[i].pad == 2 then
+				CHAR2 = newCharacter({pad = 2})
+				ENTITIES[i] = CHAR2
+			end
 		elseif STATE.ENTITIES[i].type == "ghost" then
 			ENTITIES[i] = newGhost({pad = STATE.ENTITIES[i].pad})
 		end
@@ -635,7 +641,4 @@ function unserialize()
 			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		end
 	end
-
-	CHAR1 = STATE.CHAR1
-	CHAR2 = STATE.CHAR2
 end

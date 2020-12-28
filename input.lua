@@ -165,7 +165,6 @@ end
 
 -- Set the internal keyboard state input to true on pressed.
 function love.keypressed(key, scancode, isrepeat)
-
 	if key == 'up'  then
 		Input.keyboardState.up = true
 	elseif key == 'down' then
