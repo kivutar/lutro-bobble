@@ -1,5 +1,3 @@
-require("Constants")
-require("Util")
 local socket = require("socket")
 
 local netlogName = 'netlog-'.. os.time(os.date("!*t")) ..'.txt'
@@ -164,7 +162,6 @@ end
 function Network:GetLocalInputEncoded(tick)
 	return self.inputHistory[1+((NET_INPUT_HISTORY_SIZE + tick) % NET_INPUT_HISTORY_SIZE)] -- First index is 1 not 0.
 end
-
 
 -- Get the sync data which is used to check for game state desync between the clients.
 function Network:GetSyncDataLocal(tick)
@@ -378,7 +375,6 @@ end
 
 -- Generate a packet containing information about player input.
 function Network:MakeInputPacket(tick)
-
 	local historyIndexStart = tick - NET_SEND_HISTORY_SIZE + 1
 	local history = {}
 	for i=0, NET_SEND_HISTORY_SIZE-1 do

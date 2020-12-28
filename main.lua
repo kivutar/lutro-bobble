@@ -1,8 +1,8 @@
-require("input")
-require("RunOverride")		-- Includes an overrided love.run function for handling fixed time step.
-require("Network")			-- Handles networking
-
 require "global"
+require "utils"
+require "input"
+require "run_override"
+require "network"
 require "anim"
 require "collisions"
 require "character"
@@ -525,19 +525,6 @@ function love.draw()
 	end
 
 	love.graphics.setColor(1, 1, 1, 1)
-end
-
-function table.deep_copy(t)
-	if not t then return nil end
-	local t2 = {}
-	for k,v in pairs(t) do
-		if type(v) == "table" then
-			t2[k] = table.deep_copy(v)
-		else
-			t2[k] = v
-		end
-	end
-	return t2
 end
 
 STATE = {}

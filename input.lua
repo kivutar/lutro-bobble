@@ -1,5 +1,3 @@
-require("Util")
-
 -- The input system is an abstraction layer between system input and commands used to control player objects.
 Input = {
 	MAX_INPUT_FRAMES = 60,			-- The maximum number of input commands stored in the player controller ring buff.
@@ -64,7 +62,15 @@ end
 -- Initialize the player input command ring buffer.
 function Input:InitializeBuffer(bufferIndex)
 	for i=1,Input.MAX_INPUT_FRAMES do
-		self.playerCommandBuffer[bufferIndex][i] = { up = false, down = false, left = false, right = false, attack = false, jump = false, start = false}
+		self.playerCommandBuffer[bufferIndex][i] = {
+			up = false,
+			down = false,
+			left = false,
+			right = false,
+			attack = false,
+			jump = false,
+			start = false
+		}
 	end
 end
 
