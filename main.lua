@@ -207,12 +207,15 @@ end
 -- Gets the sync data to confirm the client game states are in sync
 function Game:GetSyncData()
 	-- For now we will just compare the x coordinates of the both players
-	return love.data.pack("string", "nn", 0, 0) --self.players[1].physics.x, self.players[2].physics.x)
+	if CHAR1 and CHAR2 then
+		return love.data.pack("string", "nn", CHAR1.x, CHAR2.x)
+	end
+	return love.data.pack("string", "nn", 0, 0)
 end
 
 -- Checks whether or not a game state desync has occurred between the local and remote clients.
 function Game:SyncCheck()
-	if not NET_DETECT_DESYNCS then 
+	if not NET_DETECT_DESYNCS then
 		return
 	end
 
@@ -254,7 +257,7 @@ function HandleRollbacks()
 
 	-- The number of frames that's elasped since the game has been out of sync.
 	-- Rerun rollbackFrames number of updates. 
-	rollbackFrames = lastGameTick - Network.lastSyncedTick
+	local rollbackFrames = lastGameTick - Network.lastSyncedTick
 
 	-- Update the graph indicating the number of rollback frames
 	rollbackGraphTable[ 1 + (lastGameTick % 60) * 2 + 1  ] = -1 * rollbackFrames * GRAPH_UNIT_SCALE

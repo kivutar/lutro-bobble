@@ -45,7 +45,7 @@ function counter:update(dt)
 		table.insert(ENTITIES, newGameOver({}))
 	end
 
-	if enemies == 0 and not self.cross then
+	if enemies == 0 and not self.cross and self.t == 0 then
 		self.cross = true
 		table.insert(ENTITIES, newCross({x=16*10-8,y=16*5}))
 		love.audio.play(SFX_cross)
