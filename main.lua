@@ -188,7 +188,6 @@ function love.load()
 
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
-	FNT_default = love.graphics.newFont(12)
 
 	BGM = BGM_bgm
 	BGM:setLooping(true)
@@ -516,15 +515,15 @@ function love.draw()
 		end
 	end
 
-	love.graphics.pop()
-
 	-- Shown while the server is running but not connected to a client.
 	if Network.isServer and not Network.connectedToClient then
 		love.graphics.setColor(1, 0, 0, 1)
-		love.graphics.setFont(FNT_default)
-		love.graphics.print("Network: Waiting on client to connect", 10, 40)
+		love.graphics.setFont(FNT_letters)
+		love.graphics.print("WAITING ON CLIENT TO CONNECT", 12, 12)
 	end
 	love.graphics.setColor(1, 1, 1, 1)
+
+	love.graphics.pop()
 end
 
 STATE = {}
