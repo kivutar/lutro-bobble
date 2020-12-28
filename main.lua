@@ -593,7 +593,7 @@ function unserialize()
 	STAGE = STATE.STAGE
 	BGM = STATE.BGM
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
-	BGM:seek(STATE.BGMsamples, "samples")
+	--BGM:seek(STATE.BGMsamples, "samples")
 
 	for i=1, #STATE.SHADOWS do
 		if STATE.SHADOWS[i].type == "shadow" then
@@ -640,7 +640,7 @@ function unserialize()
 
 	for i=1, #STATE.EFFECTS do
 		if STATE.EFFECTS[i].type == "notif" then
-			EFFECTS[i] = newNotif({})
+			EFFECTS[i] = newNotif({y=0})
 		elseif STATE.EFFECTS[i].type == "bubbleexp" then
 			EFFECTS[i] = newBubbleexp({})
 		elseif STATE.EFFECTS[i].type == "counter" then
