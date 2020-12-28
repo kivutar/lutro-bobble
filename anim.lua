@@ -33,7 +33,7 @@ function animation:draw(x, y)
 
 	local q = love.graphics.newQuad(
 		((id-1)%(sw/tw))*tw,
-		math.floor((id-1)/(sw/tw))*tw,
+		0,
 		tw, th,
 		sw, sh)
 
