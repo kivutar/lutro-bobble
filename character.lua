@@ -91,17 +91,17 @@ function character:update(dt)
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
-	local JOY_LEFT  = love.keyboard.isDown("left")
-	local JOY_RIGHT = love.keyboard.isDown("right")
-	local JOY_DOWN = love.keyboard.isDown("down")
-	local JOY_B = love.keyboard.isDown("z")
-	local JOY_A = love.keyboard.isDown("x")
+	-- local JOY_LEFT  = love.keyboard.isDown("left")
+	-- local JOY_RIGHT = love.keyboard.isDown("right")
+	-- local JOY_DOWN = love.keyboard.isDown("down")
+	-- local JOY_B = love.keyboard.isDown("z")
+	-- local JOY_A = love.keyboard.isDown("x")
 
-	-- local JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
-	-- local JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-	-- local JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
-	-- local JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
-	-- local JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
+	local JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
+	local JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
+	local JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
+	local JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
+	local JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel

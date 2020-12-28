@@ -77,16 +77,16 @@ function love.update(dt)
 
 	detect_collisions()
 
-	JOY_L = love.keyboard.isDown("q")
-	--JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+	-- JOY_L = love.keyboard.isDown("q")
+	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
 	if JOY_L then L = L + 1 else L = 0 end
 	if L == 1 then
 		print('saving')
 		serialize()
 	end
 
-	JOY_R = love.keyboard.isDown("w")
-	--JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
+	-- JOY_R = love.keyboard.isDown("w")
+	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
 	if JOY_R then R = R + 1 else R = 0 end
 	if R == 1 then
 		print('loading')
@@ -145,7 +145,7 @@ function serialize()
 		CHAR2 = table.deep_copy(CHAR2),
 		BGM = BGM,
 		BGMplaying = BGM:isPlaying(),
-		BGMpos = BGM:getPosition(),
+		BGMsamples = BGM:tell("samples"),
 	}
 
 	STATE.SHADOWS = {}
@@ -188,7 +188,7 @@ function unserialize()
 	STAGE = STATE.STAGE
 	BGM = STATE.BGM
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
-	BGM:setPosition(STATE.BGMpos)
+	BGM:seek(STATE.BGMsamples, "samples")
 
 	for i=1, #STATE.SHADOWS do
 		if STATE.SHADOWS[i].type == "shadow" then
