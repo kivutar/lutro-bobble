@@ -615,7 +615,9 @@ function serialize()
 end
 
 function unserialize()
-	if PHASE ~= STATE.PHASE then
+	local redomap = STAGE ~= STATE.STAGE
+
+	if redomap then
 		SHADOWS = {}
 		SOLIDS = {}
 	end
@@ -627,9 +629,9 @@ function unserialize()
 	STAGE = STATE.STAGE
 	BGM = STATE.BGM
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
-	--BGM:seek(STATE.BGMsamples, "samples")
+	-- BGM:seek(STATE.BGMsamples, "samples")
 
-	if PHASE ~= STATE.PHASE then
+	if redomap then
 		for i=1, #STATE.SHADOWS do
 			if STATE.SHADOWS[i].type == ENT_SHADOW then
 				SHADOWS[i] = newShadow({})
