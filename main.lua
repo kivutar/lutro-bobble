@@ -661,10 +661,10 @@ function unserialize()
 			ENTITIES[i] = newBouncer({})
 		elseif STATE.ENTITIES[i].type == ENT_CHARACTER then
 			if STATE.ENTITIES[i].pad == 1 then
-				CHAR1 = newCharacter({pad = 1})
+				CHAR1 = newCharacter({pad = 1, direction = STATE.ENTITIES[i].direction})
 				ENTITIES[i] = CHAR1
 			elseif STATE.ENTITIES[i].pad == 2 then
-				CHAR2 = newCharacter({pad = 2})
+				CHAR2 = newCharacter({pad = 2, direction = STATE.ENTITIES[i].direction})
 				ENTITIES[i] = CHAR2
 			end
 		elseif STATE.ENTITIES[i].type == ENT_GHOST then
