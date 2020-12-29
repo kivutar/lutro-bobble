@@ -5,7 +5,7 @@ function newBubble(n)
 	n.type = ENT_BUBBLE
 	n.width = 16
 	n.height = 16
-	if n.direction == "left" then
+	if n.direction == DIR_LEFT then
 		n.xspeed = -2.5
 		n.xaccel = 0.05
 	else
@@ -23,10 +23,10 @@ end
 function bubble:update(dt)
 	self.xspeed = self.xspeed + self.xaccel
 
-	if self.direction == "left" and self.xspeed > 0 then
+	if self.direction == DIR_LEFT and self.xspeed > 0 then
 		self.xspeed = 0
 	end
-	if self.direction == "right" and self.xspeed < 0 then
+	if self.direction == DIR_RIGHT and self.xspeed < 0 then
 		self.xspeed = 0
 	end
 	self.x = self.x + self.xspeed

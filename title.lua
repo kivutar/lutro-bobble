@@ -26,8 +26,8 @@ function title:update(dt)
 
 			load_map(STAGES[STAGE])
 
-			CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction="right"})
-			CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction="left"})
+			CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
+			CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 			table.insert(ENTITIES, CHAR1)
 			table.insert(ENTITIES, CHAR2)
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))

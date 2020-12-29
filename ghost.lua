@@ -9,7 +9,7 @@ function newGhost(n)
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
-	if n.direction == nil then n.direction = "right" end
+	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "ghost"
 	n.speedlimit = 1.2
 	n.t = 0
@@ -21,22 +21,22 @@ function newGhost(n)
 	if n.skin == "frog" then
 		n.animations = {
 			ghost = {
-				left  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
-				right = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
 			},
 		}
 	elseif n.skin == "fox" then
 		n.animations = {
 			ghost = {
-				left  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
-				right = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
 			},
 		}
 	elseif n.skin == "bird" then
 		n.animations = {
 			ghost = {
-				left  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
-				right = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
 			},
 		}
 	end
@@ -62,7 +62,7 @@ function ghost:update(dt)
 		if self.xspeed < -self.speedlimit then
 			self.xspeed = -self.speedlimit
 		end
-		self.direction = "left"
+		self.direction = DIR_LEFT
 	end
 
 	if JOY_RIGHT then
@@ -70,7 +70,7 @@ function ghost:update(dt)
 		if self.xspeed > self.speedlimit then
 			self.xspeed = self.speedlimit
 		end
-		self.direction = "right"
+		self.direction = DIR_RIGHT
 	end
 
 	if JOY_UP then

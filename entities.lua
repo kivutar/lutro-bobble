@@ -17,6 +17,11 @@ ENT_GAMEOVER = 15
 ENT_CROSS = 16
 ENT_GHOST = 17
 
+DIR_UP    = 1
+DIR_DOWN  = 2
+DIR_LEFT  = 3
+DIR_RIGHT = 4
+
 function effect_remove(e)
 	for i=1, #EFFECTS do
 		if EFFECTS[i] == e then
