@@ -12,7 +12,7 @@ Input = {
 }
 
 function Input:index(offset)
-	local tick = self.game.tick
+	local tick = Game.tick
 	if offset then
 		tick = tick + offset
 	end
@@ -50,7 +50,7 @@ end
 
 -- Get the current input state for a player
 function Input:currentState(bufferIndex)
-	return self:state(bufferIndex, self.game.tick)
+	return self:state(bufferIndex, Game.tick)
 end
 
 -- Directly set the input state or the player. This is used for a online match.
@@ -103,7 +103,7 @@ function Input:poll(updateBuffers)
 
 	-- Get buttons from first joysticks
 	for index, joystick in pairs(self.joysticks) do
-		if self.joysticks[1] and (not self.game.network.enabled or (self.localPlayerIndex == index) ) then
+		if self.joysticks[1] and (not Network.enabled or (self.localPlayerIndex == index) ) then
 
 			local commandBuffer = self.polledInput[index]
 			local axisX = joystick:getAxis(1)
@@ -181,27 +181,25 @@ function love.keypressed(key, scancode, isrepeat)
 		Input.keyboardState.start = true
 	end
 
-	if key == 'f5' then
-		Input.game:reset()
-	elseif key == 'f3' then
-		Input.game.paused = not Input.game.paused
+	if key == 'f3' then
+		Game.paused = not Game.paused
 	elseif key == 'f2' then
-		Input.game.frameStep = true
+		Game.frameStep = true
 	elseif key == 'f1' then
 		SHOW_DEBUG_INFO = not SHOW_DEBUG_INFO
 	elseif key == "space" then
-		Input.game.forcePause = true;
+		Game.forcePause = true;
 	-- Test controls for storing/restoring state.
 	elseif key == 'f7' then
-		Input.game:serialize()
+		Game:serialize()
 	elseif key == 'f8' then
-		Input.game:unserialize()
+		Game:unserialize()
 	elseif key == 'f9' then
-		Input.game.network:StartConnection()
+		Network:StartConnection()
 		Input.localPlayerIndex = 2	-- Right now the client is always player 2.
 		Input.remotePlayerIndex = 1 	-- Right now the server is always players 1.
 	elseif key == 'f10' then
-		Input.game.network:StartServer()
+		Network:StartServer()
 		Input.localPlayerIndex = 1 	-- Right now the server is always players 1.
 		Input.remotePlayerIndex = 2	-- Right now the client is always player 2.
 	end
@@ -224,6 +222,6 @@ function love.keyreleased(key, scancode, isrepeat)
 	elseif key == "return" then
 		Input.keyboardState.start = false;
 	elseif key == "space" then
-		Input.game.forcePause = false;
+		Game.forcePause = false;
 	end
 end

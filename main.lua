@@ -42,7 +42,7 @@ for i=0,60-1 do
 end
 
 -- Manages the game state
-local Game = {
+Game = {
 	-- Enabled when the game is paused
 	paused = false,
 
@@ -61,11 +61,6 @@ local Game = {
 	-- Used to force dropped frames to test network syncing code
 	forcePause = false
 }
-
--- Resets the game.
-function Game:reset()
-	Game.tick = 0
-end
 
 -- Stores the state of all rollbackable objects and systems in the game.
 function Game:serialize()
@@ -150,8 +145,6 @@ function love.load()
 	end
 
 	love.keyboard.setKeyRepeat(false)
-
-	Input.game = Game
 
 	-- Initialize player input command buffers
 	Input:initializeBuffer(1)
@@ -244,9 +237,7 @@ function love.load()
 
 	table.insert(ENTITIES, newTitle({}))
 
-	Game.network = Network
-
-	Game:reset()
+	Game.tick = 0
 
 	-- Store game state before the first update
 	Game:serialize()
