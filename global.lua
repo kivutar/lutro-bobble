@@ -16,7 +16,7 @@ SHOW_DEBUG_INFO = false				-- Prints debug information on screen when enabled.
 GRAPH_UNIT_SCALE = 5                -- The height scaled use for drawing stat graphs
 
 -- Network Settings
-SERVER_IP = "127.0.0.1"	            -- The network address of the other player to connect to.
+SERVER_IP = "192.168.1.3"	            -- The network address of the other player to connect to.
 
 SERVER_PORT = 5552					-- The network port the server is running on.
 NET_INPUT_DELAY	= 3					-- Amount of input delay to use by default during online matches. Should always be > 0

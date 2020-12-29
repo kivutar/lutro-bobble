@@ -652,7 +652,7 @@ function unserialize()
 		elseif STATE.ENTITIES[i].type == ENT_EYE then
 			ENTITIES[i] = newEye({})
 		elseif STATE.ENTITIES[i].type == ENT_SPIKES then
-			ENTITIES[i] = newSpikes({})
+			ENTITIES[i] = newSpikes({y = STATE.ENTITIES[i].y, direction = STATE.ENTITIES[i].direction})
 		elseif STATE.ENTITIES[i].type == ENT_BUBBLE then
 			ENTITIES[i] = newBubble({})
 		elseif STATE.ENTITIES[i].type == ENT_CROSS then
