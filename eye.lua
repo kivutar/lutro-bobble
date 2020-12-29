@@ -2,7 +2,7 @@ local eye = {}
 eye.__index = eye
 
 function newEye(n)
-	n.type = "eye"
+	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
 	n.direction = "right"
@@ -100,7 +100,7 @@ function eye:on_collide(e1, e2, dx, dy)
 
 	if self.captured or self.dead then return end
 
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -112,7 +112,7 @@ function eye:on_collide(e1, e2, dx, dy)
 			elseif self.direction == "left" then self.direction = "right" end
 			self.xspeed = -self.xspeed
 		end
-	elseif e2.type == "bridge" then
+	elseif e2.type == ENT_BRIDGE then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -124,7 +124,7 @@ function eye:on_collide(e1, e2, dx, dy)
 			elseif self.direction == "left" then self.direction = "right" end
 			self.xspeed = -self.xspeed
 		end
-	elseif e2.type == "bubble" then
+	elseif e2.type == ENT_BUBBLE then
 		if math.abs(e2.xspeed) < 0.5 then
 			self.x = self.x + dx
 			if self.direction == "right" then self.direction = "left"
@@ -135,9 +135,9 @@ function eye:on_collide(e1, e2, dx, dy)
 			e2.child = self
 			e2.haschild = true
 		end
-	elseif e2.type == "spikes" then
+	elseif e2.type == ENT_SPIKES then
 		self:die()
-	elseif e2.type == "eye" then
+	elseif e2.type == ENT_EYE then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy

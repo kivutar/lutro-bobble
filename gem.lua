@@ -2,7 +2,7 @@ local gem = {}
 gem.__index = gem
 
 function newGem(n)
-	n.type = "gem"
+	n.type = ENT_GEM
 	n.width = 16
 	n.height = 16
 	n.anim = newAnimation(IMG_gem,  16, 16, 1, 10)

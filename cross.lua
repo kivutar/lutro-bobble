@@ -2,7 +2,7 @@ local cross = {}
 cross.__index = cross
 
 function newCross(n)
-	n.type = "cross"
+	n.type = ENT_CROSS
 	n.width = 16
 	n.height = 16
 	n.anim = newAnimation(IMG_cross,  16, 16, 1, 10)

@@ -2,7 +2,7 @@ local inter = {}
 inter.__index = inter
 
 function newInter(n)
-	n.type = "inter"
+	n.type = ENT_INTER
 	n.t = 100
 	return setmetatable(n, inter)
 end

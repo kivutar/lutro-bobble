@@ -4,7 +4,7 @@ ghost.__index = ghost
 JUMP_FORGIVENESS = 8
 
 function newGhost(n)
-	n.type = "ghost"
+	n.type = ENT_GHOST
 	n.width = 16
 	n.height = 16
 	n.xspeed = 0
@@ -145,8 +145,7 @@ function ghost:draw()
 end
 
 function ghost:on_collide(e1, e2, dx, dy)
-
-	if e2.type == "cross" then
+	if e2.type == ENT_CROSS then
 		love.audio.play(SFX_revive)
 		entity_remove(e2)
 		if self.pad == 1 then
@@ -160,7 +159,6 @@ function ghost:on_collide(e1, e2, dx, dy)
 			table.insert(ENTITIES, CHAR3)
 		end
 		entity_remove(self)
-
 	end
 end
 

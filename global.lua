@@ -1,11 +1,22 @@
 SCREEN_WIDTH = 320
 SCREEN_HEIGHT = 240
 
+ENTITIES = {}
+SOLIDS = {}
+EFFECTS = {}
+SHADOWS = {}
+MAP = {}
+PHASE = nil
+STAGE = 1
+CHAR1 = nil
+CHAR2 = nil
+BGM = nil
+
 SHOW_DEBUG_INFO = false				-- Prints debug information on screen when enabled.
 GRAPH_UNIT_SCALE = 5                -- The height scaled use for drawing stat graphs
 
 -- Network Settings
-SERVER_IP = "192.168.1.3"	        -- The network address of the other player to connect to.
+SERVER_IP = "127.0.0.1"	            -- The network address of the other player to connect to.
 
 SERVER_PORT = 5552					-- The network port the server is running on.
 NET_INPUT_DELAY	= 3					-- Amount of input delay to use by default during online matches. Should always be > 0
@@ -19,17 +30,6 @@ NET_SEND_DELAY_FRAMES = 0			-- Delay sending packets when this value is great th
 -- Rollback test settings
 ROLLBACK_TEST_ENABLED   = false
 ROLLBACK_TEST_FRAMES    = 10		-- Number of frames to rollback for tests.
-
-ENTITIES = {}
-SOLIDS = {}
-EFFECTS = {}
-SHADOWS = {}
-MAP = {}
-PHASE = nil
-STAGE = 1
-CHAR1 = nil
-CHAR2 = nil
-BGM = nil
 
 RETRO_DEVICE_ID_JOYPAD_B        = 1
 RETRO_DEVICE_ID_JOYPAD_Y        = 2
@@ -47,19 +47,3 @@ RETRO_DEVICE_ID_JOYPAD_L2       = 13
 RETRO_DEVICE_ID_JOYPAD_R2       = 14
 RETRO_DEVICE_ID_JOYPAD_L3       = 15
 RETRO_DEVICE_ID_JOYPAD_R3       = 16
-
-function effect_remove(e)
-	for i=1, #EFFECTS do
-		if EFFECTS[i] == e then
-			table.remove(EFFECTS, i)
-		end
-	end
-end
-
-function entity_remove(e)
-	for i=1, #ENTITIES do
-		if ENTITIES[i] == e then
-			table.remove(ENTITIES, i)
-		end
-	end
-end

@@ -2,7 +2,7 @@ local bubble = {}
 bubble.__index = bubble
 
 function newBubble(n)
-	n.type = "bubble"
+	n.type = ENT_BUBBLE
 	n.width = 16
 	n.height = 16
 	if n.direction == "left" then
@@ -62,22 +62,22 @@ function bubble:die()
 end
 
 function bubble:on_collide(e1, e2, dx, dy)
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		self.xaccel = 0
 		self.xspeed = 0
 		self.x = self.x + dx
 		if math.abs(dx) > 8 then self:die() end
-	elseif e2.type == "bubble" then
+	elseif e2.type == ENT_BUBBLE then
 		self.xaccel = 0
 		self.xspeed = self.xspeed/2
 		self.x = self.x + dx/2
-	elseif e2.type == "character" then
+	elseif e2.type == ENT_CHARACTER then
 		self.xaccel = 0
 		self.xspeed = self.xspeed/2
 		if dx ~= 0 then
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "spikes" then
+	elseif e2.type == ENT_SPIKES then
 		self:die()
 	end
 end

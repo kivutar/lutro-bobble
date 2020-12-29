@@ -2,7 +2,7 @@ local title = {}
 title.__index = title
 
 function newTitle(n)
-	n.type = "title"
+	n.type = ENT_TITLE
 	n.t = 0
 	n.PRESSED = 0
 	return setmetatable(n, title)

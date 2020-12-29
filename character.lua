@@ -4,7 +4,7 @@ character.__index = character
 JUMP_FORGIVENESS = 8
 
 function newCharacter(n)
-	n.type = "character"
+	n.type = ENT_CHARACTER
 	n.width = 16
 	n.height = 16
 	n.xspeed = 0
@@ -278,7 +278,7 @@ function character:on_collide(e1, e2, dx, dy)
 
 	if self.dead then return end
 
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -287,15 +287,15 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx
 		end
-	elseif e2.type == "bridge" then
+	elseif e2.type == ENT_BRIDGE then
 		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 then
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
-	elseif e2.type == "bubble" and self.yspeed > 0 and self.y < e2.y then
+	elseif e2.type == ENT_BUBBLE and self.yspeed > 0 and self.y < e2.y then
 		self.yspeed = -4
 		e2:die()
-	elseif e2.type == "character" then
+	elseif e2.type == ENT_CHARACTER then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -1
 			self.y = self.y + dy
@@ -307,7 +307,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "bouncer" then
+	elseif e2.type == ENT_BOUNCER then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -6
 			self.y = self.y + dy
@@ -318,20 +318,20 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "eye" and not e2.captured then
+	elseif e2.type == ENT_EYE and not e2.captured then
 		self:die()
-	elseif e2.type == "spikes" then
+	elseif e2.type == ENT_SPIKES then
 		if (e2.direction == "down" and self.yspeed < 0)
 		or (e2.direction == "up" and self.yspeed > 0)
 		or (e2.direction == "right" and self.xspeed < 0)
 		or (e2.direction == "left" and self.xspeed > 0) then
 			self:die()
 		end
-	elseif e2.type == "gem" then
+	elseif e2.type == ENT_GEM then
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
-	elseif e2.type == "cross" then
+	elseif e2.type == ENT_CROSS then
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="1000"}))
 		entity_remove(e2)

@@ -2,7 +2,7 @@ local shadow = {}
 shadow.__index = shadow
 
 function newShadow(n)
-	n.type = "shadow"
+	n.type = ENT_SHADOW
 	n.width = 16
 	n.height = 16
 	n.img = IMG_shadow

@@ -5,6 +5,7 @@ require "run_override"
 require "network"
 require "anim"
 require "collisions"
+require "entities"
 require "character"
 require "ground"
 require "bubble"
@@ -627,41 +628,41 @@ function unserialize()
 	--BGM:seek(STATE.BGMsamples, "samples")
 
 	for i=1, #STATE.SHADOWS do
-		if STATE.SHADOWS[i].type == "shadow" then
+		if STATE.SHADOWS[i].type == ENT_SHADOW then
 			SHADOWS[i] = newShadow({})
 		end
 		SHADOWS[i]:unserialize(STATE.SHADOWS[i])
 	end
 
 	for i=1, #STATE.SOLIDS do
-		if STATE.SOLIDS[i].type == "ground" then
+		if STATE.SOLIDS[i].type == ENT_GROUND then
 			SOLIDS[i] = newGround(STATE.SOLIDS[i])
-		elseif STATE.SOLIDS[i].type == "bridge" then
+		elseif STATE.SOLIDS[i].type == ENT_BRIDGE then
 			SOLIDS[i] = newBridge({})
 		end
 		SOLIDS[i]:unserialize(STATE.SOLIDS[i])
 	end
 
 	for i=1, #STATE.ENTITIES do
-		if STATE.ENTITIES[i].type == "title" then
+		if STATE.ENTITIES[i].type == ENT_TITLE then
 			ENTITIES[i] = newTitle({})
-		elseif STATE.ENTITIES[i].type == "inter" then
+		elseif STATE.ENTITIES[i].type == ENT_INTER then
 			ENTITIES[i] = newInter({})
-		elseif STATE.ENTITIES[i].type == "gameover" then
+		elseif STATE.ENTITIES[i].type == ENT_GAMEOVER then
 			ENTITIES[i] = newGameOver({})
-		elseif STATE.ENTITIES[i].type == "gem" then
+		elseif STATE.ENTITIES[i].type == ENT_GEM then
 			ENTITIES[i] = newGem({})
-		elseif STATE.ENTITIES[i].type == "eye" then
+		elseif STATE.ENTITIES[i].type == ENT_EYE then
 			ENTITIES[i] = newEye({})
-		elseif STATE.ENTITIES[i].type == "spikes" then
+		elseif STATE.ENTITIES[i].type == ENT_SPIKES then
 			ENTITIES[i] = newSpikes({})
-		elseif STATE.ENTITIES[i].type == "bubble" then
+		elseif STATE.ENTITIES[i].type == ENT_BUBBLE then
 			ENTITIES[i] = newBubble({})
-		elseif STATE.ENTITIES[i].type == "cross" then
+		elseif STATE.ENTITIES[i].type == ENT_CROSS then
 			ENTITIES[i] = newCross({})
-		elseif STATE.ENTITIES[i].type == "bouncer" then
+		elseif STATE.ENTITIES[i].type == ENT_BOUNCER then
 			ENTITIES[i] = newBouncer({})
-		elseif STATE.ENTITIES[i].type == "character" then
+		elseif STATE.ENTITIES[i].type == ENT_CHARACTER then
 			if STATE.ENTITIES[i].pad == 1 then
 				CHAR1 = newCharacter({pad = 1})
 				ENTITIES[i] = CHAR1
@@ -669,7 +670,7 @@ function unserialize()
 				CHAR2 = newCharacter({pad = 2})
 				ENTITIES[i] = CHAR2
 			end
-		elseif STATE.ENTITIES[i].type == "ghost" then
+		elseif STATE.ENTITIES[i].type == ENT_GHOST then
 			ENTITIES[i] = newGhost({pad = STATE.ENTITIES[i].pad})
 		end
 		ENTITIES[i]:unserialize(STATE.ENTITIES[i])
@@ -677,9 +678,9 @@ function unserialize()
 
 	-- hack to relink eyes to bubbles
 	for i=1, #ENTITIES do
-		if ENTITIES[i].type == "bubble" and ENTITIES[i].haschild then
+		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].haschild then
 			for j=1, #ENTITIES do
-				if ENTITIES[j].type == "eye" and ENTITIES[j].x == ENTITIES[i].x and ENTITIES[j].y == ENTITIES[i].y then
+				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].x == ENTITIES[i].x and ENTITIES[j].y == ENTITIES[i].y then
 					ENTITIES[i].child = ENTITIES[j]
 				end
 			end
@@ -687,13 +688,13 @@ function unserialize()
 	end
 
 	for i=1, #STATE.EFFECTS do
-		if STATE.EFFECTS[i].type == "notif" then
+		if STATE.EFFECTS[i].type == ENT_NOTIF then
 			EFFECTS[i] = newNotif({y=0})
 			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
-		elseif STATE.EFFECTS[i].type == "bubbleexp" then
+		elseif STATE.EFFECTS[i].type == ENT_BUBBLEEXP then
 			EFFECTS[i] = newBubbleexp({})
 			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
-		elseif STATE.EFFECTS[i].type == "counter" then
+		elseif STATE.EFFECTS[i].type == ENT_COUNTER then
 			EFFECTS[i] = newCounter({})
 			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		end

@@ -2,7 +2,7 @@ local spikes = {}
 spikes.__index = spikes
 
 function newSpikes(n)
-	n.type = "spikes"
+	n.type = ENT_SPIKES
 	if n.direction == nil then n.direction = "up" end
 	if n.direction == "down" then
 		n.width = 16
