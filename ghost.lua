@@ -51,16 +51,10 @@ function ghost:update(dt)
 
 	self.t = self.t + 1
 
-	local JOY_LEFT  = love.keyboard.isDown("left")
-	local JOY_RIGHT = love.keyboard.isDown("right")
-	local JOY_DOWN = love.keyboard.isDown("down")
-	local JOY_UP = love.keyboard.isDown("up")
-	if lutro ~= nil then
-		JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
-		JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-		JOY_DOWN  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
-		JOY_UP    = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_UP)
-	end
+	local JOY_LEFT  = Input:currentState(self.pad).left
+	local JOY_RIGHT = Input:currentState(self.pad).right
+	local JOY_DOWN  = Input:currentState(self.pad).down
+	local JOY_UP    = Input:currentState(self.pad).up
 
 	-- moving
 	if JOY_LEFT then
