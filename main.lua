@@ -690,13 +690,11 @@ function unserialize()
 	for i=1, #STATE.EFFECTS do
 		if STATE.EFFECTS[i].type == ENT_NOTIF then
 			EFFECTS[i] = newNotif({y=0})
-			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		elseif STATE.EFFECTS[i].type == ENT_BUBBLEEXP then
 			EFFECTS[i] = newBubbleexp({})
-			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		elseif STATE.EFFECTS[i].type == ENT_COUNTER then
 			EFFECTS[i] = newCounter({})
-			EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 		end
+		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 	end
 end
