@@ -2,7 +2,7 @@ local gameover = {}
 gameover.__index = gameover
 
 function newGameOver(n)
-	n.type = "gameover"
+	n.type = ENT_GAMEOVER
 	n.t = 0
 	n.PRESSED = 0
 	return setmetatable(n, gameover)

@@ -4,12 +4,12 @@ ghost.__index = ghost
 JUMP_FORGIVENESS = 8
 
 function newGhost(n)
-	n.type = "ghost"
+	n.type = ENT_GHOST
 	n.width = 16
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
-	if n.direction == nil then n.direction = "right" end
+	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "ghost"
 	n.speedlimit = 1.2
 	n.t = 0
@@ -18,12 +18,28 @@ function newGhost(n)
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "bird" end
 
-	n.animations = {
-		ghost = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ghost_left.png"),  16, 16, 2, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ghost_right.png"), 16, 16, 2, 10)
-		},
-	}
+	if n.skin == "frog" then
+		n.animations = {
+			ghost = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	elseif n.skin == "fox" then
+		n.animations = {
+			ghost = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	elseif n.skin == "bird" then
+		n.animations = {
+			ghost = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
+			},
+		}
+	end
 
 	n.anim = n.animations[n.stance][n.direction]
 
@@ -52,7 +68,7 @@ function ghost:update(dt)
 		if self.xspeed < -self.speedlimit then
 			self.xspeed = -self.speedlimit
 		end
-		self.direction = "left"
+		self.direction = DIR_LEFT
 	end
 
 	if JOY_RIGHT then
@@ -60,7 +76,7 @@ function ghost:update(dt)
 		if self.xspeed > self.speedlimit then
 			self.xspeed = self.speedlimit
 		end
-		self.direction = "right"
+		self.direction = DIR_RIGHT
 	end
 
 	if JOY_UP then
@@ -82,10 +98,8 @@ function ghost:update(dt)
 	self.y = self.y + self.yspeed
 
 	-- screen wrapping
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	-- decelerating
 	if  ((not JOY_RIGHT and self.xspeed > 0)
@@ -137,8 +151,7 @@ function ghost:draw()
 end
 
 function ghost:on_collide(e1, e2, dx, dy)
-
-	if e2.type == "cross" then
+	if e2.type == ENT_CROSS then
 		love.audio.play(SFX_revive)
 		entity_remove(e2)
 		if self.pad == 1 then
@@ -152,7 +165,6 @@ function ghost:on_collide(e1, e2, dx, dy)
 			table.insert(ENTITIES, CHAR3)
 		end
 		entity_remove(self)
-
 	end
 end
 

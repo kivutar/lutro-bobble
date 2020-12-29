@@ -2,7 +2,7 @@ local counter = {}
 counter.__index = counter
 
 function newCounter(n)
-	n.type = "counter"
+	n.type = ENT_COUNTER
 	n.t = 0
 	n.cross = false
 	return setmetatable(n, counter)
@@ -14,13 +14,13 @@ function counter:update(dt)
 	local enemies = 0
 
 	for i=1, #ENTITIES do
-		if ENTITIES[i].type == "gem" then
+		if ENTITIES[i].type == ENT_GEM then
 			gems = gems + 1
 		end
-		if ENTITIES[i].type == "character" then
+		if ENTITIES[i].type == ENT_CHARACTER then
 			chars = chars + 1
 		end
-		if ENTITIES[i].type == "eye" then
+		if ENTITIES[i].type == ENT_EYE then
 			enemies = enemies + 1
 		end
 	end
@@ -45,7 +45,7 @@ function counter:update(dt)
 		table.insert(ENTITIES, newGameOver({}))
 	end
 
-	if enemies == 0 and not self.cross then
+	if enemies == 0 and not self.cross and self.t == 0 then
 		self.cross = true
 		table.insert(ENTITIES, newCross({x=16*10-8,y=16*5}))
 		love.audio.play(SFX_cross)

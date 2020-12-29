@@ -91,7 +91,7 @@ function ground_at(x, y)
 	for i = 1, #SOLIDS do
 		local e = SOLIDS[i];
 
-		if (e.type == "ground")
+		if (e.type == ENT_GROUND)
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then
@@ -105,7 +105,7 @@ function bridge_at(x, y)
 	for i = 1, #SOLIDS do
 		local e = SOLIDS[i];
 
-		if (e.type == "bridge")
+		if (e.type == ENT_BRIDGE)
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then

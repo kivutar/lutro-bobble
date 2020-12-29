@@ -4,14 +4,14 @@ character.__index = character
 JUMP_FORGIVENESS = 8
 
 function newCharacter(n)
-	n.type = "character"
+	n.type = ENT_CHARACTER
 	n.width = 16
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
 	n.xaccel = 0.5
 	n.yaccel = 0.17
-	if n.direction == nil then n.direction = "right" end
+	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "jump"
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
@@ -25,28 +25,76 @@ function newCharacter(n)
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "bird" end
 
-	n.animations = {
-		stand = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_left.png"),  16, 16, 2, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_stand_right.png"), 16, 16, 2, 10)
-		},
-		run = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_run_right.png"), 16, 16, 1, 10)
-		},
-		jump = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_jump_right.png"), 16, 16, 1, 10)
-		},
-		ko = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_ko_right.png"), 16, 16, 1, 10)
-		},
-		die = {
-			left  = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/"..n.skin.."_die_right.png"), 16, 16, 1, 10)
-		},
-	}
+	if n.skin == "frog" then
+		n.animations = {
+			stand = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_stand_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_run_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_jump_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				[DIR_LEFT]  = newAnimation(IMG_frog_die_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_frog_die_right, 16, 16, 1, 10)
+			},
+		}
+	elseif n.skin == "fox" then
+		n.animations = {
+			stand = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_stand_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_run_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_jump_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				[DIR_LEFT]  = newAnimation(IMG_fox_die_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_fox_die_right, 16, 16, 1, 10)
+			},
+		}
+	elseif n.skin == "bird" then
+		n.animations = {
+			stand = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_stand_left,  16, 16, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_stand_right, 16, 16, 2, 10)
+			},
+			run = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_run_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_run_right, 16, 16, 1, 10)
+			},
+			jump = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_jump_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_jump_right, 16, 16, 1, 10)
+			},
+			ko = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				[DIR_LEFT]  = newAnimation(IMG_bird_die_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_bird_die_right, 16, 16, 1, 10)
+			},
+		}
+	end
 
 	n.anim = n.animations[n.stance][n.direction]
 
@@ -146,7 +194,7 @@ function character:update(dt)
 
 	if self.DO_ATTACK == 1 then
 		love.audio.play(SFX_bubble)
-		if self.direction == "left" then
+		if self.direction == DIR_LEFT then
 			table.insert(ENTITIES, newBubble({x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
 			table.insert(ENTITIES, newBubble({x=self.x+16+4,y=self.y,direction=self.direction}))
@@ -159,7 +207,7 @@ function character:update(dt)
 		if self.xspeed < -self.speedlimit then
 			self.xspeed = -self.speedlimit
 		end
-		self.direction = "left"
+		self.direction = DIR_LEFT
 	end
 
 	if JOY_RIGHT then
@@ -167,7 +215,7 @@ function character:update(dt)
 		if self.xspeed > self.speedlimit then
 			self.xspeed = self.speedlimit
 		end
-		self.direction = "right"
+		self.direction = DIR_RIGHT
 	end
 
 	-- apply speed
@@ -175,10 +223,8 @@ function character:update(dt)
 	self.y = self.y + self.yspeed
 
 	-- screen wrapping
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	-- decelerating
 	if  ((not JOY_RIGHT and self.xspeed > 0)
@@ -239,7 +285,7 @@ function character:on_collide(e1, e2, dx, dy)
 
 	if self.dead then return end
 
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -248,15 +294,15 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx
 		end
-	elseif e2.type == "bridge" then
+	elseif e2.type == ENT_BRIDGE then
 		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 then
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
-	elseif e2.type == "bubble" and self.yspeed > 0 and self.y < e2.y then
+	elseif e2.type == ENT_BUBBLE and self.yspeed > 0 and self.y < e2.y then
 		self.yspeed = -4
 		e2:die()
-	elseif e2.type == "character" then
+	elseif e2.type == ENT_CHARACTER then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -1
 			self.y = self.y + dy
@@ -268,7 +314,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "bouncer" then
+	elseif e2.type == ENT_BOUNCER then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -6
 			self.y = self.y + dy
@@ -279,20 +325,20 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "eye" and not e2.captured then
+	elseif e2.type == ENT_EYE and not e2.captured then
 		self:die()
-	elseif e2.type == "spikes" then
-		if (e2.direction == "down" and self.yspeed < 0)
-		or (e2.direction == "up" and self.yspeed > 0)
-		or (e2.direction == "right" and self.xspeed < 0)
-		or (e2.direction == "left" and self.xspeed > 0) then
+	elseif e2.type == ENT_SPIKES then
+		if (e2.direction == DIR_DOWN and self.yspeed < 0)
+		or (e2.direction == DIR_UP and self.yspeed > 0)
+		or (e2.direction == DIR_RIGHT and self.xspeed < 0)
+		or (e2.direction == DIR_LEFT and self.xspeed > 0) then
 			self:die()
 		end
-	elseif e2.type == "gem" then
+	elseif e2.type == ENT_GEM then
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
-	elseif e2.type == "cross" then
+	elseif e2.type == ENT_CROSS then
 		love.audio.play(SFX_gem)
 		table.insert(EFFECTS, newNotif({x=e2.x, y=e2.y, text="1000"}))
 		entity_remove(e2)

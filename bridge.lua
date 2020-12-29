@@ -2,7 +2,7 @@ local bridge = {}
 bridge.__index = bridge
 
 function newBridge(n)
-	n.type = "bridge"
+	n.type = ENT_BRIDGE
 	n.width = 16
 	n.height = 1
 	n.img = IMG_bridge

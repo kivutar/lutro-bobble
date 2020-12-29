@@ -2,10 +2,10 @@ local bubble = {}
 bubble.__index = bubble
 
 function newBubble(n)
-	n.type = "bubble"
+	n.type = ENT_BUBBLE
 	n.width = 16
 	n.height = 16
-	if n.direction == "left" then
+	if n.direction == DIR_LEFT then
 		n.xspeed = -2.5
 		n.xaccel = 0.05
 	else
@@ -13,6 +13,7 @@ function newBubble(n)
 		n.xspeed = 2.5
 	end
 	n.child = nil
+	n.haschild = false
 
 	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
 
@@ -22,10 +23,10 @@ end
 function bubble:update(dt)
 	self.xspeed = self.xspeed + self.xaccel
 
-	if self.direction == "left" and self.xspeed > 0 then
+	if self.direction == DIR_LEFT and self.xspeed > 0 then
 		self.xspeed = 0
 	end
-	if self.direction == "right" and self.xspeed < 0 then
+	if self.direction == DIR_RIGHT and self.xspeed < 0 then
 		self.xspeed = 0
 	end
 	self.x = self.x + self.xspeed
@@ -61,29 +62,27 @@ function bubble:die()
 end
 
 function bubble:on_collide(e1, e2, dx, dy)
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		self.xaccel = 0
 		self.xspeed = 0
 		self.x = self.x + dx
 		if math.abs(dx) > 8 then self:die() end
-	elseif e2.type == "bubble" then
+	elseif e2.type == ENT_BUBBLE then
 		self.xaccel = 0
 		self.xspeed = self.xspeed/2
 		self.x = self.x + dx/2
-	elseif e2.type == "character" then
+	elseif e2.type == ENT_CHARACTER then
 		self.xaccel = 0
 		self.xspeed = self.xspeed/2
 		if dx ~= 0 then
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == "spikes" then
+	elseif e2.type == ENT_SPIKES then
 		self:die()
 	end
 end
 
 function bubble:serialize()
-	local child = nil
-	if self.child then child = self.child:serialize() end
 	return {
 		type = self.type,
 		direction = self.direction,
@@ -91,7 +90,7 @@ function bubble:serialize()
 		y = self.y,
 		xspeed = self.xspeed,
 		xaccel = self.xaccel,
-		child = child
+		haschild = self.haschild,
 	}
 end
 
@@ -102,5 +101,5 @@ function bubble:unserialize(n)
 	self.y = n.y
 	self.xspeed = n.xspeed
 	self.xaccel = n.xaccel
-	self.child = nil -- TODO
+	self.haschild = n.haschild
 end

@@ -2,11 +2,11 @@ local eye = {}
 eye.__index = eye
 
 function newEye(n)
-	n.type = "eye"
+	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
-	n.direction = "right"
-	if n.direction == "left" then
+	n.direction = DIR_RIGHT
+	if n.direction == DIR_LEFT then
 		n.xspeed = -0.5
 	else
 		n.xspeed = 0.5
@@ -20,16 +20,16 @@ function newEye(n)
 
 	n.animations = {
 		run = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_run_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_run_right.png"), 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_eye_run_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_eye_run_right, 16, 16, 1, 10)
 		},
 		captured = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_captured_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_captured_right.png"), 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_eye_captured_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_eye_captured_right, 16, 16, 1, 10)
 		},
 		die = {
-			left  = newAnimation(love.graphics.newImage("assets/eye_die_left.png"),  16, 16, 1, 10),
-			right = newAnimation(love.graphics.newImage("assets/eye_die_right.png"), 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_eye_die_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_eye_die_right, 16, 16, 1, 10)
 		},
 	}
 
@@ -80,10 +80,9 @@ function eye:update(dt)
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
 
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	-- screen wrapping
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	self.anim = self.animations[self.stance][self.direction]
 	self.anim:update(dt)
@@ -100,7 +99,7 @@ function eye:on_collide(e1, e2, dx, dy)
 
 	if self.captured or self.dead then return end
 
-	if e2.type == "ground" then
+	if e2.type == ENT_GROUND then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -108,11 +107,11 @@ function eye:on_collide(e1, e2, dx, dy)
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
 			self.x = self.x + dx
-			if self.direction == "right" then self.direction = "left"
-			elseif self.direction == "left" then self.direction = "right" end
+			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
+			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
 		end
-	elseif e2.type == "bridge" then
+	elseif e2.type == ENT_BRIDGE then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -120,23 +119,24 @@ function eye:on_collide(e1, e2, dx, dy)
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
 			self.x = self.x + dx
-			if self.direction == "right" then self.direction = "left"
-			elseif self.direction == "left" then self.direction = "right" end
+			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
+			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
 		end
-	elseif e2.type == "bubble" then
+	elseif e2.type == ENT_BUBBLE then
 		if math.abs(e2.xspeed) < 0.5 then
 			self.x = self.x + dx
-			if self.direction == "right" then self.direction = "left"
-			elseif self.direction == "left" then self.direction = "right" end
+			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
+			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
-		elseif math.abs(e2.xspeed) >= 0.5 and e2.child == nil then
+		elseif math.abs(e2.xspeed) >= 0.5 and not e2.haschild then
 			self.captured = true
 			e2.child = self
+			e2.haschild = true
 		end
-	elseif e2.type == "spikes" then
+	elseif e2.type == ENT_SPIKES then
 		self:die()
-	elseif e2.type == "eye" then
+	elseif e2.type == ENT_EYE then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -144,13 +144,13 @@ function eye:on_collide(e1, e2, dx, dy)
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
 			self.x = self.x + dx
-			if self.direction == "right" then self.direction = "left"
-			elseif self.direction == "left" then self.direction = "right" end
+			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
+			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
 
 			e2.x = e2.x - dx
-			if e2.direction == "right" then e2.direction = "left"
-			elseif e2.direction == "left" then e2.direction = "right" end
+			if e2.direction == DIR_RIGHT then e2.direction = DIR_LEFT
+			elseif e2.direction == DIR_LEFT then e2.direction = DIR_RIGHT end
 			e2.xspeed = -e2.xspeed
 		end
 	end

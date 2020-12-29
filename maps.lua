@@ -10,13 +10,13 @@ function load_map(m)
 			elseif MAP[y][x] == 2 then
 				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 3 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="up"}))
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_UP}))
 			elseif MAP[y][x] == 4 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="down"}))
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_DOWN}))
 			elseif MAP[y][x] == 5 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="right"}))
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_RIGHT}))
 			elseif MAP[y][x] == 6 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction="left"}))
+				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_LEFT}))
 			elseif MAP[y][x] == 7 then
 				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 8 then

@@ -2,7 +2,7 @@ local ground = {}
 ground.__index = ground
 
 function newGround(n)
-	n.type = "ground"
+	n.type = ENT_GROUND
 	n.width = 16
 	n.height = 16
 	n.img = IMG_ground

@@ -2,7 +2,7 @@ local inter = {}
 inter.__index = inter
 
 function newInter(n)
-	n.type = "inter"
+	n.type = ENT_INTER
 	n.t = 100
 	return setmetatable(n, inter)
 end
@@ -21,15 +21,15 @@ function inter:update(dt)
 			load_map(STAGES[STAGE])
 
 			if CHAR1.dead then
-				table.insert(ENTITIES, newGhost({x=1*16,y=13*16,pad=1,direction="right"}))
+				table.insert(ENTITIES, newGhost({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT}))
 			else
-				CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction="right"})
+				CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
 				table.insert(ENTITIES, CHAR1)
 			end
 			if CHAR2.dead then
-				table.insert(ENTITIES, newGhost({x=18*16,y=13*16,pad=2,direction="left"}))
+				table.insert(ENTITIES, newGhost({x=18*16,y=13*16,pad=2,direction=DIR_LEFT}))
 			else
-				CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction="left"})
+				CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 				table.insert(ENTITIES, CHAR2)
 			end
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
