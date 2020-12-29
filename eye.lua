@@ -80,10 +80,9 @@ function eye:update(dt)
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
 
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	-- screen wrapping
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	self.anim = self.animations[self.stance][self.direction]
 	self.anim:update(dt)

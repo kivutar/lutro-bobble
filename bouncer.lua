@@ -13,10 +13,9 @@ function newBouncer(n)
 end
 
 function bouncer:update(dt)
-	if self.y >= SCREEN_HEIGHT then self.y = 0 end
-	if self.y < 0 then self.y = SCREEN_HEIGHT end
-	if self.x > SCREEN_WIDTH then self.x = 0 end
-	if self.x < 0 then self.x = SCREEN_WIDTH end
+	-- screen wrapping
+	self.x = self.x % SCREEN_WIDTH
+	self.y = self.y % SCREEN_HEIGHT
 
 	solid_collisions(self)
 end
