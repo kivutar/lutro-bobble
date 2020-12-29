@@ -615,8 +615,10 @@ function serialize()
 end
 
 function unserialize()
-	SHADOWS = {}
-	SOLIDS = {}
+	if PHASE ~= STATE.PHASE then
+		SHADOWS = {}
+		SOLIDS = {}
+	end
 	ENTITIES = {}
 	EFFECTS = {}
 
@@ -627,20 +629,22 @@ function unserialize()
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
 	--BGM:seek(STATE.BGMsamples, "samples")
 
-	for i=1, #STATE.SHADOWS do
-		if STATE.SHADOWS[i].type == ENT_SHADOW then
-			SHADOWS[i] = newShadow({})
+	if PHASE ~= STATE.PHASE then
+		for i=1, #STATE.SHADOWS do
+			if STATE.SHADOWS[i].type == ENT_SHADOW then
+				SHADOWS[i] = newShadow({})
+			end
+			SHADOWS[i]:unserialize(STATE.SHADOWS[i])
 		end
-		SHADOWS[i]:unserialize(STATE.SHADOWS[i])
-	end
 
-	for i=1, #STATE.SOLIDS do
-		if STATE.SOLIDS[i].type == ENT_GROUND then
-			SOLIDS[i] = newGround(STATE.SOLIDS[i])
-		elseif STATE.SOLIDS[i].type == ENT_BRIDGE then
-			SOLIDS[i] = newBridge({})
+		for i=1, #STATE.SOLIDS do
+			if STATE.SOLIDS[i].type == ENT_GROUND then
+				SOLIDS[i] = newGround(STATE.SOLIDS[i])
+			elseif STATE.SOLIDS[i].type == ENT_BRIDGE then
+				SOLIDS[i] = newBridge({})
+			end
+			SOLIDS[i]:unserialize(STATE.SOLIDS[i])
 		end
-		SOLIDS[i]:unserialize(STATE.SOLIDS[i])
 	end
 
 	for i=1, #STATE.ENTITIES do
