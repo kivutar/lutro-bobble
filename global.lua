@@ -16,9 +16,9 @@ SHOW_DEBUG_INFO = false				-- Prints debug information on screen when enabled.
 GRAPH_UNIT_SCALE = 5                -- The height scaled use for drawing stat graphs
 
 -- Network Settings
-SERVER_IP = "192.168.1.3"	            -- The network address of the other player to connect to.
+RDV_IP = "95.130.13.198"
+RDV_PORT = 1234
 
-SERVER_PORT = 5552					-- The network port the server is running on.
 NET_INPUT_DELAY	= 3					-- Amount of input delay to use by default during online matches. Should always be > 0
 NET_ROLLBACK_MAX_FRAMES	= 10		-- The maximum number of frames we allow the game run forward without a confirmed frame from the opponent.
 NET_DETECT_DESYNCS = true			-- Whether or not desyncs are detected and terminates a network session.

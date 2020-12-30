@@ -1,4 +1,5 @@
 local socket = require("socket")
+local json = require("json")
 
 local netlogName = 'netlog-'.. os.time(os.date("!*t")) ..'.txt'
 local packetLogName = 'packetLog-'.. os.time(os.date("!*t")) ..'.txt'
@@ -103,24 +104,52 @@ end
 -- Probably will move this call to some initialization function.
 Network:InitializeInputHistoryBuffer()
 
+function Network:HolePunch()
+	local rdv = socket.udp4()
+	rdv:setpeername(RDV_IP, RDV_PORT)
+
+	rdv:send("hi")
+	local data = assert(rdv:receive())
+	local my = json.parse(data)
+	print("I am", my.ip, my.port)
+
+	local data = assert(rdv:receive())
+	local peer = json.parse(data)
+	print("I see", peer.ip, peer.port)
+	self.clientIP = peer.ip
+	self.clientPort = peer.port
+
+	assert(rdv:close())
+
+	local p2p = assert(socket.udp4())
+	assert(p2p:settimeout(0))
+	assert(p2p:setsockname('*', my.port))
+
+	print("sending hello")
+	assert(p2p:sendto("hello", peer.ip, peer.port))
+
+	while true do
+		local data = p2p:receive()
+		if data then
+			print("received", data)
+			if data == "hohai" then break end
+			assert(p2p:sendto("hohai", peer.ip, peer.port))
+		end
+	end
+
+	return p2p
+end
+
 -- Setup a network connection at connect to the server.
 function Network:StartConnection()
 	print("Starting Network")
 	NetLog("Starting Client")
 
-	-- the address and port of the server
-	local address, port = SERVER_IP, SERVER_PORT
-	self.clientIP = address
-	self.clientPort = port
 	self.enabled = true
 	self.isServer = false
 
-	self.udp = socket.udp4()
+	self.udp = self:HolePunch()
 
-	-- Since there isn't a seperate network thread we need non-blocking sockets.
-	self.udp:settimeout(0)
-	-- The client can bind to any port since the server will wait on a handshake message and record it later.
-	self.udp:setsockname('*', 0)
 	-- Start the connection with the server
 	self:ConnectToServer()
 end
@@ -133,12 +162,7 @@ function Network:StartServer()
 	self.enabled = true
 	self.isServer = true
 
-	self.udp = socket.udp4()
-
-	-- Since there isn't a seperate network thread we need non-blocking sockets.
-	self.udp:settimeout(0)
-	-- Bind to a specific port since the client needs to know where to send its handshake message.
-	self.udp:setsockname('*', SERVER_PORT)
+	self.udp = self:HolePunch()
 end
 
 -- Get input from the remote player for the passed in game tick.
