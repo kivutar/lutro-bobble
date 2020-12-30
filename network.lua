@@ -55,7 +55,6 @@ Network = {
 
 	confirmedTick = 0,				-- The confirmed tick indicates up to what game frame we have the inputs for.
 	inputState = nil,				-- Current input state sent over the network
-	inputDelay = NET_INPUT_DELAY,	-- This must be set to a value of 1 more higher.
 
 	inputHistory = {},				-- The input history for the local player. Stored as bit flag encoded input states.
 	remoteInputHistory = {},		-- The input history for the local player. Stored as bit flag encoded input states.
@@ -327,7 +326,7 @@ function Network:ReceiveData()
 				end
 
 				if receivedTick > self.confirmedTick then
-					if receivedTick - self.confirmedTick > self.inputDelay then
+					if receivedTick - self.confirmedTick > NET_INPUT_DELAY then
 						NetLog("Received packet with a tick too far ahead. Last: " .. self.confirmedTick .. "     Current: " .. receivedTick )
 					end
 

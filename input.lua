@@ -7,7 +7,6 @@ Input = {
 	remotePlayerState = {},			-- Store the input state for the remote player.
 	polledInput = {{}, {}},			-- Latest polled inputs
 	playerCommandBuffer = {{}, {}},	-- A ring buffer. Stores the on/off state for each basic input command.
-	inputDelay = 0,					-- Specify how many frames the player's inputs will be delayed by. Used in networking. Increase this value to test delay!
 	joysticks = {},					-- Available joysticks
 }
 
