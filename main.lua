@@ -568,7 +568,7 @@ function serialize()
 		CHAR2 = nil,
 		BGM = BGM,
 		BGMplaying = BGM:isPlaying(),
-		BGMsamples = BGM:tell("samples"),
+		--BGMsamples = BGM:tell("samples"),
 	}
 
 	STATE.SHADOWS = {}
