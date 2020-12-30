@@ -54,7 +54,6 @@ Network = {
 	clientPort = -1,				-- Detected port for the non-server client
 
 	confirmedTick = 0,				-- The confirmed tick indicates up to what game frame we have the inputs for.
-	inputState = nil,				-- Current input state sent over the network
 
 	inputHistory = {},				-- The input history for the local player. Stored as bit flag encoded input states.
 	remoteInputHistory = {},		-- The input history for the local player. Stored as bit flag encoded input states.
