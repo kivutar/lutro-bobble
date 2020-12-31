@@ -24,6 +24,7 @@ require "inter"
 require "gameover"
 require "cross"
 require "ghost"
+require "heady"
 
 -- This table stores time sync data that will be used for drawing the sync graph.
 local timeSyncGraphTable = {}
@@ -210,6 +211,13 @@ function love.load()
 	IMG_eye_captured_right = love.graphics.newImage("assets/eye_captured_right.png")
 	IMG_eye_die_left = love.graphics.newImage("assets/eye_die_left.png")
 	IMG_eye_die_right = love.graphics.newImage("assets/eye_die_right.png")
+
+	IMG_heady_run_left = love.graphics.newImage("assets/heady_run_left.png")
+	IMG_heady_run_right = love.graphics.newImage("assets/heady_run_right.png")
+	IMG_heady_captured_left = love.graphics.newImage("assets/heady_captured_left.png")
+	IMG_heady_captured_right = love.graphics.newImage("assets/heady_captured_right.png")
+	IMG_heady_die_left = love.graphics.newImage("assets/heady_die_left.png")
+	IMG_heady_die_right = love.graphics.newImage("assets/heady_die_right.png")
 
 	IMG_spikes_up = love.graphics.newImage("assets/spikes_up.png")
 	IMG_spikes_down = love.graphics.newImage("assets/spikes_down.png")
@@ -648,6 +656,8 @@ function unserialize()
 			ENTITIES[i] = newGem({})
 		elseif STATE.ENTITIES[i].type == ENT_EYE then
 			ENTITIES[i] = newEye({})
+		elseif STATE.ENTITIES[i].type == ENT_HEADY then
+			ENTITIES[i] = newHeady({})
 		elseif STATE.ENTITIES[i].type == ENT_SPIKES then
 			ENTITIES[i] = newSpikes({y = STATE.ENTITIES[i].y, direction = STATE.ENTITIES[i].direction})
 		elseif STATE.ENTITIES[i].type == ENT_BUBBLE then
@@ -674,7 +684,7 @@ function unserialize()
 	for i=1, #ENTITIES do
 		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].childuid ~= nil then
 			for j=1, #ENTITIES do
-				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].uid == ENTITIES[i].childuid then
+				if (ENTITIES[j].type == ENT_EYE or ENTITIES[j].type == ENT_HEADY) and ENTITIES[j].uid == ENTITIES[i].childuid then
 					ENTITIES[i].child = ENTITIES[j]
 					print('attach enemy '..ENTITIES[j].uid..' with x='..ENTITIES[j].x..' to bubble '..ENTITIES[i].uid..' with x='..ENTITIES[i].x)
 				end

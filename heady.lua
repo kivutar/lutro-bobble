@@ -1,15 +1,15 @@
-local eye = {}
-eye.__index = eye
+local heady = {}
+heady.__index = heady
 
-function newEye(n)
+function newHeady(n)
 	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
 	n.direction = DIR_RIGHT
 	if n.direction == DIR_LEFT then
-		n.xspeed = -0.5
+		n.xspeed = -1
 	else
-		n.xspeed = 0.5
+		n.xspeed = 1
 	end
 	n.yspeed = 0
 	n.yaccel = 0.17
@@ -20,37 +20,37 @@ function newEye(n)
 
 	n.animations = {
 		run = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_run_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_run_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_heady_run_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_heady_run_right, 16, 16, 1, 10)
 		},
 		captured = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_captured_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_captured_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_heady_captured_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_heady_captured_right, 16, 16, 1, 10)
 		},
 		die = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_die_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_die_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = newAnimation(IMG_heady_die_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = newAnimation(IMG_heady_die_right, 16, 16, 1, 10)
 		},
 	}
 
 	n.anim = n.animations[n.stance][n.direction]
 
-	return setmetatable(n, eye)
+	return setmetatable(n, heady)
 end
 
-function eye:on_the_ground()
+function heady:on_the_ground()
 	return solid_at(self.x + 1, self.y + 16, self)
 		or solid_at(self.x + 15, self.y + 16, self)
 end
 
-function eye:die()
+function heady:die()
 	self.dead = true
 	self.yspeed = -1
 	self.stance = "die"
 	love.audio.play(SFX_enemy_die)
 end
 
-function eye:update(dt)
+function heady:update(dt)
 	if PHASE == "victory" then return end
 
 	if self.dead then
@@ -89,13 +89,13 @@ function eye:update(dt)
 	solid_collisions(self)
 end
 
-function eye:draw()
+function heady:draw()
 	self.anim:draw(self.x, self.y)
 	self.anim:draw(self.x+SCREEN_WIDTH, self.y)
 	self.anim:draw(self.x-SCREEN_WIDTH, self.y)
 end
 
-function eye:on_collide(e1, e2, dx, dy)
+function heady:on_collide(e1, e2, dx, dy)
 
 	if self.captured or self.dead then return end
 
@@ -156,7 +156,7 @@ function eye:on_collide(e1, e2, dx, dy)
 	end
 end
 
-function eye:serialize()
+function heady:serialize()
 	return {
 		uid = self.uid,
 		type = self.type,
@@ -173,7 +173,7 @@ function eye:serialize()
 	}
 end
 
-function eye:unserialize(n)
+function heady:unserialize(n)
 	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
