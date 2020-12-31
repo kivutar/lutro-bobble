@@ -320,6 +320,8 @@ function character:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == ENT_EYE and not e2.captured then
 		self:die()
+	elseif e2.type == ENT_HEADY and not e2.captured then
+		self:die()
 	elseif e2.type == ENT_SPIKES then
 		if (e2.direction == DIR_DOWN and self.yspeed < 0)
 		or (e2.direction == DIR_UP and self.yspeed > 0)
