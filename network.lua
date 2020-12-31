@@ -58,8 +58,6 @@ Network = {
 	inputHistory = {},				-- The input history for the local player. Stored as bit flag encoded input states.
 	remoteInputHistory = {},		-- The input history for the local player. Stored as bit flag encoded input states.
 
-	inputHistoryIndex = 0,			-- Current index in history buffer.
-
 	syncDataHistoryLocal = {},		-- Keeps track of the sync data for the local client
 	syncDataHistoryRemote = {},		-- Keeps track of the sync data for the remote client
 
