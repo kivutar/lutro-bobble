@@ -208,6 +208,7 @@ function serialize()
 		BGM = BGM,
 		BGMplaying = BGM:isPlaying(),
 		BGMsamples = BGM:tell("samples"),
+		LAST_UID = LAST_UID,
 	}
 
 	STATE.SHADOWS = {}
@@ -255,6 +256,7 @@ function unserialize()
 	BGM = STATE.BGM
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
 	BGM:seek(STATE.BGMsamples, "samples")
+	LAST_UID = STATE.LAST_UID
 
 	if redomap then
 		for i=1, #STATE.SHADOWS do
@@ -309,9 +311,9 @@ function unserialize()
 
 	-- hack to relink eyes to bubbles
 	for i=1, #ENTITIES do
-		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].haschild then
+		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].childuid ~= nil then
 			for j=1, #ENTITIES do
-				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].x == ENTITIES[i].x and ENTITIES[j].y == ENTITIES[i].y then
+				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].uid == ENTITIES[i].childuid then
 					ENTITIES[i].child = ENTITIES[j]
 				end
 			end

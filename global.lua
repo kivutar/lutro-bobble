@@ -11,6 +11,7 @@ STAGE = 1
 CHAR1 = nil
 CHAR2 = nil
 BGM = nil
+LAST_UID = 0
 
 SHOW_DEBUG_INFO = false				-- Prints debug information on screen when enabled.
 GRAPH_UNIT_SCALE = 5                -- The height scaled use for drawing stat graphs

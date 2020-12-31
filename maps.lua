@@ -5,25 +5,25 @@ function load_map(m)
 	for y = 1, #MAP, 1 do
 		for x = 1, #MAP[y] do
 			if MAP[y][x] == 1 then
-				table.insert(SHADOWS, newShadow({x=(x-1)*16+8,y=(y-1)*16+8}))
-				table.insert(SOLIDS, newGround({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SHADOWS, newShadow({uid=newUID(),x=(x-1)*16+8,y=(y-1)*16+8}))
+				table.insert(SOLIDS, newGround({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 2 then
-				table.insert(ENTITIES, newEye({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, newEye({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 3 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_UP}))
+				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_UP}))
 			elseif MAP[y][x] == 4 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_DOWN}))
+				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_DOWN}))
 			elseif MAP[y][x] == 5 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_RIGHT}))
+				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_RIGHT}))
 			elseif MAP[y][x] == 6 then
-				table.insert(ENTITIES, newSpikes({x=(x-1)*16,y=(y-1)*16,direction=DIR_LEFT}))
+				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_LEFT}))
 			elseif MAP[y][x] == 7 then
-				table.insert(ENTITIES, newBouncer({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, newBouncer({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 8 then
-				table.insert(SHADOWS, newShadow({x=(x-1)*16,y=(y-1)*16}))
-				table.insert(SOLIDS, newBridge({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SHADOWS, newShadow({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SOLIDS, newBridge({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 9 then
-				table.insert(ENTITIES, newGem({x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, newGem({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end

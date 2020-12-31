@@ -18,6 +18,7 @@ end
 
 function ground:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		x = self.x,
 		y = self.y,
@@ -25,6 +26,7 @@ function ground:serialize()
 end
 
 function ground:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.x = n.x
 	self.y = n.y
