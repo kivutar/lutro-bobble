@@ -1,13 +1,12 @@
 -- The input system is an abstraction layer between system input and commands used to control player objects.
 Input = {
-	MAX_INPUT_FRAMES = 60,			-- The maximum number of input commands stored in the player controller ring buff.
-	localPlayerIndex 	= 1,		-- The player index for the player on the local client.
-	remotePlayerIndex 	= 2,		-- The player index for the player on the remote client.
-	keyboardState = {}, 			-- System keyboard state. This is updated in love callbacks love.keypressed and love.keyreleased.
-	remotePlayerState = {},			-- Store the input state for the remote player.
-	polledInput = {{}, {}},			-- Latest polled inputs
-	playerCommandBuffer = {{}, {}},	-- A ring buffer. Stores the on/off state for each basic input command.
-	joysticks = {},					-- Available joysticks
+	maxFrames = 60,          -- The maximum number of input commands stored in the player controller ring buff.
+	localPlayerPort = 1,     -- The player index for the player on the local client.
+	remotePlayerPort = 2,    -- The player index for the player on the remote client.
+	keyboardState = {},      -- System keyboard state. This is updated in love callbacks love.keypressed and love.keyreleased.
+	polledInput = {{}, {}},  -- Latest polled inputs
+	buffers = {{}, {}},      -- A ring buffer. Stores the on/off state for each basic input command.
+	joysticks = {},          -- Available joysticks
 }
 
 function Input:index(offset)
@@ -16,52 +15,52 @@ function Input:index(offset)
 		tick = tick + offset
 	end
 
-	return 1 + ((Input.MAX_INPUT_FRAMES + tick) % Input.MAX_INPUT_FRAMES)
+	return 1 + ((Input.maxFrames + tick) % Input.maxFrames)
 end
 
 -- Used in the rollback system to make a copy of the input system state
 function Input:serialize()
 	local state = {}
-	state.playerCommandBuffer = table.deep_copy(self.playerCommandBuffer)
+	state.buffers = table.deep_copy(self.buffers)
 	return state
 end
 
 -- Used in the rollback system to restore the old state of the input system
 function Input:unserialize(state)
-	self.playerCommandBuffer = table.deep_copy(state.playerCommandBuffer)
+	self.buffers = table.deep_copy(state.buffers)
 end
 
 -- Get the entire input state for the current from a player's input command buffer.
-function Input:state(bufferIndex, tick)
+function Input:state(port, tick)
 	-- The 1 appearing here is because lua arrays used 1 based and not 0 based indexes.
-	local inputFrame = 1 + ((Input.MAX_INPUT_FRAMES + tick ) % Input.MAX_INPUT_FRAMES)
+	local inputFrame = 1 + ((Input.maxFrames + tick ) % Input.maxFrames)
 
-	local state = self.playerCommandBuffer[bufferIndex][inputFrame]
+	local state = self.buffers[port][inputFrame]
 	if not state then
 		return {}
 	end
 	return state
 end
 
-function Input:getLatest(bufferIndex)
-	return self.polledInput[bufferIndex]
+function Input:getLatest(port)
+	return self.polledInput[port]
 end
 
 -- Get the current input state for a player
-function Input:currentState(bufferIndex)
-	return self:state(bufferIndex, Game.tick)
+function Input:currentState(port)
+	return self:state(port, Game.tick)
 end
 
 -- Directly set the input state or the player. This is used for a online match.
 function Input:setState(playerIndex, state)
 	local stateCopy = table.copy(state)
-	self.playerCommandBuffer[playerIndex][self:index()] = stateCopy
+	self.buffers[playerIndex][self:index()] = stateCopy
 end
 
 -- Initialize the player input command ring buffer.
-function Input:initializeBuffer(bufferIndex)
-	for i=1,Input.MAX_INPUT_FRAMES do
-		self.playerCommandBuffer[bufferIndex][i] = {
+function Input:initializeBuffer(port)
+	for i=1, Input.maxFrames do
+		self.buffers[port][i] = {
 			up = false,
 			down = false,
 			left = false,
@@ -78,33 +77,30 @@ function Input:updateInputChanges()
 	local inputIndex = self:index()
 	local previousindex = self:index(-1)
 
-	for i=1,2 do
-		local state = self.playerCommandBuffer[i][inputIndex]
-		local previousState = self.playerCommandBuffer[i][previousindex]
+	for port=1, 2 do
+		local state = self.buffers[port][inputIndex]
+		local prevState = self.buffers[port][previousindex]
 
-		state.up_pressed = state.up and not previousState.up
-		state.down_pressed = state.down and not previousState.down
-		state.left_pressed = state.left and not previousState.left
-		state.right_pressed = state.right and not previousState.right
-		state.attack_pressed = state.attack and not previousState.attack
-		state.jump_pressed = state.jump and not previousState.jump
-		state.start_pressed = state.start and not previousState.start
+		state.up_pressed = state.up and not prevState.up
+		state.down_pressed = state.down and not prevState.down
+		state.left_pressed = state.left and not prevState.left
+		state.right_pressed = state.right and not prevState.right
+		state.attack_pressed = state.attack and not prevState.attack
+		state.jump_pressed = state.jump and not prevState.jump
+		state.start_pressed = state.start and not prevState.start
 	end
 end
 
 function Input:poll(updateBuffers)
 	-- Input polling from the system can be disabled for setting inputs from a buffer. Used in testing rollbacks.
 	-- Update the local player's command buffer for the current frame.
-	self.polledInput[self.localPlayerIndex] = table.copy(self.keyboardState)
-
-	-- Update the remote player's command buffer.
-	--self.playerCommandBuffer[self.remotePlayerIndex][delayedIndex] = table.copy(self.remotePlayerState)
+	self.polledInput[self.localPlayerPort] = table.copy(self.keyboardState)
 
 	-- Get buttons from first joysticks
-	for index, joystick in pairs(self.joysticks) do
-		if self.joysticks[1] and (not Network.enabled or (self.localPlayerIndex == index) ) then
+	for port, joystick in pairs(self.joysticks) do
+		if self.joysticks[1] and (not Network.enabled or (self.localPlayerPort == port) ) then
 
-			local commandBuffer = self.polledInput[index]
+			local commandBuffer = self.polledInput[port]
 			local axisX = joystick:getAxis(1)
 			local axisY = joystick:getAxis(2)
 
@@ -148,12 +144,9 @@ function Input:poll(updateBuffers)
 
 	-- Updated the player input buffers from the polled inputs.  Set to false in network mode.
 	if updateBuffers then
-		local bufferIndex = self:index()
-		for i=1,2 do
-			self.playerCommandBuffer[bufferIndex] = self.polledInput[bufferIndex]
-		end
+		local port = self:index()
+		self.buffers[port] = self.polledInput[port]
 	end
-
 end
 
 -- The update method syncs the keyboard and joystick input with the internal player input state. It also handles syncing the remote player's inputs.
@@ -195,12 +188,12 @@ function love.keypressed(key, scancode, isrepeat)
 		Game:unserialize()
 	elseif key == 'f9' then
 		Network:StartConnection()
-		Input.localPlayerIndex = 2	-- Right now the client is always player 2.
-		Input.remotePlayerIndex = 1 	-- Right now the server is always players 1.
+		Input.localPlayerPort = 2  -- Right now the client is always player 2.
+		Input.remotePlayerPort = 1 -- Right now the server is always players 1.
 	elseif key == 'f10' then
 		Network:StartServer()
-		Input.localPlayerIndex = 1 	-- Right now the server is always players 1.
-		Input.remotePlayerIndex = 2	-- Right now the client is always player 2.
+		Input.localPlayerPort = 1  -- Right now the server is always players 1.
+		Input.remotePlayerPort = 2 -- Right now the client is always player 2.
 	end
 end
 
