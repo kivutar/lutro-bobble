@@ -27,7 +27,7 @@ local MsgCode = {
 }
 
 -- Bit flags used to convert input state to a form suitable for network transmission.
-local InputCode = {
+local Btn = {
 	Up 		= bit.lshift(1, 0),
 	Down 	= bit.lshift(1, 1),
 	Left 	= bit.lshift(1, 2),
@@ -87,7 +87,7 @@ Network = {
 -- Initialize History Buffer
 function Network:InitializeInputHistoryBuffer()
 	-- local emptySyncData = love.data.pack("string", "nn", 0, 0)
-	for i=1,NET_INPUT_HISTORY_SIZE do
+	for i=1, NET_INPUT_HISTORY_SIZE do
 		self.inputHistory[i] = 0
 		self.remoteInputHistory[i] = 0
 		self.syncDataHistoryLocal[i] = nil
@@ -227,7 +227,7 @@ function Network:SendPacket(packet, duplicates)
 		duplicates = 1
 	end
 
-	for i=1,duplicates do
+	for i=1, duplicates do
 		if NET_SEND_DELAY_FRAMES > 0 then
 			self:SendPacketWithDelay(packet)
 		else
@@ -412,31 +412,31 @@ function Network:EncodeInput(state)
 	local data = 0
 
 	if state.up then
-		data = bit.bor( data, InputCode.Up)
+		data = bit.bor(data, Btn.Up)
 	end
 
 	if state.down then
-		data = bit.bor( data, InputCode.Down)
+		data = bit.bor(data, Btn.Down)
 	end
 
 	if state.left then
-		data = bit.bor( data, InputCode.Left)
+		data = bit.bor(data, Btn.Left)
 	end
 
 	if state.right then
-		data = bit.bor( data, InputCode.Right)
+		data = bit.bor(data, Btn.Right)
 	end
 
 	if state.attack then
-		data = bit.bor( data, InputCode.Attack)
+		data = bit.bor(data, Btn.Attack)
 	end
 
 	if state.jump then
-		data = bit.bor( data, InputCode.Jump)
+		data = bit.bor(data, Btn.Jump)
 	end
 
 	if state.start then
-		data = bit.bor( data, InputCode.Start)
+		data = bit.bor(data, Btn.Start)
 	end
 
 	return data
@@ -446,13 +446,13 @@ end
 function Network:DecodeInput(data)
 	local state = {}
 
-	state.up 		= bit.band( data, InputCode.Up) > 0
-	state.down 		= bit.band( data, InputCode.Down) > 0
-	state.left 		= bit.band( data, InputCode.Left) > 0
-	state.right 	= bit.band( data, InputCode.Right) > 0
-	state.attack 	= bit.band( data, InputCode.Attack) > 0
-	state.jump 	    = bit.band( data, InputCode.Jump) > 0
-	state.start 	= bit.band( data, InputCode.Start) > 0
+	state.up        = bit.band(data, Btn.Up) > 0
+	state.down      = bit.band(data, Btn.Down) > 0
+	state.left      = bit.band(data, Btn.Left) > 0
+	state.right     = bit.band(data, Btn.Right) > 0
+	state.attack    = bit.band(data, Btn.Attack) > 0
+	state.jump      = bit.band(data, Btn.Jump) > 0
+	state.start     = bit.band(data, Btn.Start) > 0
 
 	return state
 end
