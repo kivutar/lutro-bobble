@@ -2,7 +2,7 @@ local heady = {}
 heady.__index = heady
 
 function newHeady(n)
-	n.type = ENT_EYE
+	n.type = ENT_HEADY
 	n.width = 16
 	n.height = 16
 	n.direction = DIR_RIGHT
