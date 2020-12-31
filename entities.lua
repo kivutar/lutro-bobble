@@ -22,6 +22,10 @@ DIR_DOWN  = 2
 DIR_LEFT  = 3
 DIR_RIGHT = 4
 
+function newUID()
+	return LAST_UID + 1
+end
+
 function effect_remove(e)
 	for i=1, #EFFECTS do
 		if EFFECTS[i] == e then

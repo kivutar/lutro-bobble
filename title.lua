@@ -23,11 +23,12 @@ function title:update(dt)
 			EFFECTS = {}
 			SHADOWS = {}
 			MAP = {}
+			LAST_UID = 0
 
 			load_map(STAGES[STAGE])
 
-			CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
-			CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
+			CHAR1 = newCharacter({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
+			CHAR2 = newCharacter({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 			table.insert(ENTITIES, CHAR1)
 			table.insert(ENTITIES, CHAR2)
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
@@ -50,6 +51,7 @@ end
 
 function title:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		t = self.t,
 		PRESSED = self.PRESSED,
@@ -57,6 +59,7 @@ function title:serialize()
 end
 
 function title:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
 	self.PRESSED = n.PRESSED

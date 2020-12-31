@@ -129,10 +129,10 @@ function eye:on_collide(e1, e2, dx, dy)
 			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
 			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
-		elseif math.abs(e2.xspeed) >= 0.5 and not e2.haschild then
+		elseif math.abs(e2.xspeed) >= 0.5 and e2.child == nil then
 			self.captured = true
 			e2.child = self
-			e2.haschild = true
+			e2.childuid = self.uid
 		end
 	elseif e2.type == ENT_SPIKES then
 		self:die()
@@ -158,6 +158,7 @@ end
 
 function eye:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		direction = self.direction,
 		x = self.x,
@@ -173,6 +174,7 @@ function eye:serialize()
 end
 
 function eye:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
 	self.x = n.x

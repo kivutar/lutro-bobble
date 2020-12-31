@@ -380,11 +380,6 @@ function love.update(dt)
 
 	-- The network is update first
 	if Network.enabled then
-		-- Setup the local input delay to match the network input delay.
-		-- If this isn't done, the two game clients will be out of sync with each other as the local player's input will be applied on the current frame,
-		-- while the opponent's will be applied to a frame inputDelay frames in the input buffer.
-		Input.inputDelay = Network.inputDelay
-
 		-- First get any data that has been sent from the other client
 		Network:ReceiveData()
 
@@ -471,7 +466,7 @@ function love.update(dt)
 		if Network.enabled then
 			-- Update local input history
 			local sendInput = Input:getLatest(Input.localPlayerIndex)
-			Network:SetLocalInput(sendInput, lastGameTick+Network.inputDelay)
+			Network:SetLocalInput(sendInput, lastGameTick+NET_INPUT_DELAY)
 
 			-- Set the input state fo[r the current tick for the remote player's character.
 			Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
@@ -510,12 +505,12 @@ function love.update(dt)
 	-- Previously this as happening before the Game:update() and adding uneeded latency.
 	if Network.enabled and Network.connectedToClient  then
 		-- if updateGame then
-		-- 	PacketLog("Sending Input: " .. Network:GetLocalInputEncoded(lastGameTick + Network.inputDelay) .. ' @ ' .. lastGameTick + Network.inputDelay  )
+		-- 	PacketLog("Sending Input: " .. Network:GetLocalInputEncoded(lastGameTick + NET_INPUT_DELAY) .. ' @ ' .. lastGameTick + NET_INPUT_DELAY  )
 		-- end
 
-		-- Send this player's input state. We when Network.inputDelay frames ahead.
+		-- Send this player's input state. We when NET_INPUT_DELAY frames ahead.
 		-- Note: This input comes from the last game update, so we subtract 1 to set the correct tick.
-		Network:SendInputData(Game.tick - 1 + Network.inputDelay)
+		Network:SendInputData(Game.tick - 1 + NET_INPUT_DELAY)
 
 		-- Send ping so we can test network latency.
 		Network:SendPingMessage()
@@ -573,7 +568,8 @@ function serialize()
 		CHAR2 = nil,
 		BGM = BGM,
 		BGMplaying = BGM:isPlaying(),
-		BGMsamples = BGM:tell("samples"),
+		--BGMsamples = BGM:tell("samples"),
+		LAST_UID = LAST_UID,
 	}
 
 	STATE.SHADOWS = {}
@@ -621,6 +617,7 @@ function unserialize()
 	BGM = STATE.BGM
 	if STATE.BGMplaying then BGM:play() else BGM:stop() end
 	-- BGM:seek(STATE.BGMsamples, "samples")
+	LAST_UID = STATE.LAST_UID
 
 	if redomap then
 		for i=1, #STATE.SHADOWS do
@@ -675,9 +672,9 @@ function unserialize()
 
 	-- hack to relink eyes to bubbles
 	for i=1, #ENTITIES do
-		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].haschild then
+		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].childuid ~= nil then
 			for j=1, #ENTITIES do
-				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].x == ENTITIES[i].x and ENTITIES[j].y == ENTITIES[i].y then
+				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].uid == ENTITIES[i].childuid then
 					ENTITIES[i].child = ENTITIES[j]
 				end
 			end

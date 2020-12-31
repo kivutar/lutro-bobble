@@ -26,6 +26,7 @@ function gameover:update(dt)
 			EFFECTS = {}
 			SHADOWS = {}
 			MAP = {}
+			LAST_UID = 0
 			table.insert(ENTITIES, newTitle({}))
 		end
 	end
@@ -44,6 +45,7 @@ end
 
 function gameover:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		t = self.t,
 		PRESSED = self.PRESSED,
@@ -51,6 +53,7 @@ function gameover:serialize()
 end
 
 function gameover:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
 	self.PRESSED = n.PRESSED
