@@ -52,9 +52,10 @@ end
 function bubble:die()
 	if self.child ~= nil then
 		self.child:die()
-		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="500"}))
+		self.childuid = nil
+		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="500"}))
 	else
-		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
+		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="100"}))
 		love.audio.play(SFX_explode)
 	end
 	table.insert(EFFECTS, newBubbleexp({uid=newUID(),x=self.x,y=self.y}))
