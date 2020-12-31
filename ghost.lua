@@ -164,6 +164,7 @@ end
 
 function ghost:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		pad = self.pad,
 		direction = self.direction,
@@ -179,6 +180,7 @@ function ghost:serialize()
 end
 
 function ghost:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
 	self.pad = n.pad

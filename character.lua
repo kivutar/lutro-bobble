@@ -188,9 +188,9 @@ function character:update(dt)
 	if self.DO_ATTACK == 1 then
 		love.audio.play(SFX_bubble)
 		if self.direction == DIR_LEFT then
-			table.insert(ENTITIES, newBubble({x=self.x-16-4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, newBubble({uid=newUID(),x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
-			table.insert(ENTITIES, newBubble({x=self.x+16+4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, newBubble({uid=newUID(),x=self.x+16+4,y=self.y,direction=self.direction}))
 		end
 	end
 
@@ -340,6 +340,7 @@ end
 
 function character:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		pad = self.pad,
 		direction = self.direction,
@@ -361,6 +362,7 @@ function character:serialize()
 end
 
 function character:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
 	self.pad = n.pad

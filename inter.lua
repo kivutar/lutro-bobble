@@ -16,20 +16,21 @@ function inter:update(dt)
 			EFFECTS = {}
 			SHADOWS = {}
 			MAP = {}
+			LAST_UID = 0
 			PHASE = "game"
 
 			load_map(STAGES[STAGE])
 
 			if CHAR1.dead then
-				table.insert(ENTITIES, newGhost({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT}))
+				table.insert(ENTITIES, newGhost({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT}))
 			else
-				CHAR1 = newCharacter({x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
+				CHAR1 = newCharacter({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
 				table.insert(ENTITIES, CHAR1)
 			end
 			if CHAR2.dead then
-				table.insert(ENTITIES, newGhost({x=18*16,y=13*16,pad=2,direction=DIR_LEFT}))
+				table.insert(ENTITIES, newGhost({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT}))
 			else
-				CHAR2 = newCharacter({x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
+				CHAR2 = newCharacter({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 				table.insert(ENTITIES, CHAR2)
 			end
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
@@ -50,12 +51,14 @@ end
 
 function inter:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		t = self.t,
 	}
 end
 
 function inter:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
 end

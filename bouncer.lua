@@ -44,6 +44,7 @@ end
 
 function bouncer:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		x = self.x,
 		y = self.y,
@@ -53,6 +54,7 @@ function bouncer:serialize()
 end
 
 function bouncer:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.x = n.x
 	self.y = n.y

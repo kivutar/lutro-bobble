@@ -39,6 +39,7 @@ end
 
 function spikes:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		direction = self.direction,
 		x = self.x,
@@ -49,6 +50,7 @@ function spikes:serialize()
 end
 
 function spikes:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
 	self.x = n.x

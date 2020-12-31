@@ -42,6 +42,7 @@ function counter:update(dt)
 		EFFECTS = {}
 		SHADOWS = {}
 		MAP = {}
+		LAST_UID = 0
 		table.insert(ENTITIES, newGameOver({}))
 	end
 
@@ -67,6 +68,7 @@ end
 
 function counter:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		t = self.t,
 		cross = self.cross
@@ -74,6 +76,7 @@ function counter:serialize()
 end
 
 function counter:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
 	self.cross = n.cross

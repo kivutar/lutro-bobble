@@ -13,7 +13,7 @@ function newBubble(n)
 		n.xspeed = 2.5
 	end
 	n.child = nil
-	n.haschild = false
+	n.childuid = nil
 
 	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
 
@@ -57,7 +57,7 @@ function bubble:die()
 		table.insert(EFFECTS, newNotif({x=self.x, y=self.y, text="100"}))
 		love.audio.play(SFX_explode)
 	end
-	table.insert(EFFECTS, newBubbleexp(self))
+	table.insert(EFFECTS, newBubbleexp({uid=newUID(),x=self.x,y=self.y}))
 	entity_remove(self)
 end
 
@@ -84,22 +84,24 @@ end
 
 function bubble:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		direction = self.direction,
 		x = self.x,
 		y = self.y,
 		xspeed = self.xspeed,
 		xaccel = self.xaccel,
-		haschild = self.haschild,
+		childuid = self.childuid,
 	}
 end
 
 function bubble:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction
 	self.x = n.x
 	self.y = n.y
 	self.xspeed = n.xspeed
 	self.xaccel = n.xaccel
-	self.haschild = n.haschild
+	self.childuid = n.childuid
 end

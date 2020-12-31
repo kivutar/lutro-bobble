@@ -22,6 +22,7 @@ end
 
 function bubbleexp:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		x = self.x,
 		y = self.y,
@@ -30,6 +31,7 @@ function bubbleexp:serialize()
 end
 
 function bubbleexp:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.x = n.x
 	self.y = n.y

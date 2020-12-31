@@ -26,6 +26,7 @@ end
 
 function notif:serialize()
 	return {
+		uid = self.uid,
 		type = self.type,
 		text = self.text,
 		x = self.x,
@@ -36,6 +37,7 @@ function notif:serialize()
 end
 
 function notif:unserialize(n)
+	self.uid = n.uid
 	self.type = n.type
 	self.text = n.text
 	self.x = n.x
