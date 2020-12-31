@@ -316,8 +316,8 @@ function HandleRollbacks()
 
 		for i=1,rollbackFrames do
 			-- Get input from the input history buffer. The network system will predict input after the last confirmed tick (for the remote player).
-			Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
-			Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+			Input:setState(Input.localPlayerPort, Network:GetLocalInputState(Game.tick)) -- Offset of 1 ensure it's used for the next game update.
+			Input:setState(Input.remotePlayerPort, Network:GetRemoteInputState(Game.tick))
 
 			local lastRolledBackGameTick = Game.tick
 			Game:update()
@@ -351,8 +351,8 @@ function TestRollbacks()
 			-- Prevent polling for input since we set it directly from the input history
 			for i=1,ROLLBACK_TEST_FRAMES do
 				-- Get input from a input history buffer that we update below
-				Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(Game.tick))
-				Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(Game.tick))
+				Input:setState(Input.localPlayerPort, Network:GetLocalInputState(Game.tick))
+				Input:setState(Input.remotePlayerPort, Network:GetRemoteInputState(Game.tick))
 
 				Game.tick = Game.tick + 1
 				Game:update()
@@ -473,12 +473,12 @@ function love.update(dt)
 		-- Network manager will handle updating inputs.
 		if Network.enabled then
 			-- Update local input history
-			local sendInput = Input:getLatest(Input.localPlayerIndex)
+			local sendInput = Input:getLatest(Input.localPlayerPort)
 			Network:SetLocalInput(sendInput, lastGameTick+NET_INPUT_DELAY)
 
 			-- Set the input state fo[r the current tick for the remote player's character.
-			Input:setState(Input.localPlayerIndex, Network:GetLocalInputState(lastGameTick))
-			Input:setState(Input.remotePlayerIndex, Network:GetRemoteInputState(lastGameTick))
+			Input:setState(Input.localPlayerPort, Network:GetLocalInputState(lastGameTick))
+			Input:setState(Input.remotePlayerPort, Network:GetRemoteInputState(lastGameTick))
 		end
 
 		-- Increment the tick count only when the game actually updates.
@@ -489,7 +489,7 @@ function love.update(dt)
 		-- Save stage after an update if testing rollbacks
 		if ROLLBACK_TEST_ENABLED then
 			-- Save local input history for this game tick
-			Network:SetLocalInput(Input:getLatest(Input.localPlayerIndex), lastGameTick)
+			Network:SetLocalInput(Input:getLatest(Input.localPlayerPort), lastGameTick)
 		end
 
 		if Network.enabled then
