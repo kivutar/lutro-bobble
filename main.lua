@@ -676,6 +676,7 @@ function unserialize()
 			for j=1, #ENTITIES do
 				if ENTITIES[j].type == ENT_EYE and ENTITIES[j].uid == ENTITIES[i].childuid then
 					ENTITIES[i].child = ENTITIES[j]
+					print('attach enemy '..ENTITIES[j].uid..' with x='..ENTITIES[j].x..' to bubble '..ENTITIES[i].uid..' with x='..ENTITIES[i].x)
 				end
 			end
 		end
