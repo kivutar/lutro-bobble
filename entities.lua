@@ -23,7 +23,8 @@ DIR_LEFT  = 3
 DIR_RIGHT = 4
 
 function newUID()
-	return LAST_UID + 1
+	LAST_UID = LAST_UID + 1
+	return LAST_UID
 end
 
 function effect_remove(e)
