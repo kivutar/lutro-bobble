@@ -342,3 +342,20 @@ function unserialize()
 		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 	end
 end
+
+function love.reset()
+	print("reset from lua")
+	STATE = {}
+	SHADOWS = {}
+	SOLIDS = {}
+	ENTITIES = {}
+	EFFECTS = {}
+	PHASE = nil
+	STAGE = 1
+	CHAR1 = nil
+	CHAR2 = nil
+	BGM = nil
+	LAST_UID = 0
+
+	love.load()
+end
