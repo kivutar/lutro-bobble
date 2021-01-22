@@ -21,7 +21,7 @@ function newCharacter(n)
 	n.dead = false
 	n.ungrounded_time = 0
 
-	n.skin = "frog"
+	n.skin = "turnip"
 	if n.pad == 2 then n.skin = "fox" end
 	if n.pad == 3 then n.skin = "bird" end
 
@@ -92,6 +92,29 @@ function newCharacter(n)
 			die = {
 				[DIR_LEFT]  = newAnimation(IMG_bird_die_left,  16, 16, 1, 10),
 				[DIR_RIGHT] = newAnimation(IMG_bird_die_right, 16, 16, 1, 10)
+			},
+		}
+	elseif n.skin == "turnip" then
+		n.animations = {
+			stand = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_stand_right, 24, 24, 2, 10)
+			},
+			run = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_run_right, 24, 24, 1, 10)
+			},
+			jump = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_jump_right, 24, 24, 1, 10)
+			},
+			ko = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 16, 16, 1, 10)
 			},
 		}
 	end
@@ -272,12 +295,12 @@ function character:update(dt)
 end
 
 function character:draw()
-	self.anim:draw(self.x, self.y)
+	self.anim:draw(self.x-4, self.y-8)
 	if self.dead then
-		self.anim:draw(self.x+SCREEN_WIDTH, self.y)
-		self.anim:draw(self.x-SCREEN_WIDTH, self.y)
-		self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
-		self.anim:draw(self.x, self.y-SCREEN_HEIGHT)
+		self.anim:draw(self.x+SCREEN_WIDTH-4, self.y-8)
+		self.anim:draw(self.x-SCREEN_WIDTH-4, self.y-8)
+		self.anim:draw(self.x-4, self.y+SCREEN_HEIGHT-8)
+		self.anim:draw(self.x-4, self.y-SCREEN_HEIGHT-8)
 	end
 end
 
