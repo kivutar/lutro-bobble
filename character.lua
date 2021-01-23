@@ -108,6 +108,10 @@ function newCharacter(n)
 				[DIR_LEFT]  = newAnimation(IMG_turnip_jump_left,  24, 24, 1, 10),
 				[DIR_RIGHT] = newAnimation(IMG_turnip_jump_right, 24, 24, 1, 10)
 			},
+			fall = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
+			},
 			ko = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
 				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
@@ -280,7 +284,11 @@ function character:update(dt)
 			self.stance = "run"
 		end
 	else
-		self.stance = "jump"
+		if self.yspeed < 0 then
+			self.stance = "jump"
+		else
+			self.stance = "fall"
+		end
 	end
 
 	local anim = self.animations[self.stance][self.direction]
