@@ -10,12 +10,12 @@ function newCharacter(n)
 	n.xspeed = 0
 	n.yspeed = 0
 	n.xaccel = 0.5
-	n.yaccel = 0.17
+	n.yaccel = 0.15
 	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "jump"
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
-	n.speedlimit = 1.5
+	n.speedlimit = 2
 	n.ko = 0
 	n.dead_t = 0
 	n.dead = false
@@ -196,7 +196,7 @@ function character:update(dt)
 	if self.DO_JUMP == 1 and not JOY_DOWN then
 		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
-			self.yspeed = -4
+			self.yspeed = -3.75
 			love.audio.play(SFX_jump)
 		end
 	end
@@ -204,7 +204,7 @@ function character:update(dt)
 	-- jumping down
 	if self.DO_JUMP == 1 and JOY_DOWN then
 		if oab then
-			self.y = self.y + 16
+			self.y = self.y + 3
 			love.audio.play(SFX_jump)
 		end
 	end
@@ -297,7 +297,7 @@ end
 
 function character:draw()
 	self.anim:draw(self.x-6, self.y-8)
-	if self.dead then
+	if not self.dead then
 		self.anim:draw(self.x+SCREEN_WIDTH-6, self.y-8)
 		self.anim:draw(self.x-SCREEN_WIDTH-6, self.y-8)
 		self.anim:draw(self.x-6, self.y+SCREEN_HEIGHT-8)
@@ -319,7 +319,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.x = self.x + dx
 		end
 	elseif e2.type == ENT_BRIDGE then
-		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 then
+		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 and self.y+self.height-3 < e2.y then
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
