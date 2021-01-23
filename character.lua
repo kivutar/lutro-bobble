@@ -5,7 +5,7 @@ JUMP_FORGIVENESS = 8
 
 function newCharacter(n)
 	n.type = ENT_CHARACTER
-	n.width = 16
+	n.width = 12
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
@@ -113,8 +113,8 @@ function newCharacter(n)
 				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
 			},
 		}
 	end
@@ -126,12 +126,12 @@ end
 
 function character:on_the_ground()
 	return ground_at(self.x + 1, self.y + self.height)
-		or ground_at(self.x + 15, self.y + self.height)
+		or ground_at(self.x + self.width - 1, self.y + self.height)
 end
 
 function character:on_a_bridge()
 	return bridge_at(self.x + 1, self.y + self.height)
-		or bridge_at(self.x + 15, self.y + self.height)
+		or bridge_at(self.x + self.width - 1, self.y + self.height)
 end
 
 function character:die()
@@ -205,6 +205,7 @@ function character:update(dt)
 	if self.DO_JUMP == 1 and JOY_DOWN then
 		if oab then
 			self.y = self.y + 16
+			love.audio.play(SFX_jump)
 		end
 	end
 
@@ -295,12 +296,12 @@ function character:update(dt)
 end
 
 function character:draw()
-	self.anim:draw(self.x-4, self.y-8)
+	self.anim:draw(self.x-6, self.y-8)
 	if self.dead then
-		self.anim:draw(self.x+SCREEN_WIDTH-4, self.y-8)
-		self.anim:draw(self.x-SCREEN_WIDTH-4, self.y-8)
-		self.anim:draw(self.x-4, self.y+SCREEN_HEIGHT-8)
-		self.anim:draw(self.x-4, self.y-SCREEN_HEIGHT-8)
+		self.anim:draw(self.x+SCREEN_WIDTH-6, self.y-8)
+		self.anim:draw(self.x-SCREEN_WIDTH-6, self.y-8)
+		self.anim:draw(self.x-6, self.y+SCREEN_HEIGHT-8)
+		self.anim:draw(self.x-6, self.y-SCREEN_HEIGHT-8)
 	end
 end
 
