@@ -21,8 +21,8 @@ function newCharacter(n)
 	n.dead = false
 	n.ungrounded_time = 0
 
-	n.skin = "turnip"
-	if n.pad == 2 then n.skin = "fox" end
+	n.skin = "croco"
+	if n.pad == 2 then n.skin = "turnip" end
 	if n.pad == 3 then n.skin = "bird" end
 
 	if n.skin == "frog" then
@@ -111,6 +111,33 @@ function newCharacter(n)
 			fall = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_fall_left,  24, 24, 1, 10),
 				[DIR_RIGHT] = newAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
+			},
+			ko = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
+			},
+			die = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
+			},
+		}
+	elseif n.skin == "croco" then
+		n.animations = {
+			stand = {
+				[DIR_LEFT]  = newAnimation(IMG_croco_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_stand_right, 24, 24, 2, 10)
+			},
+			run = {
+				[DIR_LEFT]  = newAnimation(IMG_croco_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_run_right, 24, 24, 1, 10)
+			},
+			jump = {
+				[DIR_LEFT]  = newAnimation(IMG_croco_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_jump_right, 24, 24, 1, 10)
+			},
+			fall = {
+				[DIR_LEFT]  = newAnimation(IMG_croco_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
