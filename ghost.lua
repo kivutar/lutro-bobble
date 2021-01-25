@@ -14,9 +14,9 @@ function newGhost(n)
 	n.speedlimit = 2
 	n.t = 0
 
-	n.skin = "croco"
-	if n.pad == 2 then n.skin = "turnip" end
-	if n.pad == 3 then n.skin = "bird" end
+	n.skin = "cat"
+	if n.pad == 2 then n.skin = "croco" end
+	if n.pad == 3 then n.skin = "cat" end
 
 	if n.skin == "frog" then
 		n.animations = {
@@ -51,6 +51,13 @@ function newGhost(n)
 			ghost = {
 				[DIR_LEFT]  = newAnimation(IMG_croco_ghost_left,  24, 24, 2, 10),
 				[DIR_RIGHT] = newAnimation(IMG_croco_ghost_right, 24, 24, 2, 10)
+			},
+		}
+	elseif n.skin == "cat" then
+		n.animations = {
+			ghost = {
+				[DIR_LEFT]  = newAnimation(IMG_cat_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_ghost_right, 24, 24, 2, 10)
 			},
 		}
 	end

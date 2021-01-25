@@ -22,8 +22,8 @@ function newCharacter(n)
 	n.ungrounded_time = 0
 
 	n.skin = "cat"
-	if n.pad == 2 then n.skin = "turnip" end
-	if n.pad == 3 then n.skin = "bird" end
+	if n.pad == 2 then n.skin = "croco" end
+	if n.pad == 3 then n.skin = "cat" end
 
 	if n.skin == "frog" then
 		n.animations = {
@@ -171,8 +171,8 @@ function newCharacter(n)
 				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_die_right, 24, 24, 1, 10)
 			},
 		}
 	end
