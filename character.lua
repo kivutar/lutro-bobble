@@ -237,6 +237,10 @@ function character:update(dt)
 		if oab then
 			self.y = self.y + 3
 			love.audio.play(SFX_jump)
+		elseif otg then
+			self.y = self.y - 1
+			self.yspeed = -3.75
+			love.audio.play(SFX_jump)
 		end
 	end
 
