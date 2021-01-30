@@ -1,23 +1,6 @@
 local socket = require("socket")
 local json = require("json")
 
-local netlogName = 'netlog-'.. os.time(os.date("!*t")) ..'.txt'
-local packetLogName = 'packetLog-'.. os.time(os.date("!*t")) ..'.txt'
-
--- Create net log file
-love.filesystem.write(netlogName, 'Network log start\r\n')
-love.filesystem.write(packetLogName, 'Packet log start\r\n')
-
-function NetLog(data)
-	love.filesystem.append(netlogName, data  .. '\r\n')
-	-- print(data)
-end
-
-function PacketLog(data)
-	love.filesystem.append(packetLogName, data  .. '\r\n')
-	-- print(data)
-end
-
 -- Network code indicating the type of message.
 local MsgCode = {
 	Handshake = 1,		-- Used when sending the hand shake.
@@ -141,8 +124,8 @@ end
 
 function Network:Start()
 	print("Starting Network")
-
 	self.udp = self:HolePunch()
+	self:SendPacket(self:MakeHandshakePacket(), 5)
 end
 
 -- Get input from the remote player for the passed in game tick.
@@ -271,7 +254,7 @@ function Network:SendPacketRaw(packet)
 end
 
 -- Handles receiving packets from the other client.
-function Network:ReceivePacket(packet)
+function Network:ReceivePacket()
 	local data = nil
 	local msg = nil
 	local ip_or_msg = nil
@@ -324,12 +307,12 @@ function Network:ReceiveData()
 
 				if receivedTick > self.confirmedTick then
 					if receivedTick - self.confirmedTick > NET_INPUT_DELAY then
-						NetLog("Received packet with a tick too far ahead. Last: " .. self.confirmedTick .. "     Current: " .. receivedTick )
+						print("Received packet with a tick too far ahead. Last: " .. self.confirmedTick .. "     Current: " .. receivedTick )
 					end
 
 					self.confirmedTick = receivedTick
 
-					-- PacketLog("Received Input: " .. results[3+NET_SEND_HISTORY_SIZE] .. " @ " ..  receivedTick)
+					-- print("Received Input: " .. results[3+NET_SEND_HISTORY_SIZE] .. " @ " ..  receivedTick)
 
 					for offset=0, NET_SEND_HISTORY_SIZE-1 do
 						-- Save the input history sent in the packet.
@@ -337,7 +320,7 @@ function Network:ReceiveData()
 					end
 				end
 
-				-- NetLog("Received Tick: " .. receivedTick .. ",  Input: " .. self.remoteInputHistory[(self.confirmedTick % NET_INPUT_HISTORY_SIZE)+1])
+				-- print("Received Tick: " .. receivedTick .. ",  Input: " .. self.remoteInputHistory[(self.confirmedTick % NET_INPUT_HISTORY_SIZE)+1])
 			elseif code == MsgCode.Ping then
 				local pingTime = love.data.unpack("n", data, 2)
 				self:SendPacket(self:MakePongPacket(pingTime))
@@ -372,9 +355,8 @@ function Network:MakeInputPacket(tick)
 		history[i+1] = self.inputHistory[((NET_INPUT_HISTORY_SIZE + historyIndexStart + i) % NET_INPUT_HISTORY_SIZE) + 1] -- +1 here because lua indices start at 1 and not 0.
 	end
 
-	--NetLog('[Packet] tick: ' .. tick .. '      input: ' .. history[NET_SEND_HISTORY_SIZE])
-	local data = love.data.pack("string", INPUT_FORMAT_STRING, MsgCode.PlayerInput, self.localTickDelta, tick, unpack(history))
-	return data
+	--print('[Packet] tick: ' .. tick .. '      input: ' .. history[NET_SEND_HISTORY_SIZE])
+	return love.data.pack("string", INPUT_FORMAT_STRING, MsgCode.PlayerInput, self.localTickDelta, tick, unpack(history))
 end
 
 -- Send a ping message in order to test network latency

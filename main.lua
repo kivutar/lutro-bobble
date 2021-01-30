@@ -384,8 +384,6 @@ function love.update(dt)
 			-- We don't use the latest local tick, but the tick for the latest input sent to the remote client.
 			Network.localTickDelta = lastGameTick - Network.confirmedTick
 
-			timeSyncGraphTable[ 1 + (lastGameTick % 60) * 2 + 1  ] = -1 * (Network.localTickDelta - Network.remoteTickDelta) * GRAPH_UNIT_SCALE
-
 			-- Only do time sync check when the previous confirmed tick from the remote client hasn't been used yet.
 			if Network.confirmedTick > Game.lastConfirmedTick then
 
