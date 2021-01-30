@@ -261,6 +261,24 @@ function character:update(dt)
 		end
 	end
 
+	-- air friction
+	if  ((not JOY_RIGHT and self.xspeed > 0)
+	or  (not JOY_LEFT  and self.xspeed < 0))
+	and not otg and not oab
+	then
+		if self.xspeed > 0 then
+			self.xspeed = self.xspeed - 0.05
+			if self.xspeed < 0 then
+				self.xspeed = 0
+			end
+		elseif self.xspeed < 0 then
+			self.xspeed = self.xspeed + 0.05
+			if self.xspeed > 0 then
+				self.xspeed = 0
+			end
+		end
+	end
+
 	if self.ko > 0 then self.ko = self.ko - 1 end
 
 	-- animations
