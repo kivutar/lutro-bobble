@@ -11,32 +11,32 @@ function newGhost(n)
 	n.yspeed = 0
 	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "ghost"
-	n.speedlimit = 1.2
+	n.speedlimit = 2
 	n.t = 0
 
-	n.skin = "frog"
-	if n.pad == 2 then n.skin = "fox" end
-	if n.pad == 3 then n.skin = "bird" end
+	n.skin = "turnip"
+	if n.pad == 2 then n.skin = "croco" end
+	if n.pad == 3 then n.skin = "cat" end
 
-	if n.skin == "frog" then
+	if n.skin == "turnip" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ghost_right, 24, 24, 2, 10)
 			},
 		}
-	elseif n.skin == "fox" then
+	elseif n.skin == "croco" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_croco_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_ghost_right, 24, 24, 2, 10)
 			},
 		}
-	elseif n.skin == "bird" then
+	elseif n.skin == "cat" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_ghost_right, 24, 24, 2, 10)
 			},
 		}
 	end
@@ -137,11 +137,11 @@ end
 
 function ghost:draw()
 	if self.t % 2 == 0 then return end
-	self.anim:draw(self.x, self.y)
-	self.anim:draw(self.x+SCREEN_WIDTH, self.y)
-	self.anim:draw(self.x-SCREEN_WIDTH, self.y)
-	self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
-	self.anim:draw(self.x, self.y-SCREEN_HEIGHT)
+	self.anim:draw(self.x-6, self.y-8)
+	self.anim:draw(self.x+SCREEN_WIDTH-6, self.y-8)
+	self.anim:draw(self.x-SCREEN_WIDTH-6, self.y-8)
+	self.anim:draw(self.x-6, self.y+SCREEN_HEIGHT-8)
+	self.anim:draw(self.x-6, self.y-SCREEN_HEIGHT-8)
 end
 
 function ghost:on_collide(e1, e2, dx, dy)
