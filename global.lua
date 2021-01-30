@@ -17,7 +17,7 @@ SHOW_DEBUG_INFO = false				-- Prints debug information on screen when enabled.
 GRAPH_UNIT_SCALE = 5                -- The height scaled use for drawing stat graphs
 
 -- Network Settings
-RDV_IP = "95.130.13.198"
+RDV_IP = "195.201.56.250"
 RDV_PORT = 1234
 
 NET_INPUT_DELAY	= 3					-- Amount of input delay to use by default during online matches. Should always be > 0
