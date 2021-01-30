@@ -26,22 +26,6 @@ require "cross"
 require "ghost"
 require "heady"
 
--- This table stores time sync data that will be used for drawing the sync graph.
-local timeSyncGraphTable = {}
-
-for i=0,60-1 do
-	timeSyncGraphTable[1+i*2] = i*10
-	timeSyncGraphTable[1+(i*2 + 1)] = 0
-end
-
--- Table for storing graph data for monitoring the number of rollbacked frames
-local rollbackGraphTable = {}
-
-for i=0,60-1 do
-	rollbackGraphTable[1+i*2] = i*10
-	rollbackGraphTable[1+(i*2 + 1)] = 0
-end
-
 -- Manages the game state
 Game = {
 	-- Enabled when the game is paused
@@ -68,11 +52,7 @@ function Game:serialize()
 	-- print("serialize")
 	self.storedState = {}
 
-	-- -- All rollbackable objects and systems will have a CopyState() method.
-	-- self.storedState.world = World:CopyState()
 	self.storedState.input = Input:serialize()
-	-- self.storedState.matchSystem = MatchSystem:CopyState()
-	-- self.storedState.players = {self.players[1]:CopyState(), self.players[2]:CopyState()}
 
 	serialize()
 
@@ -81,18 +61,13 @@ end
 
 -- Restores the state of all rollbackable objects and systems in the game.
 function Game:unserialize()
-	print("unserialize")
+	-- print("unserialize")
 	-- Can't restore the state if has not been saved yet.
 	if not self.storedState then
 		return
 	end
 
-	-- -- All rollbackable objects and systems will have a SetState() method.
-	-- World:SetState(self.storedState.world)
 	Input:unserialize(self.storedState.input)
-	-- MatchSystem:SetState(self.storedState.matchSystem)
-	-- self.players[1]:SetState(self.storedState.players[1])
-	-- self.players[2]:SetState(self.storedState.players[2])
 
 	unserialize()
 
@@ -116,22 +91,19 @@ function Game:update()
 	-- Update the input system
 	Input:update()
 
-	-- When the world state is paused, don't update any of the players
-	--if not World.stop then
-		for i=1, #ENTITIES do
-			if ENTITIES[i] and ENTITIES[i].update then
-				ENTITIES[i]:update(dt)
-			end
+	for i=1, #ENTITIES do
+		if ENTITIES[i] and ENTITIES[i].update then
+			ENTITIES[i]:update(dt)
 		end
+	end
 
-		for i=1, #EFFECTS do
-			if EFFECTS[i] and EFFECTS[i].update then
-				EFFECTS[i]:update(dt)
-			end
+	for i=1, #EFFECTS do
+		if EFFECTS[i] and EFFECTS[i].update then
+			EFFECTS[i]:update(dt)
 		end
+	end
 
-		detect_collisions()
-	--end
+	detect_collisions()
 end
 
 function love.conf(t)
@@ -314,9 +286,6 @@ function HandleRollbacks()
 	-- Rerun rollbackFrames number of updates.
 	local rollbackFrames = lastGameTick - Network.lastSyncedTick
 
-	-- Update the graph indicating the number of rollback frames
-	rollbackGraphTable[ 1 + (lastGameTick % 60) * 2 + 1  ] = -1 * rollbackFrames * GRAPH_UNIT_SCALE
-
 	if lastGameTick >= 0 and lastGameTick > (Network.lastSyncedTick + 1) and Network.confirmedTick > Network.lastSyncedTick then
 
 		-- Must revert back to the last known synced game frame.
@@ -381,9 +350,6 @@ function TestRollbacks()
 		end
 	end
 end
-
--- Used for testing performance
-local lastTime = love.timer.getTime()
 
 function love.update(dt)
 	local lastGameTick = Game.tick
