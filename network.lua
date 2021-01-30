@@ -49,7 +49,6 @@ local SYNC_DATA_FORMAT_STRING = "Bjs16"
 Network = {
 	enabled = false,				-- Set to true when the network is running.
 	connectedToClient = false,		-- Indicates whether or not the game is connected to another client
-	isServer = false,				-- Indicates whether or not this game is the server.
 
 	clientIP = "",					-- Detected network address for the non-server client
 	clientPort = -1,				-- Detected port for the non-server client
@@ -133,30 +132,15 @@ function Network:HolePunch()
 		end
 	end
 
+	self.clientIP = peer.ip
+	self.clientPort = peer.port
+	self.enabled = true
+
 	return p2p
 end
 
--- Setup a network connection at connect to the server.
-function Network:StartConnection()
+function Network:Start()
 	print("Starting Network")
-	NetLog("Starting Client")
-
-	self.enabled = true
-	self.isServer = false
-
-	self.udp = self:HolePunch()
-
-	-- Start the connection with the server
-	self:ConnectToServer()
-end
-
--- Setup a network connection as the server then wait for a client to connect.
-function Network:StartServer()
-	print("Starting Server")
-	NetLog("Starting Server")
-
-	self.enabled = true
-	self.isServer = true
 
 	self.udp = self:HolePunch()
 end
@@ -320,17 +304,9 @@ function Network:ReceiveData()
 				if not self.connectedToClient then
 					self.connectedToClient = true
 
-					-- The server needs to remember the address and port in order to send data to the other cilent.
-					if true then
-						-- Server needs to the other the client address and ip to know where to send data.
-						if self.isServer then
-							self.clientIP = ip
-							self.clientPort = port
-						end
-						print("Received Handshake. Address: " .. self.clientIP .. ".   Port: " .. self.clientPort)
-						-- Send handshake to client.
-						self:SendPacket(self:MakeHandshakePacket(), 5)
-					end
+					print("Received Handshake. Address: " .. self.clientIP .. ".   Port: " .. self.clientPort)
+					-- Send handshake to client.
+					self:SendPacket(self:MakeHandshakePacket(), 5)
 				end
 
 			elseif code == MsgCode.PlayerInput then

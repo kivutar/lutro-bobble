@@ -186,14 +186,6 @@ function love.keypressed(key, scancode, isrepeat)
 		Game:serialize()
 	elseif key == 'f8' then
 		Game:unserialize()
-	elseif key == 'f9' then
-		Network:StartConnection()
-		Input.localPlayerPort = 2  -- Right now the client is always player 2.
-		Input.remotePlayerPort = 1 -- Right now the server is always players 1.
-	elseif key == 'f10' then
-		Network:StartServer()
-		Input.localPlayerPort = 1  -- Right now the server is always players 1.
-		Input.remotePlayerPort = 2 -- Right now the client is always player 2.
 	end
 end
 

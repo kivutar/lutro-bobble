@@ -255,6 +255,8 @@ function love.load()
 
 	-- Store game state before the first update
 	Game:serialize()
+
+	Network:Start()
 end
 
 -- Gets the sync data to confirm the client game states are in sync
