@@ -6,22 +6,29 @@ function newNotif(n)
 	n.y = n.y - 16
 	n.yspeed = -2
 	n.yaccel = 0.1
+	n.t = 0
 
 	return setmetatable(n, notif)
 end
 
 function notif:update(dt)
+	self.t = self.t + 1
+
 	self.yspeed = self.yspeed + self.yaccel
+	if self.yspeed >= 0 then self.yspeed = 0 end
 	self.y = self.y + self.yspeed
 
-	if self.yspeed >= 0 then
+	if self.t >= 60 then
 		effect_remove(self)
 	end
 end
 
 function notif:draw()
 	love.graphics.setFont(FNT_points)
-	love.graphics.print(self.text, math.floor(self.x), math.floor(self.y))
+
+	if self.t % 2 == 0 then
+		love.graphics.print(self.text, math.floor(self.x), math.floor(self.y))
+	end
 end
 
 function notif:serialize()

@@ -166,44 +166,50 @@ function love.load()
 	IMG_gem = love.graphics.newImage("assets/gem.png")
 	IMG_shadow = love.graphics.newImage("assets/shadow.png")
 
-	IMG_frog_stand_left = love.graphics.newImage("assets/frog_stand_left.png")
-	IMG_frog_stand_right = love.graphics.newImage("assets/frog_stand_right.png")
-	IMG_frog_run_left = love.graphics.newImage("assets/frog_run_left.png")
-	IMG_frog_run_right = love.graphics.newImage("assets/frog_run_right.png")
-	IMG_frog_jump_left = love.graphics.newImage("assets/frog_jump_left.png")
-	IMG_frog_jump_right = love.graphics.newImage("assets/frog_jump_right.png")
-	IMG_frog_ko_left = love.graphics.newImage("assets/frog_ko_left.png")
-	IMG_frog_ko_right = love.graphics.newImage("assets/frog_ko_right.png")
-	IMG_frog_die_left = love.graphics.newImage("assets/frog_die_left.png")
-	IMG_frog_die_right = love.graphics.newImage("assets/frog_die_right.png")
-	IMG_frog_ghost_left = love.graphics.newImage("assets/frog_ghost_left.png")
-	IMG_frog_ghost_right = love.graphics.newImage("assets/frog_ghost_right.png")
+	IMG_turnip_stand_left = love.graphics.newImage("assets/turnip_stand_left.png")
+	IMG_turnip_stand_right = love.graphics.newImage("assets/turnip_stand_right.png")
+	IMG_turnip_run_left = love.graphics.newImage("assets/turnip_run_left.png")
+	IMG_turnip_run_right = love.graphics.newImage("assets/turnip_run_right.png")
+	IMG_turnip_jump_left = love.graphics.newImage("assets/turnip_jump_left.png")
+	IMG_turnip_jump_right = love.graphics.newImage("assets/turnip_jump_right.png")
+	IMG_turnip_fall_left = love.graphics.newImage("assets/turnip_fall_left.png")
+	IMG_turnip_fall_right = love.graphics.newImage("assets/turnip_fall_right.png")
+	IMG_turnip_ko_left = love.graphics.newImage("assets/turnip_die_left.png")
+	IMG_turnip_ko_right = love.graphics.newImage("assets/turnip_die_right.png")
+	IMG_turnip_die_left = love.graphics.newImage("assets/turnip_die_left.png")
+	IMG_turnip_die_right = love.graphics.newImage("assets/turnip_die_right.png")
+	IMG_turnip_ghost_left = love.graphics.newImage("assets/turnip_ghost_left.png")
+	IMG_turnip_ghost_right = love.graphics.newImage("assets/turnip_ghost_right.png")
 
-	IMG_fox_stand_left = love.graphics.newImage("assets/fox_stand_left.png")
-	IMG_fox_stand_right = love.graphics.newImage("assets/fox_stand_right.png")
-	IMG_fox_run_left = love.graphics.newImage("assets/fox_run_left.png")
-	IMG_fox_run_right = love.graphics.newImage("assets/fox_run_right.png")
-	IMG_fox_jump_left = love.graphics.newImage("assets/fox_jump_left.png")
-	IMG_fox_jump_right = love.graphics.newImage("assets/fox_jump_right.png")
-	IMG_fox_ko_left = love.graphics.newImage("assets/fox_ko_left.png")
-	IMG_fox_ko_right = love.graphics.newImage("assets/fox_ko_right.png")
-	IMG_fox_die_left = love.graphics.newImage("assets/fox_die_left.png")
-	IMG_fox_die_right = love.graphics.newImage("assets/fox_die_right.png")
-	IMG_fox_ghost_left = love.graphics.newImage("assets/fox_ghost_left.png")
-	IMG_fox_ghost_right = love.graphics.newImage("assets/fox_ghost_right.png")
+	IMG_croco_stand_left = love.graphics.newImage("assets/croco_stand_left.png")
+	IMG_croco_stand_right = love.graphics.newImage("assets/croco_stand_right.png")
+	IMG_croco_run_left = love.graphics.newImage("assets/croco_run_left.png")
+	IMG_croco_run_right = love.graphics.newImage("assets/croco_run_right.png")
+	IMG_croco_jump_left = love.graphics.newImage("assets/croco_jump_left.png")
+	IMG_croco_jump_right = love.graphics.newImage("assets/croco_jump_right.png")
+	IMG_croco_fall_left = love.graphics.newImage("assets/croco_fall_left.png")
+	IMG_croco_fall_right = love.graphics.newImage("assets/croco_fall_right.png")
+	IMG_croco_ko_left = love.graphics.newImage("assets/turnip_die_left.png")
+	IMG_croco_ko_right = love.graphics.newImage("assets/turnip_die_right.png")
+	IMG_croco_die_left = love.graphics.newImage("assets/turnip_die_left.png")
+	IMG_croco_die_right = love.graphics.newImage("assets/turnip_die_right.png")
+	IMG_croco_ghost_left = love.graphics.newImage("assets/croco_ghost_left.png")
+	IMG_croco_ghost_right = love.graphics.newImage("assets/croco_ghost_right.png")
 
-	IMG_bird_stand_left = love.graphics.newImage("assets/bird_stand_left.png")
-	IMG_bird_stand_right = love.graphics.newImage("assets/bird_stand_right.png")
-	IMG_bird_run_left = love.graphics.newImage("assets/bird_run_left.png")
-	IMG_bird_run_right = love.graphics.newImage("assets/bird_run_right.png")
-	IMG_bird_jump_left = love.graphics.newImage("assets/bird_jump_left.png")
-	IMG_bird_jump_right = love.graphics.newImage("assets/bird_jump_right.png")
-	IMG_bird_ko_left = love.graphics.newImage("assets/bird_ko_left.png")
-	IMG_bird_ko_right = love.graphics.newImage("assets/bird_ko_right.png")
-	IMG_bird_die_left = love.graphics.newImage("assets/bird_die_left.png")
-	IMG_bird_die_right = love.graphics.newImage("assets/bird_die_right.png")
-	IMG_bird_ghost_left = love.graphics.newImage("assets/bird_ghost_left.png")
-	IMG_bird_ghost_right = love.graphics.newImage("assets/bird_ghost_right.png")
+	IMG_cat_stand_left = love.graphics.newImage("assets/cat_stand_left.png")
+	IMG_cat_stand_right = love.graphics.newImage("assets/cat_stand_right.png")
+	IMG_cat_run_left = love.graphics.newImage("assets/cat_run_left.png")
+	IMG_cat_run_right = love.graphics.newImage("assets/cat_run_right.png")
+	IMG_cat_jump_left = love.graphics.newImage("assets/cat_jump_left.png")
+	IMG_cat_jump_right = love.graphics.newImage("assets/cat_jump_right.png")
+	IMG_cat_fall_left = love.graphics.newImage("assets/cat_fall_left.png")
+	IMG_cat_fall_right = love.graphics.newImage("assets/cat_fall_right.png")
+	IMG_cat_ko_left = love.graphics.newImage("assets/cat_die_left.png")
+	IMG_cat_ko_right = love.graphics.newImage("assets/cat_die_right.png")
+	IMG_cat_die_left = love.graphics.newImage("assets/cat_die_left.png")
+	IMG_cat_die_right = love.graphics.newImage("assets/cat_die_right.png")
+	IMG_cat_ghost_left = love.graphics.newImage("assets/cat_ghost_left.png")
+	IMG_cat_ghost_right = love.graphics.newImage("assets/cat_ghost_right.png")
 
 	IMG_eye_run_left = love.graphics.newImage("assets/eye_run_left.png")
 	IMG_eye_run_right = love.graphics.newImage("assets/eye_run_right.png")
@@ -702,4 +708,21 @@ function unserialize()
 		end
 		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
 	end
+end
+
+function love.reset()
+	print("reset from lua")
+	STATE = {}
+	SHADOWS = {}
+	SOLIDS = {}
+	ENTITIES = {}
+	EFFECTS = {}
+	PHASE = nil
+	STAGE = 1
+	CHAR1 = nil
+	CHAR2 = nil
+	BGM = nil
+	LAST_UID = 0
+
+	love.load()
 end

@@ -5,93 +5,105 @@ JUMP_FORGIVENESS = 8
 
 function newCharacter(n)
 	n.type = ENT_CHARACTER
-	n.width = 16
+	n.width = 12
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
 	n.xaccel = 0.5
-	n.yaccel = 0.17
+	n.yaccel = 0.15
 	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "jump"
 	n.DO_JUMP = 0
 	n.DO_ATTACK = 0
-	n.speedlimit = 1.5
+	n.speedlimit = 2
 	n.ko = 0
 	n.dead_t = 0
 	n.dead = false
 	n.ungrounded_time = 0
 
-	n.skin = "frog"
-	if n.pad == 2 then n.skin = "fox" end
-	if n.pad == 3 then n.skin = "bird" end
+	n.skin = "turnip"
+	if n.pad == 2 then n.skin = "croco" end
+	if n.pad == 3 then n.skin = "cat" end
 
-	if n.skin == "frog" then
+	if n.skin == "turnip" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_stand_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_run_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_jump_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_jump_right, 24, 24, 1, 10)
+			},
+			fall = {
+				[DIR_LEFT]  = newAnimation(IMG_turnip_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_die_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
 			},
 		}
-	elseif n.skin == "fox" then
+	elseif n.skin == "croco" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_stand_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_croco_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_run_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_croco_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_jump_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_croco_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_jump_right, 24, 24, 1, 10)
+			},
+			fall = {
+				[DIR_LEFT]  = newAnimation(IMG_croco_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_die_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
 			},
 		}
-	elseif n.skin == "bird" then
+	elseif n.skin == "cat" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_stand_right, 16, 16, 2, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_run_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_jump_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_jump_right, 24, 24, 1, 10)
+			},
+			fall = {
+				[DIR_LEFT]  = newAnimation(IMG_cat_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_die_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_die_right, 24, 24, 1, 10)
 			},
 		}
 	end
@@ -103,12 +115,12 @@ end
 
 function character:on_the_ground()
 	return ground_at(self.x + 1, self.y + self.height)
-		or ground_at(self.x + 15, self.y + self.height)
+		or ground_at(self.x + self.width - 1, self.y + self.height)
 end
 
 function character:on_a_bridge()
 	return bridge_at(self.x + 1, self.y + self.height)
-		or bridge_at(self.x + 15, self.y + self.height)
+		or bridge_at(self.x + self.width - 1, self.y + self.height)
 end
 
 function character:die()
@@ -166,7 +178,7 @@ function character:update(dt)
 	if self.DO_JUMP == 1 and not JOY_DOWN then
 		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
-			self.yspeed = -4
+			self.yspeed = -3.75
 			love.audio.play(SFX_jump)
 		end
 	end
@@ -174,7 +186,12 @@ function character:update(dt)
 	-- jumping down
 	if self.DO_JUMP == 1 and JOY_DOWN then
 		if oab then
-			self.y = self.y + 16
+			self.y = self.y + 3
+			love.audio.play(SFX_jump)
+		elseif otg then
+			self.y = self.y - 1
+			self.yspeed = -3.75
+			love.audio.play(SFX_jump)
 		end
 	end
 
@@ -249,7 +266,11 @@ function character:update(dt)
 			self.stance = "run"
 		end
 	else
-		self.stance = "jump"
+		if self.yspeed < 0 then
+			self.stance = "jump"
+		else
+			self.stance = "fall"
+		end
 	end
 
 	local anim = self.animations[self.stance][self.direction]
@@ -265,12 +286,12 @@ function character:update(dt)
 end
 
 function character:draw()
-	self.anim:draw(self.x, self.y)
-	if self.dead then
-		self.anim:draw(self.x+SCREEN_WIDTH, self.y)
-		self.anim:draw(self.x-SCREEN_WIDTH, self.y)
-		self.anim:draw(self.x, self.y+SCREEN_HEIGHT)
-		self.anim:draw(self.x, self.y-SCREEN_HEIGHT)
+	self.anim:draw(self.x-6, self.y-8)
+	if not self.dead then
+		self.anim:draw(self.x+SCREEN_WIDTH-6, self.y-8)
+		self.anim:draw(self.x-SCREEN_WIDTH-6, self.y-8)
+		self.anim:draw(self.x-6, self.y+SCREEN_HEIGHT-8)
+		self.anim:draw(self.x-6, self.y-SCREEN_HEIGHT-8)
 	end
 end
 
@@ -288,7 +309,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.x = self.x + dx
 		end
 	elseif e2.type == ENT_BRIDGE then
-		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 then
+		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 and self.y+self.height-3 < e2.y then
 			self.yspeed = 0
 			self.y = self.y + dy
 		end
