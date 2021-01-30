@@ -14,7 +14,7 @@ function newGhost(n)
 	n.speedlimit = 2
 	n.t = 0
 
-	n.skin = "cat"
+	n.skin = "turnip"
 	if n.pad == 2 then n.skin = "croco" end
 	if n.pad == 3 then n.skin = "cat" end
 

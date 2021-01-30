@@ -21,7 +21,7 @@ function newCharacter(n)
 	n.dead = false
 	n.ungrounded_time = 0
 
-	n.skin = "cat"
+	n.skin = "turnip"
 	if n.pad == 2 then n.skin = "croco" end
 	if n.pad == 3 then n.skin = "cat" end
 
