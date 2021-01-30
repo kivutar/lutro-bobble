@@ -25,76 +25,7 @@ function newCharacter(n)
 	if n.pad == 2 then n.skin = "croco" end
 	if n.pad == 3 then n.skin = "cat" end
 
-	if n.skin == "frog" then
-		n.animations = {
-			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_stand_right, 16, 16, 2, 10)
-			},
-			run = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_run_right, 16, 16, 1, 10)
-			},
-			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_jump_right, 16, 16, 1, 10)
-			},
-			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_ko_right, 16, 16, 1, 10)
-			},
-			die = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_die_right, 16, 16, 1, 10)
-			},
-		}
-	elseif n.skin == "fox" then
-		n.animations = {
-			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_stand_right, 16, 16, 2, 10)
-			},
-			run = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_run_right, 16, 16, 1, 10)
-			},
-			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_jump_right, 16, 16, 1, 10)
-			},
-			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_ko_right, 16, 16, 1, 10)
-			},
-			die = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_die_right, 16, 16, 1, 10)
-			},
-		}
-	elseif n.skin == "bird" then
-		n.animations = {
-			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_stand_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_stand_right, 16, 16, 2, 10)
-			},
-			run = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_run_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_run_right, 16, 16, 1, 10)
-			},
-			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_jump_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_jump_right, 16, 16, 1, 10)
-			},
-			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_ko_right, 16, 16, 1, 10)
-			},
-			die = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_die_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_die_right, 16, 16, 1, 10)
-			},
-		}
-	elseif n.skin == "turnip" then
+	if n.skin == "turnip" then
 		n.animations = {
 			stand = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_stand_left,  24, 24, 2, 10),

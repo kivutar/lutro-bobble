@@ -18,28 +18,7 @@ function newGhost(n)
 	if n.pad == 2 then n.skin = "croco" end
 	if n.pad == 3 then n.skin = "cat" end
 
-	if n.skin == "frog" then
-		n.animations = {
-			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_frog_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_frog_ghost_right, 16, 16, 2, 10)
-			},
-		}
-	elseif n.skin == "fox" then
-		n.animations = {
-			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_fox_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_fox_ghost_right, 16, 16, 2, 10)
-			},
-		}
-	elseif n.skin == "bird" then
-		n.animations = {
-			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_bird_ghost_left,  16, 16, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_bird_ghost_right, 16, 16, 2, 10)
-			},
-		}
-	elseif n.skin == "turnip" then
+	if n.skin == "turnip" then
 		n.animations = {
 			ghost = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_ghost_left,  24, 24, 2, 10),
