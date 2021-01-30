@@ -106,13 +106,15 @@ function Network:HolePunch()
 	rdv:send("hi")
 	local data = assert(rdv:receive())
 	local my = json.parse(data)
-	print("I am", my.ip, my.port)
+	print("I am", my.ip, my.port, my.idx)
+	Input.localPlayerPort = my.idx
 
 	local data = assert(rdv:receive())
 	local peer = json.parse(data)
-	print("I see", peer.ip, peer.port)
+	print("I see", peer.ip, peer.port, peer.idx)
 	self.clientIP = peer.ip
 	self.clientPort = peer.port
+	Input.remotePlayerPort = peer.idx
 
 	assert(rdv:close())
 
@@ -132,8 +134,6 @@ function Network:HolePunch()
 		end
 	end
 
-	self.clientIP = peer.ip
-	self.clientPort = peer.port
 	self.enabled = true
 
 	return p2p
