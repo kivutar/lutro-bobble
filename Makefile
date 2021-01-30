@@ -1,8 +1,8 @@
 all:
-	zip -r Bobble.lutro ./*
+	zip -9 -r Bobble.love ./*
 
 clean:
-	@$(RM) -f Bubble.lutro
+	@$(RM) -f Bubble.love
 	@$(RM) -rf Bobble/
 
 .PHONY: all clean
