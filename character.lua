@@ -44,8 +44,8 @@ function newCharacter(n)
 				[DIR_RIGHT] = newAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 24, 24, 1, 10)
 			},
 			die = {
 				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
@@ -71,8 +71,8 @@ function newCharacter(n)
 				[DIR_RIGHT] = newAnimation(IMG_croco_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_croco_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_croco_ko_right, 24, 24, 1, 10)
 			},
 			die = {
 				[DIR_LEFT]  = newAnimation(IMG_croco_die_left,  24, 24, 1, 10),
@@ -98,8 +98,8 @@ function newCharacter(n)
 				[DIR_RIGHT] = newAnimation(IMG_cat_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_ko_left,  16, 16, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_ko_right, 16, 16, 1, 10)
+				[DIR_LEFT]  = newAnimation(IMG_cat_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = newAnimation(IMG_cat_ko_right, 24, 24, 1, 10)
 			},
 			die = {
 				[DIR_LEFT]  = newAnimation(IMG_cat_die_left,  24, 24, 1, 10),
