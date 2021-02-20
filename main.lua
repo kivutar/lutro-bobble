@@ -1,6 +1,7 @@
 require "global"
 require "utils"
 require "anim"
+require "slam"
 require "collisions"
 require "entities"
 require "character"
@@ -108,18 +109,18 @@ function love.load()
 	IMG_spikes_left = love.graphics.newImage("assets/spikes_left.png")
 	IMG_spikes_right = love.graphics.newImage("assets/spikes_right.png")
 
-	BGM_bgm = love.audio.newSource("assets/bgm.wav", "static")
+	BGM_bgm = newSource("assets/bgm.wav", "static")
 
-	SFX_jump = love.audio.newSource("assets/jump.wav", "static")
-	SFX_bubble = love.audio.newSource("assets/bubble.wav", "static")
-	SFX_explode = love.audio.newSource("assets/explode.wav", "static")
-	SFX_ko = love.audio.newSource("assets/ko.wav", "static")
-	SFX_enemy_die = love.audio.newSource("assets/enemy_die.wav", "static")
-	SFX_die = love.audio.newSource("assets/die.wav", "static")
-	SFX_gem = love.audio.newSource("assets/gem.wav", "static")
-	SFX_ok = love.audio.newSource("assets/ok.wav", "static")
-	SFX_cross = love.audio.newSource("assets/cross.wav", "static")
-	SFX_revive = love.audio.newSource("assets/revive.wav", "static")
+	SFX_jump = newSource("assets/jump.wav", "static")
+	SFX_bubble = newSource("assets/bubble.wav", "static")
+	SFX_explode = newSource("assets/explode.wav", "static")
+	SFX_ko = newSource("assets/ko.wav", "static")
+	SFX_enemy_die = newSource("assets/enemy_die.wav", "static")
+	SFX_die = newSource("assets/die.wav", "static")
+	SFX_gem = newSource("assets/gem.wav", "static")
+	SFX_ok = newSource("assets/ok.wav", "static")
+	SFX_cross = newSource("assets/cross.wav", "static")
+	SFX_revive = newSource("assets/revive.wav", "static")
 
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")

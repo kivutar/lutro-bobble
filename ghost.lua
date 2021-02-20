@@ -152,7 +152,7 @@ end
 
 function ghost:on_collide(e1, e2, dx, dy)
 	if e2.type == ENT_CROSS then
-		love.audio.play(SFX_revive)
+		SFX_revive:play()
 		entity_remove(e2)
 		if self.pad == 1 then
 			CHAR1 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})

@@ -35,7 +35,7 @@ function inter:update(dt)
 			end
 			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
 
-			love.audio.play(BGM)
+			BGM:play()
 		end
 	end
 end

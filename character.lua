@@ -128,7 +128,7 @@ function character:die()
 	self.dead_t = 240
 	self.yspeed = -1
 	self.stance = "die"
-	love.audio.play(SFX_die)
+	SFX_die:play()
 	table.insert(ENTITIES, newGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction}))
 end
 
@@ -186,7 +186,7 @@ function character:update(dt)
 		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
 			self.yspeed = -3.75
-			love.audio.play(SFX_jump)
+			SFX_jump:play()
 		end
 	end
 
@@ -194,11 +194,11 @@ function character:update(dt)
 	if self.DO_JUMP == 1 and JOY_DOWN then
 		if oab then
 			self.y = self.y + 3
-			love.audio.play(SFX_jump)
+			SFX_jump:play()
 		elseif otg then
 			self.y = self.y - 1
 			self.yspeed = -3.75
-			love.audio.play(SFX_jump)
+			SFX_jump:play()
 		end
 	end
 
@@ -210,7 +210,7 @@ function character:update(dt)
 	end
 
 	if self.DO_ATTACK == 1 then
-		love.audio.play(SFX_bubble)
+		SFX_bubble:play()
 		if self.direction == DIR_LEFT then
 			table.insert(ENTITIES, newBubble({uid=newUID(),x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
@@ -345,7 +345,7 @@ function character:on_collide(e1, e2, dx, dy)
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -1
 			self.y = self.y + dy
-			love.audio.play(SFX_ko)
+			SFX_ko:play()
 			e2.ko = 10
 		end
 
@@ -357,7 +357,7 @@ function character:on_collide(e1, e2, dx, dy)
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = -6
 			self.y = self.y + dy
-			love.audio.play(SFX_ko)
+			SFX_ko:play()
 		end
 
 		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
@@ -376,11 +376,11 @@ function character:on_collide(e1, e2, dx, dy)
 			self:die()
 		end
 	elseif e2.type == ENT_GEM then
-		love.audio.play(SFX_gem)
+		SFX_gem:play()
 		table.insert(EFFECTS, newNotif({uid=newUID(),x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
 	elseif e2.type == ENT_CROSS then
-		love.audio.play(SFX_gem)
+		SFX_gem:play()
 		table.insert(EFFECTS, newNotif({uid=newUID(),x=e2.x, y=e2.y, text="1000"}))
 		entity_remove(e2)
 	end
