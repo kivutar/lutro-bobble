@@ -47,7 +47,7 @@ function heady:die()
 	self.dead = true
 	self.yspeed = -1
 	self.stance = "die"
-	love.audio.play(SFX_enemy_die)
+	SFX_enemy_die:play()
 end
 
 function heady:update(dt)

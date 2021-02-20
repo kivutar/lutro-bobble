@@ -56,7 +56,7 @@ function bubble:die()
 		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="500"}))
 	else
 		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="100"}))
-		love.audio.play(SFX_explode)
+		SFX_explode:play()
 	end
 	table.insert(EFFECTS, newBubbleexp({uid=newUID(),x=self.x,y=self.y}))
 	entity_remove(self)
