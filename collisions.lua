@@ -87,11 +87,11 @@ function solid_at(x, y, exclude)
 	return false;
 end
 
-function ground_at(x, y)
-	for i = 1, #SOLIDS do
-		local e = SOLIDS[i];
+function type_at(list, type, x, y)
+	for i = 1, #list do
+		local e = list[i];
 
-		if (e.type == ENT_GROUND)
+		if (e.type == type)
 		and x >= e.x and x < e.x + e.width
 		and y >= e.y and y < e.y + e.height
 		then
@@ -101,18 +101,16 @@ function ground_at(x, y)
 	return false;
 end
 
-function bridge_at(x, y)
-	for i = 1, #SOLIDS do
-		local e = SOLIDS[i];
+function ground_at(x, y)
+	return type_at(SOLIDS, ENT_GROUND, x, y)
+end
 
-		if (e.type == ENT_BRIDGE)
-		and x >= e.x and x < e.x + e.width
-		and y >= e.y and y < e.y + e.height
-		then
-			return true;
-		end
-	end
-	return false;
+function bridge_at(x, y)
+	return type_at(SOLIDS, ENT_BRIDGE, x, y)
+end
+
+function log_at(x, y)
+	return type_at(SOLIDS, ENT_LOG, x, y)
 end
 
 function object_collide(entity, type)

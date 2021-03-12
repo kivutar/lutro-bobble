@@ -10,9 +10,6 @@ function newBridge(n)
 	return setmetatable(n, bridge)
 end
 
-function bridge:update(dt)
-end
-
 function bridge:draw()
 	love.graphics.draw(self.img, self.x, self.y)
 end

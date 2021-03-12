@@ -123,6 +123,11 @@ function character:on_a_bridge()
 		or bridge_at(self.x + self.width - 1, self.y + self.height)
 end
 
+function character:on_a_log()
+	return log_at(self.x + 1, self.y + self.height)
+		or log_at(self.x + self.width - 1, self.y + self.height)
+end
+
 function character:die()
 	self.dead = true
 	self.dead_t = 240
@@ -150,6 +155,7 @@ function character:update(dt)
 
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
+	local oal = self:on_a_log()
 
 	local JOY_LEFT  = love.keyboard.isDown("left")
 	local JOY_RIGHT = love.keyboard.isDown("right")
@@ -167,7 +173,7 @@ function character:update(dt)
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel
 	if (self.yspeed > 3) then self.yspeed = 3 end
-	if (otg or oab) and self.yspeed > 0 then self.yspeed = 0 end
+	if (otg or oab or oal) and self.yspeed > 0 then self.yspeed = 0 end
 
 	-- jumping
 	if JOY_B then
@@ -176,7 +182,7 @@ function character:update(dt)
 		self.DO_JUMP = 0
 	end
 
-	if otg or oab then
+	if otg or oab or oal then
 		self.ungrounded_time = 0
 	else
 		self.ungrounded_time = self.ungrounded_time + 1
@@ -239,6 +245,8 @@ function character:update(dt)
 	self.x = self.x + self.xspeed
 	self.y = self.y + self.yspeed
 
+	if oal then self.y = self.y - 0.5 end
+
 	-- screen wrapping
 	self.x = self.x % SCREEN_WIDTH
 	self.y = self.y % SCREEN_HEIGHT
@@ -246,7 +254,7 @@ function character:update(dt)
 	-- decelerating
 	if  ((not JOY_RIGHT and self.xspeed > 0)
 	or  (not JOY_LEFT  and self.xspeed < 0))
-	and (otg or oab)
+	and (otg or oab or oal)
 	then
 		if self.xspeed > 0 then
 			self.xspeed = self.xspeed - 10
@@ -264,7 +272,7 @@ function character:update(dt)
 	-- air friction
 	if  ((not JOY_RIGHT and self.xspeed > 0)
 	or  (not JOY_LEFT  and self.xspeed < 0))
-	and not otg and not oab
+	and not otg and not oab and not oal
 	then
 		if self.xspeed > 0 then
 			self.xspeed = self.xspeed - 0.05
@@ -284,7 +292,7 @@ function character:update(dt)
 	-- animations
 	if self.ko > 0 then
 		self.stance = "ko"
-	elseif otg or oab then
+	elseif otg or oab or oal then
 		if self.xspeed == 0 then
 			self.stance = "stand"
 		else
@@ -333,7 +341,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx
 		end
-	elseif e2.type == ENT_BRIDGE then
+	elseif e2.type == ENT_BRIDGE or e2.type == ENT_LOG then
 		if math.abs(dy) < math.abs(dx) and dy ~= 0 and self.yspeed > 0 and self.y+self.height-3 < e2.y then
 			self.yspeed = 0
 			self.y = self.y + dy

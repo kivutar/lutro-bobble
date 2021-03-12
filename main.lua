@@ -23,6 +23,7 @@ require "gameover"
 require "cross"
 require "ghost"
 require "heady"
+require "log"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -44,6 +45,7 @@ function love.load()
 	IMG_cross = love.graphics.newImage("assets/cross.png")
 	IMG_gem = love.graphics.newImage("assets/gem.png")
 	IMG_shadow = love.graphics.newImage("assets/shadow.png")
+	IMG_log = love.graphics.newImage("assets/log.png")
 
 	IMG_turnip_stand_left = love.graphics.newImage("assets/turnip_stand_left.png")
 	IMG_turnip_stand_right = love.graphics.newImage("assets/turnip_stand_right.png")
@@ -135,6 +137,12 @@ function love.update(dt)
 	for i=1, #ENTITIES do
 		if ENTITIES[i] and ENTITIES[i].update then
 			ENTITIES[i]:update(dt)
+		end
+	end
+
+	for i=1, #SOLIDS do
+		if SOLIDS[i] and SOLIDS[i].update then
+			SOLIDS[i]:update(dt)
 		end
 	end
 
@@ -286,6 +294,8 @@ function unserialize()
 				SOLIDS[i] = newGround(STATE.SOLIDS[i])
 			elseif STATE.SOLIDS[i].type == ENT_BRIDGE then
 				SOLIDS[i] = newBridge({})
+			elseif STATE.SOLIDS[i].type == ENT_LOG then
+				SOLIDS[i] = newLog({})
 			end
 			SOLIDS[i]:unserialize(STATE.SOLIDS[i])
 		end
@@ -365,4 +375,18 @@ function love.reset()
 	LAST_UID = 0
 
 	love.load()
+end
+
+function love.serializeSize()
+	print("serializeSize")
+	return 1024
+end
+
+function love.serialize(size)
+	print("serialize", size)
+	return "abcdef"
+end
+
+function love.unserialize(data, size)
+	print("unserialize", data, size)
 end

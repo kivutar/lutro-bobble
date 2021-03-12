@@ -111,7 +111,7 @@ function heady:on_collide(e1, e2, dx, dy)
 			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
 			self.xspeed = -self.xspeed
 		end
-	elseif e2.type == ENT_BRIDGE then
+	elseif e2.type == ENT_BRIDGE or e2.type == ENT_LOG then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
