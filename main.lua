@@ -109,7 +109,7 @@ function love.load()
 	IMG_spikes_left = love.graphics.newImage("assets/spikes_left.png")
 	IMG_spikes_right = love.graphics.newImage("assets/spikes_right.png")
 
-	BGM_bgm = newSource("assets/bgm.wav", "static")
+	BGM_bgm = newSource("assets/Troth.ogg", "stream")
 
 	SFX_jump = newSource("assets/jump.wav", "static")
 	SFX_bubble = newSource("assets/bubble.wav", "static")
