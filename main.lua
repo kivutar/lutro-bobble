@@ -129,7 +129,7 @@ function love.load()
 	BGM = BGM_bgm
 	BGM:setLooping(true)
 
-	table.insert(ENTITIES, newTitle({}))
+	table.insert(ENTITIES, NewTitle({}))
 end
 
 function love.update(dt)
@@ -147,24 +147,24 @@ function love.update(dt)
 
 	detect_collisions()
 
-	JOY_L = love.keyboard.isDown("q")
-	JOY_R = love.keyboard.isDown("w")
-	if lutro ~= nil then
-		JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
-		JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
-	end
+	-- JOY_L = love.keyboard.isDown("q")
+	-- JOY_R = love.keyboard.isDown("w")
+	-- if lutro ~= nil then
+	-- 	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
+	-- 	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
+	-- end
 
-	if JOY_L then L = L + 1 else L = 0 end
-	if L == 1 then
-		print('saving')
-		serialize()
-	end
+	-- if JOY_L then L = L + 1 else L = 0 end
+	-- if L == 1 then
+	-- 	print('saving')
+	-- 	serialize()
+	-- end
 
-	if JOY_R then R = R + 1 else R = 0 end
-	if R == 1 then
-		print('loading')
-		unserialize()
-	end
+	-- if JOY_R then R = R + 1 else R = 0 end
+	-- if R == 1 then
+	-- 	print('loading')
+	-- 	unserialize()
+	-- end
 end
 
 function love.draw()
@@ -198,19 +198,6 @@ function love.draw()
 	end
 
 	love.graphics.pop()
-end
-
-function table.deep_copy(t)
-	if not t then return nil end
-	local t2 = {}
-	for k,v in pairs(t) do
-		if type(v) == "table" then
-			t2[k] = table.deep_copy(v)
-		else
-			t2[k] = v
-		end
-	end
-	return t2
 end
 
 function love.serializeSize()
@@ -287,16 +274,16 @@ function love.unserialize(data, size)
 	if redomap then
 		for i=1, #state.SHADOWS do
 			if state.SHADOWS[i].type == ENT_SHADOW then
-				SHADOWS[i] = newShadow({})
+				SHADOWS[i] = NewShadow({})
 			end
 			SHADOWS[i]:unserialize(state.SHADOWS[i])
 		end
 
 		for i=1, #state.SOLIDS do
 			if state.SOLIDS[i].type == ENT_GROUND then
-				SOLIDS[i] = newGround(state.SOLIDS[i])
+				SOLIDS[i] = NewGround(state.SOLIDS[i])
 			elseif state.SOLIDS[i].type == ENT_BRIDGE then
-				SOLIDS[i] = newBridge({})
+				SOLIDS[i] = NewBridge({})
 			end
 			SOLIDS[i]:unserialize(state.SOLIDS[i])
 		end
@@ -304,35 +291,35 @@ function love.unserialize(data, size)
 
 	for i=1, #state.ENTITIES do
 		if state.ENTITIES[i].type == ENT_TITLE then
-			ENTITIES[i] = newTitle({})
+			ENTITIES[i] = NewTitle({})
 		elseif state.ENTITIES[i].type == ENT_INTER then
-			ENTITIES[i] = newInter({})
+			ENTITIES[i] = NewInter({})
 		elseif state.ENTITIES[i].type == ENT_GAMEOVER then
-			ENTITIES[i] = newGameOver({})
+			ENTITIES[i] = NewGameOver({})
 		elseif state.ENTITIES[i].type == ENT_GEM then
-			ENTITIES[i] = newGem({})
+			ENTITIES[i] = NewGem({})
 		elseif state.ENTITIES[i].type == ENT_EYE then
-			ENTITIES[i] = newEye({})
+			ENTITIES[i] = NewEye({})
 		elseif state.ENTITIES[i].type == ENT_HEADY then
-			ENTITIES[i] = newHeady({})
+			ENTITIES[i] = NewHeady({})
 		elseif state.ENTITIES[i].type == ENT_SPIKES then
-			ENTITIES[i] = newSpikes({})
+			ENTITIES[i] = NewSpikes({})
 		elseif state.ENTITIES[i].type == ENT_BUBBLE then
-			ENTITIES[i] = newBubble({})
+			ENTITIES[i] = NewBubble({})
 		elseif state.ENTITIES[i].type == ENT_CROSS then
-			ENTITIES[i] = newCross({})
+			ENTITIES[i] = NewCross({})
 		elseif state.ENTITIES[i].type == ENT_BOUNCER then
-			ENTITIES[i] = newBouncer({})
+			ENTITIES[i] = NewBouncer({})
 		elseif state.ENTITIES[i].type == ENT_CHARACTER then
 			if state.ENTITIES[i].pad == 1 then
-				CHAR1 = newCharacter({pad = 1})
+				CHAR1 = NewCharacter({pad = 1})
 				ENTITIES[i] = CHAR1
 			elseif state.ENTITIES[i].pad == 2 then
-				CHAR2 = newCharacter({pad = 2})
+				CHAR2 = NewCharacter({pad = 2})
 				ENTITIES[i] = CHAR2
 			end
 		elseif state.ENTITIES[i].type == ENT_GHOST then
-			ENTITIES[i] = newGhost({pad = state.ENTITIES[i].pad})
+			ENTITIES[i] = NewGhost({pad = state.ENTITIES[i].pad})
 		end
 		ENTITIES[i]:unserialize(state.ENTITIES[i])
 	end
@@ -351,11 +338,11 @@ function love.unserialize(data, size)
 
 	for i=1, #state.EFFECTS do
 		if state.EFFECTS[i].type == ENT_NOTIF then
-			EFFECTS[i] = newNotif({y=0})
+			EFFECTS[i] = NewNotif({y=0})
 		elseif state.EFFECTS[i].type == ENT_BUBBLEEXP then
-			EFFECTS[i] = newBubbleexp({})
+			EFFECTS[i] = NewBubbleexp({})
 		elseif state.EFFECTS[i].type == ENT_COUNTER then
-			EFFECTS[i] = newCounter({})
+			EFFECTS[i] = NewCounter({})
 		end
 		EFFECTS[i]:unserialize(state.EFFECTS[i])
 	end

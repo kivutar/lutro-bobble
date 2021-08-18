@@ -1,7 +1,7 @@
 local spikes = {}
 spikes.__index = spikes
 
-function newSpikes(n)
+function NewSpikes(n)
 	n.type = ENT_SPIKES
 	if n.direction == nil then n.direction = DIR_UP end
 	if n.direction == DIR_DOWN then

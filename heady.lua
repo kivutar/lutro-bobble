@@ -1,7 +1,7 @@
 local heady = {}
 heady.__index = heady
 
-function newHeady(n)
+function NewHeady(n)
 	n.type = ENT_HEADY
 	n.width = 16
 	n.height = 16
@@ -20,16 +20,16 @@ function newHeady(n)
 
 	n.animations = {
 		run = {
-			[DIR_LEFT]  = newAnimation(IMG_heady_run_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_heady_run_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_heady_run_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_heady_run_right, 16, 16, 1, 10)
 		},
 		captured = {
-			[DIR_LEFT]  = newAnimation(IMG_heady_captured_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_heady_captured_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_heady_captured_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_heady_captured_right, 16, 16, 1, 10)
 		},
 		die = {
-			[DIR_LEFT]  = newAnimation(IMG_heady_die_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_heady_die_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_heady_die_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_heady_die_right, 16, 16, 1, 10)
 		},
 	}
 

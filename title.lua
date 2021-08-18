@@ -1,7 +1,7 @@
 local title = {}
 title.__index = title
 
-function newTitle(n)
+function NewTitle(n)
 	n.type = ENT_TITLE
 	n.t = 0
 	n.PRESSED = 0
@@ -35,11 +35,11 @@ function title:update(dt)
 
 			load_map(STAGES[STAGE])
 
-			CHAR1 = newCharacter({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
-			CHAR2 = newCharacter({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
+			CHAR1 = NewCharacter({uid=NewUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
+			CHAR2 = NewCharacter({uid=NewUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 			table.insert(ENTITIES, CHAR1)
 			table.insert(ENTITIES, CHAR2)
-			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
+			-- table.insert(ENTITIES, NewCharacter({x=3*16,y=7*16,pad=3}))
 
 			BGM:play()
 		end

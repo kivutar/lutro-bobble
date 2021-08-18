@@ -1,7 +1,7 @@
 local shadow = {}
 shadow.__index = shadow
 
-function newShadow(n)
+function NewShadow(n)
 	n.type = ENT_SHADOW
 	n.width = 16
 	n.height = 16

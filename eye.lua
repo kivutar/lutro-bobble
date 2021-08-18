@@ -1,7 +1,7 @@
 local eye = {}
 eye.__index = eye
 
-function newEye(n)
+function NewEye(n)
 	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
@@ -20,16 +20,16 @@ function newEye(n)
 
 	n.animations = {
 		run = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_run_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_run_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_eye_run_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_eye_run_right, 16, 16, 1, 10)
 		},
 		captured = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_captured_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_captured_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_eye_captured_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_eye_captured_right, 16, 16, 1, 10)
 		},
 		die = {
-			[DIR_LEFT]  = newAnimation(IMG_eye_die_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = newAnimation(IMG_eye_die_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_eye_die_left,  16, 16, 1, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_eye_die_right, 16, 16, 1, 10)
 		},
 	}
 

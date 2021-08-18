@@ -1,11 +1,11 @@
 local cross = {}
 cross.__index = cross
 
-function newCross(n)
+function NewCross(n)
 	n.type = ENT_CROSS
 	n.width = 16
 	n.height = 16
-	n.anim = newAnimation(IMG_cross,  16, 16, 1, 10)
+	n.anim = NewAnimation(IMG_cross,  16, 16, 1, 10)
 
 	return setmetatable(n, cross)
 end

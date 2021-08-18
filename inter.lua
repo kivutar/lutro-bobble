@@ -1,7 +1,7 @@
 local inter = {}
 inter.__index = inter
 
-function newInter(n)
+function NewInter(n)
 	n.type = ENT_INTER
 	n.t = 100
 	return setmetatable(n, inter)
@@ -22,18 +22,18 @@ function inter:update(dt)
 			load_map(STAGES[STAGE])
 
 			if CHAR1.dead then
-				table.insert(ENTITIES, newGhost({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT}))
+				table.insert(ENTITIES, NewGhost({uid=NewUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT}))
 			else
-				CHAR1 = newCharacter({uid=newUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
+				CHAR1 = NewCharacter({uid=NewUID(),x=1*16,y=13*16,pad=1,direction=DIR_RIGHT})
 				table.insert(ENTITIES, CHAR1)
 			end
 			if CHAR2.dead then
-				table.insert(ENTITIES, newGhost({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT}))
+				table.insert(ENTITIES, NewGhost({uid=NewUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT}))
 			else
-				CHAR2 = newCharacter({uid=newUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
+				CHAR2 = NewCharacter({uid=NewUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 				table.insert(ENTITIES, CHAR2)
 			end
-			-- table.insert(ENTITIES, newCharacter({x=3*16,y=7*16,pad=3}))
+			-- table.insert(ENTITIES, NewCharacter({x=3*16,y=7*16,pad=3}))
 
 			BGM:play()
 		end

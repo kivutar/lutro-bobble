@@ -1,11 +1,11 @@
 local gem = {}
 gem.__index = gem
 
-function newGem(n)
+function NewGem(n)
 	n.type = ENT_GEM
 	n.width = 16
 	n.height = 16
-	n.anim = newAnimation(IMG_gem,  16, 16, 1, 10)
+	n.anim = NewAnimation(IMG_gem,  16, 16, 1, 10)
 
 	return setmetatable(n, gem)
 end

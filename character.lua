@@ -3,7 +3,7 @@ character.__index = character
 
 JUMP_FORGIVENESS = 8
 
-function newCharacter(n)
+function NewCharacter(n)
 	n.type = ENT_CHARACTER
 	n.width = 12
 	n.height = 16
@@ -28,82 +28,82 @@ function newCharacter(n)
 	if n.skin == "turnip" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_stand_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_stand_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_run_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_run_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_jump_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_jump_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_jump_right, 24, 24, 1, 10)
 			},
 			fall = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_fall_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_ko_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_ko_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_ko_right, 24, 24, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_die_right, 24, 24, 1, 10)
 			},
 		}
 	elseif n.skin == "croco" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_stand_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_stand_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_run_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_run_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_jump_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_jump_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_jump_right, 24, 24, 1, 10)
 			},
 			fall = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_fall_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_fall_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_ko_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_ko_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_ko_right, 24, 24, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_die_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_die_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_die_right, 24, 24, 1, 10)
 			},
 		}
 	elseif n.skin == "cat" then
 		n.animations = {
 			stand = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_stand_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_stand_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_stand_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_stand_right, 24, 24, 2, 10)
 			},
 			run = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_run_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_run_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_run_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_run_right, 24, 24, 1, 10)
 			},
 			jump = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_jump_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_jump_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_jump_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_jump_right, 24, 24, 1, 10)
 			},
 			fall = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_fall_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_fall_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_fall_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_fall_right, 24, 24, 1, 10)
 			},
 			ko = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_ko_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_ko_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_ko_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_ko_right, 24, 24, 1, 10)
 			},
 			die = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_die_left,  24, 24, 1, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_die_right, 24, 24, 1, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_die_left,  24, 24, 1, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_die_right, 24, 24, 1, 10)
 			},
 		}
 	end
@@ -129,7 +129,7 @@ function character:die()
 	self.yspeed = -1
 	self.stance = "die"
 	SFX_die:play()
-	table.insert(ENTITIES, newGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction}))
+	table.insert(ENTITIES, NewGhost({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction}))
 end
 
 function character:update(dt)
@@ -212,9 +212,9 @@ function character:update(dt)
 	if self.DO_ATTACK == 1 then
 		SFX_bubble:play()
 		if self.direction == DIR_LEFT then
-			table.insert(ENTITIES, newBubble({uid=newUID(),x=self.x-16-4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, NewBubble({uid=NewUID(),x=self.x-16-4,y=self.y,direction=self.direction}))
 		else
-			table.insert(ENTITIES, newBubble({uid=newUID(),x=self.x+16+4,y=self.y,direction=self.direction}))
+			table.insert(ENTITIES, NewBubble({uid=NewUID(),x=self.x+16+4,y=self.y,direction=self.direction}))
 		end
 	end
 
@@ -377,11 +377,11 @@ function character:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == ENT_GEM then
 		SFX_gem:play()
-		table.insert(EFFECTS, newNotif({uid=newUID(),x=e2.x, y=e2.y, text="200"}))
+		table.insert(EFFECTS, NewNotif({uid=NewUID(),x=e2.x, y=e2.y, text="200"}))
 		entity_remove(e2)
 	elseif e2.type == ENT_CROSS then
 		SFX_gem:play()
-		table.insert(EFFECTS, newNotif({uid=newUID(),x=e2.x, y=e2.y, text="1000"}))
+		table.insert(EFFECTS, NewNotif({uid=NewUID(),x=e2.x, y=e2.y, text="1000"}))
 		entity_remove(e2)
 	end
 end

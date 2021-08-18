@@ -1,7 +1,7 @@
 local bubble = {}
 bubble.__index = bubble
 
-function newBubble(n)
+function NewBubble(n)
 	n.type = ENT_BUBBLE
 	n.width = 16
 	n.height = 16
@@ -15,7 +15,7 @@ function newBubble(n)
 	n.child = nil
 	n.childuid = nil
 
-	n.anim = newAnimation(IMG_bubble, 16, 16, 1, 10)
+	n.anim = NewAnimation(IMG_bubble, 16, 16, 1, 10)
 
 	return setmetatable(n, bubble)
 end
@@ -53,12 +53,12 @@ function bubble:die()
 	if self.child ~= nil then
 		self.child:die()
 		self.childuid = nil
-		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="500"}))
+		table.insert(EFFECTS, NewNotif({uid=NewUID(),x=self.x, y=self.y, text="500"}))
 	else
-		table.insert(EFFECTS, newNotif({uid=newUID(),x=self.x, y=self.y, text="100"}))
+		table.insert(EFFECTS, NewNotif({uid=NewUID(),x=self.x, y=self.y, text="100"}))
 		SFX_explode:play()
 	end
-	table.insert(EFFECTS, newBubbleexp({uid=newUID(),x=self.x,y=self.y}))
+	table.insert(EFFECTS, NewBubbleexp({uid=NewUID(),x=self.x,y=self.y}))
 	entity_remove(self)
 end
 

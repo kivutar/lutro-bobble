@@ -3,7 +3,7 @@ ghost.__index = ghost
 
 JUMP_FORGIVENESS = 8
 
-function newGhost(n)
+function NewGhost(n)
 	n.type = ENT_GHOST
 	n.width = 16
 	n.height = 16
@@ -21,22 +21,22 @@ function newGhost(n)
 	if n.skin == "turnip" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_turnip_ghost_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_turnip_ghost_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_turnip_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_turnip_ghost_right, 24, 24, 2, 10)
 			},
 		}
 	elseif n.skin == "croco" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_croco_ghost_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_croco_ghost_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_croco_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_croco_ghost_right, 24, 24, 2, 10)
 			},
 		}
 	elseif n.skin == "cat" then
 		n.animations = {
 			ghost = {
-				[DIR_LEFT]  = newAnimation(IMG_cat_ghost_left,  24, 24, 2, 10),
-				[DIR_RIGHT] = newAnimation(IMG_cat_ghost_right, 24, 24, 2, 10)
+				[DIR_LEFT]  = NewAnimation(IMG_cat_ghost_left,  24, 24, 2, 10),
+				[DIR_RIGHT] = NewAnimation(IMG_cat_ghost_right, 24, 24, 2, 10)
 			},
 		}
 	end
@@ -155,13 +155,13 @@ function ghost:on_collide(e1, e2, dx, dy)
 		SFX_revive:play()
 		entity_remove(e2)
 		if self.pad == 1 then
-			CHAR1 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			CHAR1 = NewCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
 			table.insert(ENTITIES, CHAR1)
 		elseif self.pad == 2 then
-			CHAR2 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			CHAR2 = NewCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
 			table.insert(ENTITIES, CHAR2)
 		elseif self.pad == 3 then
-			CHAR3 = newCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
+			CHAR3 = NewCharacter({x=self.x, y=self.y, pad=self.pad, skin=self.skin, direction=self.direction})
 			table.insert(ENTITIES, CHAR3)
 		end
 		entity_remove(self)

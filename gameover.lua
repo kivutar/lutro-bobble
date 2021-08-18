@@ -1,7 +1,7 @@
 local gameover = {}
 gameover.__index = gameover
 
-function newGameOver(n)
+function NewGameOver(n)
 	n.type = ENT_GAMEOVER
 	n.t = 0
 	n.PRESSED = 0
@@ -35,7 +35,7 @@ function gameover:update(dt)
 			SHADOWS = {}
 			MAP = {}
 			LAST_UID = 0
-			table.insert(ENTITIES, newTitle({}))
+			table.insert(ENTITIES, NewTitle({}))
 		end
 	end
 end

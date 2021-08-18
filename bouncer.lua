@@ -1,7 +1,7 @@
 local bouncer = {}
 bouncer.__index = bouncer
 
-function newBouncer(n)
+function NewBouncer(n)
 	n.type = ENT_BOUNCER
 	n.width = 16
 	n.height = 16

@@ -5,32 +5,32 @@ function load_map(m)
 	for y = 1, #MAP, 1 do
 		for x = 1, #MAP[y] do
 			if MAP[y][x] == 1 then
-				table.insert(SHADOWS, newShadow({uid=newUID(),x=(x-1)*16+8,y=(y-1)*16+8}))
-				table.insert(SOLIDS, newGround({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SHADOWS, NewShadow({uid=NewUID(),x=(x-1)*16+8,y=(y-1)*16+8}))
+				table.insert(SOLIDS, NewGround({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 2 then
-				table.insert(ENTITIES, newEye({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, NewEye({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 3 then
-				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_UP}))
+				table.insert(ENTITIES, NewSpikes({uid=NewUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_UP}))
 			elseif MAP[y][x] == 4 then
-				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_DOWN}))
+				table.insert(ENTITIES, NewSpikes({uid=NewUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_DOWN}))
 			elseif MAP[y][x] == 5 then
-				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_RIGHT}))
+				table.insert(ENTITIES, NewSpikes({uid=NewUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_RIGHT}))
 			elseif MAP[y][x] == 6 then
-				table.insert(ENTITIES, newSpikes({uid=newUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_LEFT}))
+				table.insert(ENTITIES, NewSpikes({uid=NewUID(),x=(x-1)*16,y=(y-1)*16,direction=DIR_LEFT}))
 			elseif MAP[y][x] == 7 then
-				table.insert(ENTITIES, newBouncer({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, NewBouncer({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 8 then
-				table.insert(SHADOWS, newShadow({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
-				table.insert(SOLIDS, newBridge({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SHADOWS, NewShadow({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(SOLIDS, NewBridge({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 9 then
-				table.insert(ENTITIES, newGem({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, NewGem({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			elseif MAP[y][x] == 10 then
-				table.insert(ENTITIES, newHeady({uid=newUID(),x=(x-1)*16,y=(y-1)*16}))
+				table.insert(ENTITIES, NewHeady({uid=NewUID(),x=(x-1)*16,y=(y-1)*16}))
 			end
 		end
 	end
 
-	table.insert(EFFECTS, newCounter({}))
+	table.insert(EFFECTS, NewCounter({}))
 end
 
 MAP_plain = {

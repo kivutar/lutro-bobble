@@ -1,10 +1,10 @@
 local bubbleexp = {}
 bubbleexp.__index = bubbleexp
 
-function newBubbleexp(n)
+function NewBubbleexp(n)
 	n.type = ENT_BUBBLEEXP
 	n.t = 0
-	n.anim = newAnimation(IMG_bubbleexp, 16, 16, 1, 10)
+	n.anim = NewAnimation(IMG_bubbleexp, 16, 16, 1, 10)
 	return setmetatable(n, bubbleexp)
 end
 

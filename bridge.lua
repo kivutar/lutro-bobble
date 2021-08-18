@@ -1,7 +1,7 @@
 local bridge = {}
 bridge.__index = bridge
 
-function newBridge(n)
+function NewBridge(n)
 	n.type = ENT_BRIDGE
 	n.width = 16
 	n.height = 1

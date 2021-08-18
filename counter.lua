@@ -1,7 +1,7 @@
 local counter = {}
 counter.__index = counter
 
-function newCounter(n)
+function NewCounter(n)
 	n.type = ENT_COUNTER
 	n.t = 0
 	n.cross = false
@@ -43,12 +43,12 @@ function counter:update(dt)
 		SHADOWS = {}
 		MAP = {}
 		LAST_UID = 0
-		table.insert(ENTITIES, newGameOver({}))
+		table.insert(ENTITIES, NewGameOver({}))
 	end
 
 	if enemies == 0 and not self.cross and self.t == 0 then
 		self.cross = true
-		table.insert(ENTITIES, newCross({x=16*10-8,y=16*5}))
+		table.insert(ENTITIES, NewCross({x=16*10-8,y=16*5}))
 		SFX_cross:play()
 	end
 
@@ -61,7 +61,7 @@ function counter:update(dt)
 			SHADOWS = {}
 			MAP = {}
 			PHASE = "inter"
-			table.insert(ENTITIES, newInter({}))
+			table.insert(ENTITIES, NewInter({}))
 		end
 	end
 end
