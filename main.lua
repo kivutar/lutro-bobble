@@ -23,6 +23,7 @@ require "gameover"
 require "cross"
 require "ghost"
 require "heady"
+Json = require "json"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -109,18 +110,18 @@ function love.load()
 	IMG_spikes_left = love.graphics.newImage("assets/spikes_left.png")
 	IMG_spikes_right = love.graphics.newImage("assets/spikes_right.png")
 
-	BGM_bgm = newSource("assets/Troth.ogg", "stream")
+	BGM_bgm = NewSource("assets/Troth.ogg", "stream")
 
-	SFX_jump = newSource("assets/jump.wav", "static")
-	SFX_bubble = newSource("assets/bubble.wav", "static")
-	SFX_explode = newSource("assets/explode.wav", "static")
-	SFX_ko = newSource("assets/ko.wav", "static")
-	SFX_enemy_die = newSource("assets/enemy_die.wav", "static")
-	SFX_die = newSource("assets/die.wav", "static")
-	SFX_gem = newSource("assets/gem.wav", "static")
-	SFX_ok = newSource("assets/ok.wav", "static")
-	SFX_cross = newSource("assets/cross.wav", "static")
-	SFX_revive = newSource("assets/revive.wav", "static")
+	SFX_jump = NewSource("assets/jump.wav", "static")
+	SFX_bubble = NewSource("assets/bubble.wav", "static")
+	SFX_explode = NewSource("assets/explode.wav", "static")
+	SFX_ko = NewSource("assets/ko.wav", "static")
+	SFX_enemy_die = NewSource("assets/enemy_die.wav", "static")
+	SFX_die = NewSource("assets/die.wav", "static")
+	SFX_gem = NewSource("assets/gem.wav", "static")
+	SFX_ok = NewSource("assets/ok.wav", "static")
+	SFX_cross = NewSource("assets/cross.wav", "static")
+	SFX_revive = NewSource("assets/revive.wav", "static")
 
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
@@ -212,51 +213,60 @@ function table.deep_copy(t)
 	return t2
 end
 
-STATE = {}
-function serialize()
-	STATE = {
+function love.serializeSize()
+	return 200000
+end
+
+function love.serialize(size)
+	local state = {
 		MAP = table.deep_copy(MAP),
 		PHASE = PHASE,
 		STAGE = STAGE,
 		CHAR1 = nil,
 		CHAR2 = nil,
-		BGM = BGM,
+		BGMtarget = BGM.target,
 		BGMplaying = BGM:isPlaying(),
 		BGMsamples = BGM:tell("samples"),
 		LAST_UID = LAST_UID,
 	}
 
-	STATE.SHADOWS = {}
+	state.SHADOWS = {}
 	for i=1, #SHADOWS do
 		if SHADOWS[i].serialize then
-			STATE.SHADOWS[i] = SHADOWS[i]:serialize()
+			state.SHADOWS[i] = SHADOWS[i]:serialize()
 		end
 	end
 
-	STATE.SOLIDS = {}
+	state.SOLIDS = {}
 	for i=1, #SOLIDS do
 		if SOLIDS[i].serialize then
-			STATE.SOLIDS[i] = SOLIDS[i]:serialize()
+			state.SOLIDS[i] = SOLIDS[i]:serialize()
 		end
 	end
 
-	STATE.ENTITIES = {}
+	state.ENTITIES = {}
 	for i=1, #ENTITIES do
 		if ENTITIES[i].serialize then
-			STATE.ENTITIES[i] = ENTITIES[i]:serialize()
+			state.ENTITIES[i] = ENTITIES[i]:serialize()
 		end
 	end
 
-	STATE.EFFECTS = {}
+	state.EFFECTS = {}
 	for i=1, #EFFECTS do
 		if EFFECTS[i].serialize then
-			STATE.EFFECTS[i] = EFFECTS[i]:serialize()
+			state.EFFECTS[i] = EFFECTS[i]:serialize()
 		end
 	end
+
+	return Json.stringify(state)
 end
 
-function unserialize()
-	local redomap = STAGE ~= STATE.STAGE
+function love.unserialize(data, size)
+	if data == nil then return end
+
+	local state = Json.parse(data)
+
+	local redomap = true -- STAGE ~= state.STAGE
 
 	if redomap then
 		SHADOWS = {}
@@ -265,65 +275,66 @@ function unserialize()
 	ENTITIES = {}
 	EFFECTS = {}
 
-	MAP = STATE.MAP
-	PHASE = STATE.PHASE
-	STAGE = STATE.STAGE
-	BGM = STATE.BGM
-	if STATE.BGMplaying then BGM:play() else BGM:stop() end
-	BGM:seek(STATE.BGMsamples, "samples")
-	LAST_UID = STATE.LAST_UID
+	MAP = state.MAP
+	PHASE = state.PHASE
+	STAGE = state.STAGE
+	if BGM then BGM:stop() end
+	if state.BGMtarget ~= BGM.target then BGM = NewSource(state.BGMtarget, "stream") end
+	if state.BGMplaying then BGM:play() else BGM:stop() end
+	BGM:seek(state.BGMsamples, "samples")
+	LAST_UID = state.LAST_UID
 
 	if redomap then
-		for i=1, #STATE.SHADOWS do
-			if STATE.SHADOWS[i].type == ENT_SHADOW then
+		for i=1, #state.SHADOWS do
+			if state.SHADOWS[i].type == ENT_SHADOW then
 				SHADOWS[i] = newShadow({})
 			end
-			SHADOWS[i]:unserialize(STATE.SHADOWS[i])
+			SHADOWS[i]:unserialize(state.SHADOWS[i])
 		end
 
-		for i=1, #STATE.SOLIDS do
-			if STATE.SOLIDS[i].type == ENT_GROUND then
-				SOLIDS[i] = newGround(STATE.SOLIDS[i])
-			elseif STATE.SOLIDS[i].type == ENT_BRIDGE then
+		for i=1, #state.SOLIDS do
+			if state.SOLIDS[i].type == ENT_GROUND then
+				SOLIDS[i] = newGround(state.SOLIDS[i])
+			elseif state.SOLIDS[i].type == ENT_BRIDGE then
 				SOLIDS[i] = newBridge({})
 			end
-			SOLIDS[i]:unserialize(STATE.SOLIDS[i])
+			SOLIDS[i]:unserialize(state.SOLIDS[i])
 		end
 	end
 
-	for i=1, #STATE.ENTITIES do
-		if STATE.ENTITIES[i].type == ENT_TITLE then
+	for i=1, #state.ENTITIES do
+		if state.ENTITIES[i].type == ENT_TITLE then
 			ENTITIES[i] = newTitle({})
-		elseif STATE.ENTITIES[i].type == ENT_INTER then
+		elseif state.ENTITIES[i].type == ENT_INTER then
 			ENTITIES[i] = newInter({})
-		elseif STATE.ENTITIES[i].type == ENT_GAMEOVER then
+		elseif state.ENTITIES[i].type == ENT_GAMEOVER then
 			ENTITIES[i] = newGameOver({})
-		elseif STATE.ENTITIES[i].type == ENT_GEM then
+		elseif state.ENTITIES[i].type == ENT_GEM then
 			ENTITIES[i] = newGem({})
-		elseif STATE.ENTITIES[i].type == ENT_EYE then
+		elseif state.ENTITIES[i].type == ENT_EYE then
 			ENTITIES[i] = newEye({})
-		elseif STATE.ENTITIES[i].type == ENT_HEADY then
+		elseif state.ENTITIES[i].type == ENT_HEADY then
 			ENTITIES[i] = newHeady({})
-		elseif STATE.ENTITIES[i].type == ENT_SPIKES then
+		elseif state.ENTITIES[i].type == ENT_SPIKES then
 			ENTITIES[i] = newSpikes({})
-		elseif STATE.ENTITIES[i].type == ENT_BUBBLE then
+		elseif state.ENTITIES[i].type == ENT_BUBBLE then
 			ENTITIES[i] = newBubble({})
-		elseif STATE.ENTITIES[i].type == ENT_CROSS then
+		elseif state.ENTITIES[i].type == ENT_CROSS then
 			ENTITIES[i] = newCross({})
-		elseif STATE.ENTITIES[i].type == ENT_BOUNCER then
+		elseif state.ENTITIES[i].type == ENT_BOUNCER then
 			ENTITIES[i] = newBouncer({})
-		elseif STATE.ENTITIES[i].type == ENT_CHARACTER then
-			if STATE.ENTITIES[i].pad == 1 then
+		elseif state.ENTITIES[i].type == ENT_CHARACTER then
+			if state.ENTITIES[i].pad == 1 then
 				CHAR1 = newCharacter({pad = 1})
 				ENTITIES[i] = CHAR1
-			elseif STATE.ENTITIES[i].pad == 2 then
+			elseif state.ENTITIES[i].pad == 2 then
 				CHAR2 = newCharacter({pad = 2})
 				ENTITIES[i] = CHAR2
 			end
-		elseif STATE.ENTITIES[i].type == ENT_GHOST then
-			ENTITIES[i] = newGhost({pad = STATE.ENTITIES[i].pad})
+		elseif state.ENTITIES[i].type == ENT_GHOST then
+			ENTITIES[i] = newGhost({pad = state.ENTITIES[i].pad})
 		end
-		ENTITIES[i]:unserialize(STATE.ENTITIES[i])
+		ENTITIES[i]:unserialize(state.ENTITIES[i])
 	end
 
 	-- hack to relink eyes to bubbles
@@ -338,21 +349,19 @@ function unserialize()
 		end
 	end
 
-	for i=1, #STATE.EFFECTS do
-		if STATE.EFFECTS[i].type == ENT_NOTIF then
+	for i=1, #state.EFFECTS do
+		if state.EFFECTS[i].type == ENT_NOTIF then
 			EFFECTS[i] = newNotif({y=0})
-		elseif STATE.EFFECTS[i].type == ENT_BUBBLEEXP then
+		elseif state.EFFECTS[i].type == ENT_BUBBLEEXP then
 			EFFECTS[i] = newBubbleexp({})
-		elseif STATE.EFFECTS[i].type == ENT_COUNTER then
+		elseif state.EFFECTS[i].type == ENT_COUNTER then
 			EFFECTS[i] = newCounter({})
 		end
-		EFFECTS[i]:unserialize(STATE.EFFECTS[i])
+		EFFECTS[i]:unserialize(state.EFFECTS[i])
 	end
 end
 
 function love.reset()
-	print("reset from lua")
-	STATE = {}
 	SHADOWS = {}
 	SOLIDS = {}
 	ENTITIES = {}
