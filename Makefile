@@ -1,6 +1,9 @@
 Bobble.love:
 	zip -9 -r Bobble.love ./*
 
+Bobble.lutro:
+	zip -9 -r Bobble.lutro ./*
+
 Bobble.app: Bobble.love
 	cp -r /Applications/love.app ./Bobble.app
 	cp Bobble.love Bobble.app/Contents/Resources/
@@ -13,6 +16,7 @@ serve: webapp
 
 clean:
 	@$(RM) -f Bobble.love
+	@$(RM) -f Bobble.lutro
 	@$(RM) -rf Bubble.app
 	@$(RM) -rf Bobble/
 	@$(RM) -rf example
