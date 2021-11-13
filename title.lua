@@ -8,7 +8,7 @@ function NewTitle(n)
 end
 
 function title:update(dt)
-	local DO_START = Input.withCooldown(1, BTN_START)
+	local DO_START = Input.once(1, BTN_START)
 
 	if DO_START then
 		SFX_ok:play()
@@ -31,7 +31,6 @@ function title:update(dt)
 			CHAR2 = NewCharacter({uid=NewUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 			table.insert(ENTITIES, CHAR1)
 			table.insert(ENTITIES, CHAR2)
-			-- table.insert(ENTITIES, NewCharacter({x=3*16,y=7*16,pad=3}))
 
 			BGM:play()
 		end
