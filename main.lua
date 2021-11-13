@@ -24,6 +24,7 @@ require "cross"
 require "ghost"
 require "heady"
 Json = require "json"
+Input = require "input"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -133,6 +134,8 @@ function love.load()
 end
 
 function love.update(dt)
+	Input.update()
+
 	for i=1, #ENTITIES do
 		if ENTITIES[i] and ENTITIES[i].update then
 			ENTITIES[i]:update(dt)
@@ -146,25 +149,6 @@ function love.update(dt)
 	end
 
 	detect_collisions()
-
-	-- JOY_L = love.keyboard.isDown("q")
-	-- JOY_R = love.keyboard.isDown("w")
-	-- if lutro ~= nil then
-	-- 	JOY_L = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_L)
-	-- 	JOY_R = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_R)
-	-- end
-
-	-- if JOY_L then L = L + 1 else L = 0 end
-	-- if L == 1 then
-	-- 	print('saving')
-	-- 	serialize()
-	-- end
-
-	-- if JOY_R then R = R + 1 else R = 0 end
-	-- if R == 1 then
-	-- 	print('loading')
-	-- 	unserialize()
-	-- end
 end
 
 function love.draw()

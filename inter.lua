@@ -33,7 +33,6 @@ function inter:update(dt)
 				CHAR2 = NewCharacter({uid=NewUID(),x=18*16,y=13*16,pad=2,direction=DIR_LEFT})
 				table.insert(ENTITIES, CHAR2)
 			end
-			-- table.insert(ENTITIES, NewCharacter({x=3*16,y=7*16,pad=3}))
 
 			BGM:play()
 		end

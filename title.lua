@@ -4,21 +4,13 @@ title.__index = title
 function NewTitle(n)
 	n.type = ENT_TITLE
 	n.t = 0
-	n.PRESSED = 0
 	return setmetatable(n, title)
 end
 
 function title:update(dt)
-	local JOY_START  = love.keyboard.isDown("return")
-	if lutro ~= nil then
-		JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
-	end
+	local DO_START = Input.withCooldown(1, BTN_START)
 
-	if JOY_START then
-		self.PRESSED = self.PRESSED + 1
-	end
-
-	if self.PRESSED == 1 then
+	if DO_START then
 		SFX_ok:play()
 		self.t = 60
 	end
@@ -62,7 +54,6 @@ function title:serialize()
 		uid = self.uid,
 		type = self.type,
 		t = self.t,
-		PRESSED = self.PRESSED,
 	}
 end
 
@@ -70,5 +61,4 @@ function title:unserialize(n)
 	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
-	self.PRESSED = n.PRESSED
 end

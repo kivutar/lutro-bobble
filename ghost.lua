@@ -1,8 +1,6 @@
 local ghost = {}
 ghost.__index = ghost
 
-JUMP_FORGIVENESS = 8
-
 function NewGhost(n)
 	n.type = ENT_GHOST
 	n.width = 16
@@ -51,16 +49,10 @@ function ghost:update(dt)
 
 	self.t = self.t + 1
 
-	local JOY_LEFT  = love.keyboard.isDown("left")
-	local JOY_RIGHT = love.keyboard.isDown("right")
-	local JOY_DOWN = love.keyboard.isDown("down")
-	local JOY_UP = love.keyboard.isDown("up")
-	if lutro ~= nil then
-		JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
-		JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-		JOY_DOWN  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
-		JOY_UP    = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_UP)
-	end
+	local JOY_LEFT = Input.isDown(self.pad, BTN_LEFT)
+	local JOY_RIGHT = Input.isDown(self.pad, BTN_RIGHT)
+	local JOY_DOWN = Input.isDown(self.pad, BTN_DOWN)
+	local JOY_UP = Input.isDown(self.pad, BTN_UP)
 
 	-- moving
 	if JOY_LEFT then
@@ -102,7 +94,7 @@ function ghost:update(dt)
 	self.y = self.y % SCREEN_HEIGHT
 
 	-- decelerating
-	if  ((not JOY_RIGHT and self.xspeed > 0)
+	if ((not JOY_RIGHT and self.xspeed > 0)
 	or  (not JOY_LEFT  and self.xspeed < 0)
 	or  (not JOY_UP  and self.yspeed < 0)
 	or  (not JOY_DOWN  and self.yspeed > 0))

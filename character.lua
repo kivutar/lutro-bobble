@@ -13,8 +13,6 @@ function NewCharacter(n)
 	n.yaccel = 0.15
 	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "jump"
-	n.DO_JUMP = 0
-	n.DO_ATTACK = 0
 	n.speedlimit = 2
 	n.ko = 0
 	n.dead_t = 0
@@ -151,30 +149,16 @@ function character:update(dt)
 	local otg = self:on_the_ground()
 	local oab = self:on_a_bridge()
 
-	local JOY_LEFT  = love.keyboard.isDown("left")
-	local JOY_RIGHT = love.keyboard.isDown("right")
-	local JOY_DOWN = love.keyboard.isDown("down")
-	local JOY_B = love.keyboard.isDown("z")
-	local JOY_A = love.keyboard.isDown("x")
-	if lutro ~= nil then
-		JOY_LEFT  = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_LEFT)
-		JOY_RIGHT = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_RIGHT)
-		JOY_DOWN = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_DOWN)
-		JOY_B = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_B)
-		JOY_A = love.joystick.isDown(self.pad, RETRO_DEVICE_ID_JOYPAD_A)
-	end
+	local JOY_LEFT = Input.isDown(self.pad, BTN_LEFT)
+	local JOY_DOWN = Input.isDown(self.pad, BTN_DOWN)
+	local JOY_RIGHT = Input.isDown(self.pad, BTN_RIGHT)
+	local DO_ATTACK = Input.once(self.pad, BTN_A)
+	local DO_JUMP = Input.once(self.pad, BTN_B)
 
 	-- gravity
 	self.yspeed = self.yspeed + self.yaccel
 	if (self.yspeed > 3) then self.yspeed = 3 end
 	if (otg or oab) and self.yspeed > 0 then self.yspeed = 0 end
-
-	-- jumping
-	if JOY_B then
-		self.DO_JUMP = self.DO_JUMP + 1
-	else
-		self.DO_JUMP = 0
-	end
 
 	if otg or oab then
 		self.ungrounded_time = 0
@@ -182,7 +166,8 @@ function character:update(dt)
 		self.ungrounded_time = self.ungrounded_time + 1
 	end
 
-	if self.DO_JUMP == 1 and not JOY_DOWN then
+	-- jumping
+	if DO_JUMP and not JOY_DOWN then
 		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
 			self.yspeed = -3.75
@@ -191,7 +176,7 @@ function character:update(dt)
 	end
 
 	-- jumping down
-	if self.DO_JUMP == 1 and JOY_DOWN then
+	if DO_JUMP and JOY_DOWN then
 		if oab then
 			self.y = self.y + 3
 			SFX_jump:play()
@@ -203,13 +188,7 @@ function character:update(dt)
 	end
 
 	-- attacking
-	if JOY_A then
-		self.DO_ATTACK = self.DO_ATTACK + 1
-	else
-		self.DO_ATTACK = 0
-	end
-
-	if self.DO_ATTACK == 1 then
+	if DO_ATTACK then
 		SFX_bubble:play()
 		if self.direction == DIR_LEFT then
 			table.insert(ENTITIES, NewBubble({uid=NewUID(),x=self.x-16-4,y=self.y,direction=self.direction}))
@@ -404,8 +383,6 @@ function character:serialize()
 		skin = self.skin,
 		dead = self.dead,
 		stance = self.stance,
-		DO_JUMP = self.DO_JUMP,
-		DO_ATTACK = self.DO_ATTACK,
 	}
 end
 
@@ -426,6 +403,4 @@ function character:unserialize(n)
 	self.skin = n.skin
 	self.dead = n.dead
 	self.stance = n.stance
-	self.DO_JUMP = n.DO_JUMP
-	self.DO_ATTACK = n.DO_ATTACK
 end

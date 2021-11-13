@@ -4,23 +4,14 @@ gameover.__index = gameover
 function NewGameOver(n)
 	n.type = ENT_GAMEOVER
 	n.t = 0
-	n.PRESSED = 0
 	return setmetatable(n, gameover)
 end
 
 function gameover:update(dt)
 	BGM_bgm:stop()
 
-	local JOY_START  = love.keyboard.isDown("return")
-	if lutro ~= nil then
-		JOY_START  = love.joystick.isDown(1, RETRO_DEVICE_ID_JOYPAD_START)
-	end
-
-	if JOY_START then
-		self.PRESSED = self.PRESSED + 1
-	end
-
-	if self.PRESSED == 1 then
+	local DO_START = Input.withCooldown(1, BTN_START)
+	if DO_START then
 		self.t = 60
 	end
 
@@ -56,7 +47,6 @@ function gameover:serialize()
 		uid = self.uid,
 		type = self.type,
 		t = self.t,
-		PRESSED = self.PRESSED,
 	}
 end
 
@@ -64,5 +54,4 @@ function gameover:unserialize(n)
 	self.uid = n.uid
 	self.type = n.type
 	self.t = n.t
-	self.PRESSED = n.PRESSED
 end
