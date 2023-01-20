@@ -124,8 +124,8 @@ function love.load()
 	SFX_cross = NewSource("assets/cross.wav", "static")
 	SFX_revive = NewSource("assets/revive.wav", "static")
 
-	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789")
-	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?")
+	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789", 1)
+	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?", 1)
 
 	BGM = BGM_bgm
 	BGM:setLooping(true)
@@ -134,7 +134,7 @@ function love.load()
 end
 
 function love.update(dt)
-	Input.update()
+	Input.update(dt)
 
 	for i=1, #ENTITIES do
 		if ENTITIES[i] and ENTITIES[i].update then

@@ -54,9 +54,9 @@ function eye:update(dt)
 	if PHASE == "victory" then return end
 
 	if self.dead then
-		self.yspeed = self.yspeed + self.yaccel
+		self.yspeed = self.yspeed + self.yaccel * 60 * dt
 		if (self.yspeed > 3) then self.yspeed = 3 end
-		self.y = self.y + self.yspeed
+		self.y = self.y + self.yspeed * 60 * dt
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)
 		if self.y > SCREEN_HEIGHT then entity_remove(self) end
@@ -72,13 +72,13 @@ function eye:update(dt)
 
 	local otg = self:on_the_ground()
 
-	self.xspeed = self.xspeed + self.xaccel
-	self.yspeed = self.yspeed + self.yaccel
+	self.xspeed = self.xspeed + self.xaccel * 60 * dt
+	self.yspeed = self.yspeed + self.yaccel * 60 * dt
 	if (self.yspeed > 3) then self.yspeed = 3 end
 	if otg and self.yspeed > 0 then self.yspeed = 0 end
 
-	self.x = self.x + self.xspeed
-	self.y = self.y + self.yspeed
+	self.x = self.x + self.xspeed * 60 * dt
+	self.y = self.y + self.yspeed * 60 * dt
 
 	-- screen wrapping
 	self.x = self.x % SCREEN_WIDTH

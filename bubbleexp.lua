@@ -9,8 +9,8 @@ function NewBubbleexp(n)
 end
 
 function bubbleexp:update(dt)
-	self.t = self.t + 1
-	if self.t == 10 then
+	self.t = self.t + 1 * 60 * dt
+	if self.t >= 10 then
 		effect_remove(self)
 	end
 	self.anim:update(dt)

@@ -86,8 +86,8 @@ function ghost:update(dt)
 	end
 
 	-- apply speed
-	self.x = self.x + self.xspeed
-	self.y = self.y + self.yspeed
+	self.x = self.x + self.xspeed * 60 * dt
+	self.y = self.y + self.yspeed * 60 * dt
 
 	-- screen wrapping
 	self.x = self.x % SCREEN_WIDTH

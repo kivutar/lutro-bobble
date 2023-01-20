@@ -135,9 +135,9 @@ function character:update(dt)
 
 	if self.dead_t > 0 then
 		if self.dead_t < 180 then
-			self.yspeed = self.yspeed + self.yaccel
+			self.yspeed = self.yspeed + self.yaccel * 60 * dt
 			if (self.yspeed > 3) then self.yspeed = 3 end
-			self.y = self.y + self.yspeed
+			self.y = self.y + self.yspeed * 60 * dt
 		end
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)
@@ -156,7 +156,7 @@ function character:update(dt)
 	local DO_JUMP = Input.once(self.pad, BTN_B)
 
 	-- gravity
-	self.yspeed = self.yspeed + self.yaccel
+	self.yspeed = self.yspeed + self.yaccel * 60 * dt
 	if (self.yspeed > 3) then self.yspeed = 3 end
 	if (otg or oab) and self.yspeed > 0 then self.yspeed = 0 end
 
@@ -199,7 +199,7 @@ function character:update(dt)
 
 	-- moving
 	if JOY_LEFT then
-		self.xspeed = self.xspeed - self.xaccel
+		self.xspeed = self.xspeed - self.xaccel * 60 * dt
 		if self.xspeed < -self.speedlimit then
 			self.xspeed = -self.speedlimit
 		end
@@ -207,7 +207,7 @@ function character:update(dt)
 	end
 
 	if JOY_RIGHT then
-		self.xspeed = self.xspeed + self.xaccel
+		self.xspeed = self.xspeed + self.xaccel * 60 * dt
 		if self.xspeed > self.speedlimit then
 			self.xspeed = self.speedlimit
 		end
@@ -215,8 +215,8 @@ function character:update(dt)
 	end
 
 	-- apply speed
-	self.x = self.x + self.xspeed
-	self.y = self.y + self.yspeed
+	self.x = self.x + self.xspeed * 60 * dt
+	self.y = self.y + self.yspeed * 60 * dt
 
 	-- screen wrapping
 	self.x = self.x % SCREEN_WIDTH

@@ -29,7 +29,7 @@ function bubble:update(dt)
 	if self.direction == DIR_RIGHT and self.xspeed < 0 then
 		self.xspeed = 0
 	end
-	self.x = self.x + self.xspeed
+	self.x = self.x + self.xspeed * 60 * dt
 
 	if self.x >= SCREEN_WIDTH then self.x = 0 end
 	if self.x < 0 then self.x = SCREEN_WIDTH end

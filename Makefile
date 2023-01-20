@@ -1,7 +1,10 @@
-Bobble.lutro:
+lutro:
 	zip -9 -r Bobble.lutro ./*
 
-Bobble.js:
+love:
+	zip -9 -r Bobble.love ./*
+
+wasm:
 	python3 ~/emsdk/upstream/emscripten/tools/file_packager.py Bobble.data --preload ./* --js-output=Bobble.js
 
 clean:
