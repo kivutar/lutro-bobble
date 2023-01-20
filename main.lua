@@ -142,25 +142,30 @@ function love.load()
 
 	local config = {
 		host = HOST,
-		port = 7350,
+		port = 80,
 		use_ssl = false,
 		username = USERNAME,
 		password = PASSWORD,
 		engine = defold,
-		timeout = 10, -- connection timeout in seconds
+		timeout = 2, -- connection timeout in seconds
 	}
 	local client = nakama.create_client(config)
 	Pprint(client)
 
 	nakama.sync(function()
-		local result = nakama.authenticate_device(client, "foo", {}, true)
+		local result = nakama.authenticate_device(client, defold.uuid(), nil, true, "kivu")
 		Pprint(result)
+
+		if not result.token then
+			print("unable to login")
+			return
+		end
 
 		-- connect
 		local ok, err = nakama.socket_connect(socket)
 
 		if ok then
-			-- do socket stuff
+			print("we got socket")
 		end
 
 		if err then
