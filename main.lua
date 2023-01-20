@@ -25,6 +25,10 @@ require "ghost"
 require "heady"
 Json = require "json"
 Input = require "input"
+Pprint = require "pprint"
+
+local defold = require "nakama.engine.defold"
+local nakama = require "nakama.nakama"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -131,6 +135,21 @@ function love.load()
 	BGM:setLooping(true)
 
 	table.insert(ENTITIES, NewTitle({}))
+
+	local config = {
+		host = "127.0.0.1",
+		port = 7350,
+		use_ssl = false,
+		username = "defaultkey",
+		password = "",
+		engine = defold,
+		timeout = 10, -- connection timeout in seconds
+	}
+	local client = nakama.create_client(config)
+	Pprint(client)
+
+	local result = nakama.authenticate_device(client, "foo", {}, true)
+	Pprint(result)
 end
 
 function love.update(dt)
