@@ -27,8 +27,12 @@ Json = require "json"
 Input = require "input"
 Pprint = require "pprint"
 
+require "env"
 local defold = require "nakama.engine.defold"
 local nakama = require "nakama.nakama"
+log = require "nakama.util.log"
+-- enable trace logging in nakama client
+log.print()
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -137,19 +141,32 @@ function love.load()
 	table.insert(ENTITIES, NewTitle({}))
 
 	local config = {
-		host = "127.0.0.1",
+		host = HOST,
 		port = 7350,
 		use_ssl = false,
-		username = "defaultkey",
-		password = "",
+		username = USERNAME,
+		password = PASSWORD,
 		engine = defold,
 		timeout = 10, -- connection timeout in seconds
 	}
 	local client = nakama.create_client(config)
 	Pprint(client)
 
-	local result = nakama.authenticate_device(client, "foo", {}, true)
-	Pprint(result)
+	nakama.sync(function()
+		local result = nakama.authenticate_device(client, "foo", {}, true)
+		Pprint(result)
+
+		-- connect
+		local ok, err = nakama.socket_connect(socket)
+
+		if ok then
+			-- do socket stuff
+		end
+
+		if err then
+			print(err.message)
+		end
+	end)
 end
 
 function love.update(dt)

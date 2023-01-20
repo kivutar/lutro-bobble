@@ -4,6 +4,8 @@
  @module nakama.engine.defold
 ]]
 
+http = require("socket.http")
+
 local log = require "nakama.util.log"
 local b64 = require "nakama.util.b64"
 local uri = require "nakama.util.uri"
