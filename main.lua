@@ -141,28 +141,27 @@ function love.load()
 	table.insert(ENTITIES, NewTitle({}))
 
 	local config = {
-		host = HOST,
+		host = "nakama-api.api.piepackerstaging.com",
 		port = 80,
 		use_ssl = false,
-		username = USERNAME,
-		password = PASSWORD,
+		username = "defaultkey",
+		password = "",
 		engine = defold,
-		timeout = 2, -- connection timeout in seconds
 	}
 	local client = nakama.create_client(config)
 	Pprint(client)
 
 	nakama.sync(function()
-		local result = nakama.authenticate_device(client, defold.uuid(), nil, true, "kivu")
+		local result = client.authenticate_device(defold.uuid(), nil, true, "kivutar")
 		Pprint(result)
 
 		if not result.token then
 			print("unable to login")
-			return
 		end
 
-		-- connect
-		local ok, err = nakama.socket_connect(socket)
+		client.set_bearer_token(result.token)
+
+		local ok, err = client.create_socket(socket)
 
 		if ok then
 			print("we got socket")

@@ -4,7 +4,9 @@
  @module nakama.engine.defold
 ]]
 
+io = require("io")
 http = require("socket.http")
+ltn12 = require("ltn12")
 
 local log = require "nakama.util.log"
 local b64 = require "nakama.util.b64"
@@ -35,13 +37,13 @@ local M = {}
 --- Get the device's mac address.
 -- @return The mac address string.
 local function get_mac_address()
-	local ifaddrs = sys.get_ifaddrs()
-	for _,interface in ipairs(ifaddrs) do
-		if interface.mac then
-			return interface.mac
-		end
-	end
-	return nil
+	-- local ifaddrs = sys.get_ifaddrs()
+	-- for _,interface in ipairs(ifaddrs) do
+	-- 	if interface.mac then
+	-- 		return interface.mac
+	-- 	end
+	-- end
+	return "b0:de:28:d0:d9:bb"
 end
 
 --- Returns a UUID from the device's mac address.
@@ -61,38 +63,57 @@ make_http_request = function(url, method, callback, headers, post_data, options,
 		callback(nil)
 		return
 	end
-	http.request(url, method, function(self, id, result)
-		if cancellation_token and cancellation_token.cancelled then
-			callback(nil)
-			return
-		end
-		log(result.response)
-		local ok, decoded = pcall(json.decode, result.response)
-		-- return result if everything is ok
-		if ok and result.status >= 200 and result.status <= 299 then
-			result.response = decoded
-			callback(result.response)
-			return
-		end
 
-		-- return the error if there are no more retries
-		if retry_count > #retry_intervals then
-			if not ok then
-				result.response = { error = true, message = "Unable to decode response" }
-			else
-				result.response = { error = decoded.error or true, message = decoded.message, code = decoded.code }
-			end
-			callback(result.response)
-			return
-		end
+	-- function(self, id, result)
+	-- 	if cancellation_token and cancellation_token.cancelled then
+	-- 		callback(nil)
+	-- 		return
+	-- 	end
+	-- 	log(result.response)
+	-- 	local ok, decoded = pcall(json.decode, result.response)
+	-- 	-- return result if everything is ok
+	-- 	if ok and result.status >= 200 and result.status <= 299 then
+	-- 		result.response = decoded
+	-- 		callback(result.response)
+	-- 		return
+	-- 	end
 
-		-- retry!
-		local retry_interval = retry_intervals[retry_count]
-		timer.delay(retry_interval, false, function()
-			make_http_request(url, method, callback, headers, post_data, options, retry_intervals, retry_count + 1, cancellation_token)
-		end)
-	end, headers, post_data, options)
+	-- 	-- return the error if there are no more retries
+	-- 	if retry_count > #retry_intervals then
+	-- 		if not ok then
+	-- 			result.response = { error = true, message = "Unable to decode response" }
+	-- 		else
+	-- 			result.response = { error = decoded.error or true, message = decoded.message, code = decoded.code }
+	-- 		end
+	-- 		callback(result.response)
+	-- 		return
+	-- 	end
 
+	-- 	-- retry!
+	-- 	local retry_interval = retry_intervals[retry_count]
+	-- 	timer.delay(retry_interval, false, function()
+	-- 		make_http_request(url, method, callback, headers, post_data, options, retry_intervals, retry_count + 1, cancellation_token)
+	-- 	end)
+	-- end
+
+	headers["Content-Length"] = tostring(#post_data)
+	result = {}
+	_,code,_ = http.request{
+		url=url,
+		method=method,
+		headers=headers,
+		source=ltn12.source.string(post_data),
+		sink=ltn12.sink.table(result),
+	}
+
+	log(result[1])
+	local ok, decoded = pcall(json.decode, result[1])
+
+	if ok and code >= 200 and code <= 299 then
+		result.response = decoded
+		callback(result.response)
+		return
+	end
 end
 
 
