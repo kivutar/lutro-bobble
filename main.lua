@@ -27,7 +27,6 @@ Json = require "json"
 Input = require "input"
 Pprint = require "pprint"
 
-require "env"
 local defold = require "nakama.engine.defold"
 local nakama = require "nakama.nakama"
 log = require "nakama.util.log"
@@ -161,15 +160,28 @@ function love.load()
 
 		client.set_bearer_token(result.token)
 
-		local ok, err = client.create_socket(socket)
+		local socket, err = client.create_socket()
 
-		if ok then
+		Pprint(socket)
+
+		if socket then
 			print("we got socket")
 		end
 
 		if err then
 			print(err.message)
 		end
+
+		local result = socket.match_create("bobble-match")
+
+		if result.error then
+			print(result.error.message)
+			return
+		end
+
+		print("Created match with ID", result.match.match_id)
+
+
 	end)
 end
 
