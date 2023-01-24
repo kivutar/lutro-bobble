@@ -4,9 +4,9 @@
  @module nakama.engine.defold
 ]]
 
-io = require("io")
-http = require("socket.http")
-ltn12 = require("ltn12")
+local io = require("io")
+local http = require("socket.http")
+local ltn12 = require("ltn12")
 
 local log = require "nakama.util.log"
 local b64 = require "nakama.util.b64"
@@ -55,7 +55,6 @@ function M.uuid()
 	end
 	return uuid(mac)
 end
-
 
 local make_http_request
 make_http_request = function(url, method, callback, headers, post_data, options, retry_intervals, retry_count, cancellation_token)
@@ -116,8 +115,6 @@ make_http_request = function(url, method, callback, headers, post_data, options,
 	end
 end
 
-
-
 --- Make a HTTP request.
 -- @param config The http config table, see Defold docs.
 -- @param url_path The request URL.
@@ -176,7 +173,10 @@ function M.socket_create(config, on_message)
 	socket.requests = {}
 	socket.on_message = on_message
 
-	socket.connection = assert(Ws.new(config.host, config.port))
+	local ws = Ws.new(config.host, config.port)
+	function ws:onmessage(s) print(s) end
+	function ws:onerror(s) print(s) end
+	socket.connection = ws
 
 	return socket
 end

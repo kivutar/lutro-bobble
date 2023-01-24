@@ -152,8 +152,7 @@ function love.load()
 	local client = nakama.create_client(config)
 
 	nakama.sync(function()
-		local result = client.authenticate_device(defold.uuid(), nil, true, "kivutar")
-		Pprint(result)
+		local result = client.authenticate_device(defold.uuid(), nil, true)
 
 		if not result.token then
 			print("unable to login")

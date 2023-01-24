@@ -180,6 +180,7 @@ end
 
 ---update client status
 function _M:update()
+    print(self.status)
     local sock = self.socket
     if self.status==STATUS.TCPOPENING then
         local url = self.url
