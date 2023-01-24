@@ -176,6 +176,8 @@ function M.socket_create(config, on_message)
 	socket.requests = {}
 	socket.on_message = on_message
 
+	socket.connection = assert(Ws.new(config.host, config.port))
+
 	return socket
 end
 
@@ -247,10 +249,12 @@ function M.socket_send(socket, message, callback)
 		data = string.gsub(data, "%[%]", "{}")
 	end
 
-	local options = {
-		type = websocket.DATA_TYPE_TEXT
-	}
-	websocket.send(socket.connection, data, options)
+	-- local options = {
+	-- 	type = websocket.DATA_TYPE_TEXT
+	-- }
+	-- websocket.send(socket.connection, data, options)
+	print(data)
+	socket.connection:send(data)
 end
 
 return M

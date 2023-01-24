@@ -23,6 +23,8 @@ require "gameover"
 require "cross"
 require "ghost"
 require "heady"
+
+Ws = require("websocket")
 Json = require "json"
 Input = require "input"
 Pprint = require "pprint"
@@ -148,7 +150,6 @@ function love.load()
 		engine = defold,
 	}
 	local client = nakama.create_client(config)
-	Pprint(client)
 
 	nakama.sync(function()
 		local result = client.authenticate_device(defold.uuid(), nil, true, "kivutar")
@@ -160,11 +161,9 @@ function love.load()
 
 		client.set_bearer_token(result.token)
 
-		local socket, err = client.create_socket()
+		mysocket, err = client.create_socket()
 
-		Pprint(socket)
-
-		if socket then
+		if mysocket then
 			print("we got socket")
 		end
 
@@ -172,7 +171,8 @@ function love.load()
 			print(err.message)
 		end
 
-		local result = socket.match_create("bobble-match")
+		Pprint(mysocket)
+		local result = mysocket.match_create("bobble-match")
 
 		if result.error then
 			print(result.error.message)
@@ -180,12 +180,12 @@ function love.load()
 		end
 
 		print("Created match with ID", result.match.match_id)
-
-
 	end)
 end
 
 function love.update(dt)
+	if mysocket and mysocket.connection then mysocket.connection:update() end
+
 	Input.update(dt)
 
 	for i=1, #ENTITIES do
