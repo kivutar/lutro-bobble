@@ -24,7 +24,6 @@ require "cross"
 require "ghost"
 require "heady"
 
-Ws = require("websocket")
 Json = require "json"
 Input = require "input"
 Pprint = require "pprint"
@@ -170,7 +169,6 @@ function love.load()
 			print(err.message)
 		end
 
-		Pprint(mysocket)
 		local result = mysocket.match_create("bobble-match")
 
 		if result.error then
@@ -183,7 +181,7 @@ function love.load()
 end
 
 function love.update(dt)
-	if mysocket and mysocket.connection then mysocket.connection:update() end
+	if mysocket and mysocket.connection then mysocket.connection:receive() end
 
 	Input.update(dt)
 

@@ -7,6 +7,7 @@
 local io = require("io")
 local http = require("socket.http")
 local ltn12 = require("ltn12")
+local ws = require('websocket.client')
 
 local log = require "nakama.util.log"
 local b64 = require "nakama.util.b64"
@@ -173,10 +174,11 @@ function M.socket_create(config, on_message)
 	socket.requests = {}
 	socket.on_message = on_message
 
-	local ws = Ws.new(config.host, config.port)
-	function ws:onmessage(s) print(s) end
-	function ws:onerror(s) print(s) end
-	socket.connection = ws
+	socket.connection = ws.new()
+	local url = ("%s://%s:%d/ws?token=%s"):format(socket.scheme, socket.config.host, socket.config.port, uri.encode_component(socket.config.bearer_token))
+	local ok, err = socket.connection:connect(url, 'echo')
+	print(ok, err)
+	Pprint(socket.connection)
 
 	return socket
 end
@@ -255,6 +257,7 @@ function M.socket_send(socket, message, callback)
 	-- websocket.send(socket.connection, data, options)
 	print(data)
 	socket.connection:send(data)
+	Pprint(socket.connection)
 end
 
 return M
