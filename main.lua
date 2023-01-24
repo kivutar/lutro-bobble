@@ -162,14 +162,13 @@ function love.load()
 		mysocket = client.create_socket()
 
 		if mysocket then
-			print("we got socket")
+			print("socket created")
+		else
+			print("could not create socket")
+			return
 		end
 
-		if err then
-			print(err.message)
-		end
-
-		local result = mysocket.match_create()
+		local result = mysocket.match_create("bobble")
 
 		Pprint(result)
 
@@ -180,17 +179,20 @@ function love.load()
 
 		print("Created match with ID", result.match.match_id)
 
-		-- local result = socket.match_join(result.match.match_id)
+		local result = mysocket.match_join(result.match.match_id)
 
-		-- Pprint(result)
+		Pprint(result)
+
+		mysocket.connection:receive()
 	end)
+
+	while true do
+		local data = mysocket.connection:receive()
+		print("RECEIVED:", data)
+	end
 end
 
 function love.update(dt)
-	if mysocket and mysocket.connection then
-		print(mysocket.connection:receive())
-	end
-
 	Input.update(dt)
 
 	for i=1, #ENTITIES do
