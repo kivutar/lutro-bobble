@@ -159,7 +159,7 @@ function love.load()
 
 		client.set_bearer_token(result.token)
 
-		mysocket, err = client.create_socket()
+		mysocket = client.create_socket()
 
 		if mysocket then
 			print("we got socket")
@@ -169,7 +169,9 @@ function love.load()
 			print(err.message)
 		end
 
-		local result = mysocket.match_create("bobble-match")
+		local result = mysocket.match_create()
+
+		Pprint(result)
 
 		if result.error then
 			print(result.error.message)
@@ -177,11 +179,17 @@ function love.load()
 		end
 
 		print("Created match with ID", result.match.match_id)
+
+		-- local result = socket.match_join(result.match.match_id)
+
+		-- Pprint(result)
 	end)
 end
 
 function love.update(dt)
-	if mysocket and mysocket.connection then mysocket.connection:receive() end
+	if mysocket and mysocket.connection then
+		print(mysocket.connection:receive())
+	end
 
 	Input.update(dt)
 

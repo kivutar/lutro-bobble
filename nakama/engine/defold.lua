@@ -176,9 +176,8 @@ function M.socket_create(config, on_message)
 
 	socket.connection = ws.new()
 	local url = ("%s://%s:%d/ws?token=%s"):format(socket.scheme, socket.config.host, socket.config.port, uri.encode_component(socket.config.bearer_token))
-	local ok, err = socket.connection:connect(url, 'echo')
-	print(ok, err)
-	Pprint(socket.connection)
+	local ok, err, headers = socket.connection:connect(url)
+	if err then return nil end
 
 	return socket
 end
@@ -256,8 +255,8 @@ function M.socket_send(socket, message, callback)
 	-- }
 	-- websocket.send(socket.connection, data, options)
 	print(data)
-	socket.connection:send(data)
-	Pprint(socket.connection)
+	local ok = socket.connection:send(data)
+	print(ok)
 end
 
 return M
