@@ -1,56 +1,52 @@
-local heady = {}
-heady.__index = heady
+local copter = {}
+copter.__index = copter
 
-function NewHeady(n)
-	n.type = ENT_HEADY
+function NewCopter(n)
+	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
 	n.direction = DIR_RIGHT
 	if n.direction == DIR_LEFT then
-		n.xspeed = -1
+		n.xspeed = -0.5
 	else
-		n.xspeed = 1
+		n.xspeed = 0.5
 	end
 	n.yspeed = 0
-	n.yaccel = 0.17
+	n.yaccel = 0
 	n.xaccel = 0
 	n.captured = false
 	n.dead = false
-	n.stance = "run"
+	n.stance = "fly"
 
 	n.animations = {
-		run = {
-			[DIR_LEFT]  = NewAnimation(IMG_heady_run_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = NewAnimation(IMG_heady_run_right, 16, 16, 1, 10)
+		fly = {
+			[DIR_LEFT]  = NewAnimation(IMG_copter_left,  16, 16, 2, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_copter_right, 16, 16, 2, 10)
 		},
 		captured = {
-			[DIR_LEFT]  = NewAnimation(IMG_heady_captured_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = NewAnimation(IMG_heady_captured_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_copter_captured_left,  16, 16, 2, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_copter_captured_right, 16, 16, 2, 10)
 		},
 		die = {
-			[DIR_LEFT]  = NewAnimation(IMG_heady_die_left,  16, 16, 1, 10),
-			[DIR_RIGHT] = NewAnimation(IMG_heady_die_right, 16, 16, 1, 10)
+			[DIR_LEFT]  = NewAnimation(IMG_copter_die_left,  16, 16, 2, 10),
+			[DIR_RIGHT] = NewAnimation(IMG_copter_die_right, 16, 16, 2, 10)
 		},
 	}
 
 	n.anim = n.animations[n.stance][n.direction]
 
-	return setmetatable(n, heady)
+	return setmetatable(n, copter)
 end
 
-function heady:on_the_ground()
-	return solid_at(self.x + 1, self.y + 16, self)
-		or solid_at(self.x + 15, self.y + 16, self)
-end
-
-function heady:die()
+function copter:die()
 	self.dead = true
-	self.yspeed = -1
+	self.yspeed = -0.5
+	self.yaccel = 0.17
 	self.stance = "die"
 	SFX_enemy_die:play()
 end
 
-function heady:update(dt)
+function copter:update(dt)
 	if PHASE == "victory" then return end
 
 	if self.dead then
@@ -70,12 +66,9 @@ function heady:update(dt)
 		return
 	end
 
-	local otg = self:on_the_ground()
-
 	self.xspeed = self.xspeed + self.xaccel * 60 * dt
 	self.yspeed = self.yspeed + self.yaccel * 60 * dt
 	if (self.yspeed > 3) then self.yspeed = 3 end
-	if otg and self.yspeed > 0 then self.yspeed = 0 end
 
 	self.x = self.x + self.xspeed * 60 * dt
 	self.y = self.y + self.yspeed * 60 * dt
@@ -89,29 +82,21 @@ function heady:update(dt)
 	solid_collisions(self)
 end
 
-function heady:draw()
+function copter:draw()
 	self.anim:draw(self.x, self.y)
 	self.anim:draw(self.x+SCREEN_WIDTH, self.y)
 	self.anim:draw(self.x-SCREEN_WIDTH, self.y)
+	if not self.captured then
+		self.anim:draw(self.x, self.y + SCREEN_HEIGHT)
+		self.anim:draw(self.x, self.y - SCREEN_HEIGHT)
+	end
 end
 
-function heady:on_collide(e1, e2, dx, dy)
+function copter:on_collide(e1, e2, dx, dy)
 
 	if self.captured or self.dead then return end
 
 	if e2.type == ENT_GROUND then
-		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
-			self.yspeed = 0
-			self.y = self.y + dy
-		end
-
-		if math.abs(dx) < math.abs(dy) and dx ~= 0 then
-			self.x = self.x + dx
-			if self.direction == DIR_RIGHT then self.direction = DIR_LEFT
-			elseif self.direction == DIR_LEFT then self.direction = DIR_RIGHT end
-			self.xspeed = -self.xspeed
-		end
-	elseif e2.type == ENT_BRIDGE then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy
@@ -138,7 +123,7 @@ function heady:on_collide(e1, e2, dx, dy)
 		self:die()
 	elseif MONSTERS[e2.type] then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
-			self.yspeed = 0
+			self.yspeed = -self.yspeed
 			self.y = self.y + dy
 		end
 
@@ -156,7 +141,7 @@ function heady:on_collide(e1, e2, dx, dy)
 	end
 end
 
-function heady:serialize()
+function copter:serialize()
 	return {
 		uid = self.uid,
 		type = self.type,
@@ -173,7 +158,7 @@ function heady:serialize()
 	}
 end
 
-function heady:unserialize(n)
+function copter:unserialize(n)
 	self.uid = n.uid
 	self.type = n.type
 	self.direction = n.direction

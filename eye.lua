@@ -136,7 +136,7 @@ function eye:on_collide(e1, e2, dx, dy)
 		end
 	elseif e2.type == ENT_SPIKES then
 		self:die()
-	elseif e2.type == ENT_EYE or e2.type == ENT_HEADY then
+	elseif MONSTERS[e2.type] then
 		if math.abs(dy) < math.abs(dx) and ((dy < 0 and self.yspeed > 0) or (dy > 0 and self.yspeed < 0)) then
 			self.yspeed = 0
 			self.y = self.y + dy

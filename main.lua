@@ -23,6 +23,7 @@ require "gameover"
 require "cross"
 require "ghost"
 require "heady"
+require "copter"
 Json = require "json"
 Input = require "input"
 
@@ -105,6 +106,13 @@ function love.load()
 	IMG_heady_captured_right = love.graphics.newImage("assets/heady_captured_right.png")
 	IMG_heady_die_left = love.graphics.newImage("assets/heady_die_left.png")
 	IMG_heady_die_right = love.graphics.newImage("assets/heady_die_right.png")
+	
+	IMG_copter_left = love.graphics.newImage("assets/copter_left.png")
+	IMG_copter_right = love.graphics.newImage("assets/copter_right.png")
+	IMG_copter_captured_left = love.graphics.newImage("assets/copter_captured_left.png")
+	IMG_copter_captured_right = love.graphics.newImage("assets/copter_captured_right.png")
+	IMG_copter_die_left = love.graphics.newImage("assets/copter_die_left.png")
+	IMG_copter_die_right = love.graphics.newImage("assets/copter_die_right.png")
 
 	IMG_spikes_up = love.graphics.newImage("assets/spikes_up.png")
 	IMG_spikes_down = love.graphics.newImage("assets/spikes_down.png")
@@ -284,6 +292,8 @@ function love.unserialize(data, size)
 			ENTITIES[i] = NewGem({})
 		elseif state.ENTITIES[i].type == ENT_EYE then
 			ENTITIES[i] = NewEye({})
+		elseif state.ENTITIES[i].type == ENT_COPTER then
+			ENTITIES[i] = NewCopter({})
 		elseif state.ENTITIES[i].type == ENT_HEADY then
 			ENTITIES[i] = NewHeady({})
 		elseif state.ENTITIES[i].type == ENT_SPIKES then
@@ -312,7 +322,7 @@ function love.unserialize(data, size)
 	for i=1, #ENTITIES do
 		if ENTITIES[i].type == ENT_BUBBLE and ENTITIES[i].childuid ~= nil then
 			for j=1, #ENTITIES do
-				if (ENTITIES[j].type == ENT_EYE or ENTITIES[j].type == ENT_HEADY) and ENTITIES[j].uid == ENTITIES[i].childuid then
+				if MONSTERS[ENTITIES[j].type] and ENTITIES[j].uid == ENTITIES[i].childuid then
 					ENTITIES[i].child = ENTITIES[j]
 					print('attach enemy '..ENTITIES[j].uid..' with x='..ENTITIES[j].x..' to bubble '..ENTITIES[i].uid..' with x='..ENTITIES[i].x)
 				end
