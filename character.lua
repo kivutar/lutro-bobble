@@ -343,9 +343,7 @@ function character:on_collide(e1, e2, dx, dy)
 			self.xspeed = 0
 			self.x = self.x + dx/2
 		end
-	elseif e2.type == ENT_EYE and not e2.captured then
-		self:die()
-	elseif e2.type == ENT_HEADY and not e2.captured then
+	elseif MONSTERS[e2.type] and not e2.captured then
 		self:die()
 	elseif e2.type == ENT_SPIKES then
 		if (e2.direction == DIR_DOWN and self.yspeed < 0)

@@ -20,7 +20,7 @@ function counter:update(dt)
 		if ENTITIES[i].type == ENT_CHARACTER then
 			chars = chars + 1
 		end
-		if ENTITIES[i].type == ENT_EYE or ENTITIES[i].type == ENT_HEADY then
+		if MONSTERS[ENTITIES[i].type] then
 			enemies = enemies + 1
 		end
 	end

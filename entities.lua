@@ -17,6 +17,10 @@ ENT_GAMEOVER = 15
 ENT_CROSS = 16
 ENT_GHOST = 17
 ENT_HEADY = 18
+ENT_COPTER = 19
+
+-- monsters that collide with each other and flip around
+MONSTERS = table.inverted {ENT_EYE, ENT_HEADY, ENT_COPTER}
 
 DIR_UP    = 1
 DIR_DOWN  = 2

@@ -45,3 +45,11 @@ function table.print(t)
 		print(k .. " : ", v)
 	end
 end
+
+function table.inverted(t)
+	d = {}
+	for key, value in pairs(t) do
+		d[value] = key
+	end
+	return d
+end
