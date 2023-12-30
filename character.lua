@@ -396,5 +396,6 @@ function character:unserialize(n)
 	self.skin = n.skin
 	self.dead = n.dead
 	self.stance = n.stance
+	self.anim = self.animations[self.stance][self.direction]
 	self.anim.timer = n.animtimer
 end

@@ -27,6 +27,7 @@ function bubbleexp:serialize()
 		x = self.x,
 		y = self.y,
 		t = self.t,
+		animtimer = self.anim.timer,
 	}
 end
 
@@ -36,4 +37,5 @@ function bubbleexp:unserialize(n)
 	self.x = n.x
 	self.y = n.y
 	self.t = n.t
+	self.anim.timer = n.animtimer
 end

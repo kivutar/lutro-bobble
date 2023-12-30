@@ -24,6 +24,7 @@ function cross:serialize()
 		type = self.type,
 		x = self.x,
 		y = self.y,
+		animtimer = self.anim.timer,
 	}
 end
 
@@ -32,4 +33,5 @@ function cross:unserialize(n)
 	self.type = n.type
 	self.x = n.x
 	self.y = n.y
+	self.anim.timer = n.animtimer
 end

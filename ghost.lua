@@ -187,5 +187,6 @@ function ghost:unserialize(n)
 	self.yaccel = n.yaccel
 	self.skin = n.skin
 	self.stance = n.stance
+	self.anim = self.animations[self.stance][self.direction]
 	self.anim.timer = n.animtimer
 end
