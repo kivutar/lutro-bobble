@@ -26,6 +26,7 @@ require "heady"
 require "copter"
 Json = require "json"
 Input = require "input"
+Lurker = require "lurker"
 
 function love.conf(t)
 	t.width  = SCREEN_WIDTH
@@ -141,7 +142,10 @@ function love.load()
 	table.insert(ENTITIES, NewTitle({}))
 end
 
+local state_queue = {}
+
 function love.update(dt)
+	Lurker.update()
 	Input.update(dt)
 
 	for i=1, #ENTITIES do
@@ -157,6 +161,16 @@ function love.update(dt)
 	end
 
 	detect_collisions()
+
+	-- rewind
+	if love.keyboard.isScancodeDown("r") then
+		if #state_queue > 0 then
+			love.unserialize(state_queue[#state_queue])
+			table.remove(state_queue, #state_queue)
+		end
+	else
+		table.insert(state_queue, love.serialize())
+	end
 end
 
 function love.draw()

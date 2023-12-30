@@ -11,8 +11,8 @@ function NewCharacter(n)
 	n.yspeed = 0
 	n.xaccel = 0.5
 	n.yaccel = 0.15
-	if n.direction == nil then n.direction = DIR_RIGHT end
-	n.stance = "jump"
+	n.direction = n.direction and n.direction or DIR_RIGHT
+	n.stance = n.stance and n.stance or "stand"
 	n.speedlimit = 2
 	n.ko = 0
 	n.dead_t = 0
@@ -277,13 +277,7 @@ function character:update(dt)
 		end
 	end
 
-	local anim = self.animations[self.stance][self.direction]
-	-- always animate from first frame
-	if anim ~= self.anim then
-		anim.timer = 0
-	end
-	self.anim = anim
-
+	self.anim = self.animations[self.stance][self.direction]
 	self.anim:update(dt)
 
 	solid_collisions(self)
@@ -381,6 +375,7 @@ function character:serialize()
 		skin = self.skin,
 		dead = self.dead,
 		stance = self.stance,
+		animtimer = self.anim.timer,
 	}
 end
 
@@ -401,4 +396,5 @@ function character:unserialize(n)
 	self.skin = n.skin
 	self.dead = n.dead
 	self.stance = n.stance
+	self.anim.timer = n.animtimer
 end

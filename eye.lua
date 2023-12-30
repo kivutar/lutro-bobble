@@ -5,7 +5,7 @@ function NewEye(n)
 	n.type = ENT_EYE
 	n.width = 16
 	n.height = 16
-	n.direction = DIR_RIGHT
+	n.direction = n.direction and n.direction or DIR_RIGHT
 	if n.direction == DIR_LEFT then
 		n.xspeed = -0.5
 	else
@@ -170,6 +170,7 @@ function eye:serialize()
 		captured = self.captured,
 		dead = self.dead,
 		stance = self.stance,
+		animtimer = self.anim.timer,
 	}
 end
 
@@ -186,4 +187,5 @@ function eye:unserialize(n)
 	self.captured = n.captured
 	self.dead = n.dead
 	self.stance = n.stance
+	self.anim.timer = n.animtimer
 end

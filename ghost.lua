@@ -7,7 +7,7 @@ function NewGhost(n)
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
-	if n.direction == nil then n.direction = DIR_RIGHT end
+	n.direction = n.direction and n.direction or DIR_RIGHT
 	n.stance = "ghost"
 	n.speedlimit = 2
 	n.t = 0
@@ -123,13 +123,7 @@ function ghost:update(dt)
 		end
 	end
 
-	local anim = self.animations[self.stance][self.direction]
-	-- always animate from first frame
-	if anim ~= self.anim then
-		anim.timer = 0
-	end
-	self.anim = anim
-
+	self.anim = self.animations[self.stance][self.direction]
 	self.anim:update(dt)
 end
 
@@ -168,12 +162,14 @@ function ghost:serialize()
 		direction = self.direction,
 		x = self.x,
 		y = self.y,
+		t = self.t,
 		xspeed = self.xspeed,
 		xaccel = self.xaccel,
 		yspeed = self.yspeed,
 		yaccel = self.yaccel,
 		skin = self.skin,
 		stance = self.stance,
+		animtimer = self.anim.timer,
 	}
 end
 
@@ -184,10 +180,12 @@ function ghost:unserialize(n)
 	self.pad = n.pad
 	self.x = n.x
 	self.y = n.y
+	self.t = n.t
 	self.xspeed = n.xspeed
 	self.xaccel = n.xaccel
 	self.yspeed = n.yspeed
 	self.yaccel = n.yaccel
 	self.skin = n.skin
 	self.stance = n.stance
+	self.anim.timer = n.animtimer
 end
