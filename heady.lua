@@ -7,12 +7,12 @@ function NewHeady(n)
 	n.height = 16
 	n.direction = DIR_RIGHT
 	if n.direction == DIR_LEFT then
-		n.xspeed = -1
+		n.xspeed = -0.5
 	else
-		n.xspeed = 1
+		n.xspeed = 0.5
 	end
 	n.yspeed = 0
-	n.yaccel = 0.17
+	n.yaccel = 0.10
 	n.xaccel = 0
 	n.captured = false
 	n.dead = false
@@ -55,7 +55,7 @@ function heady:update(dt)
 
 	if self.dead then
 		self.yspeed = self.yspeed + self.yaccel * 60 * dt
-		if (self.yspeed > 3) then self.yspeed = 3 end
+		if (self.yspeed > 2) then self.yspeed = 2 end
 		self.y = self.y + self.yspeed * 60 * dt
 		self.anim = self.animations[self.stance][self.direction]
 		self.anim:update(dt)

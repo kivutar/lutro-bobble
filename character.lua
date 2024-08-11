@@ -9,11 +9,11 @@ function NewCharacter(n)
 	n.height = 16
 	n.xspeed = 0
 	n.yspeed = 0
-	n.xaccel = 0.5
-	n.yaccel = 0.15
+	n.xaccel = 0.25
+	n.yaccel = 0.1
 	if n.direction == nil then n.direction = DIR_RIGHT end
 	n.stance = "jump"
-	n.speedlimit = 2
+	n.speedlimit = 1.5
 	n.ko = 0
 	n.dead_t = 0
 	n.dead = false
@@ -170,7 +170,7 @@ function character:update(dt)
 	if DO_JUMP and not JOY_DOWN then
 		if self.ungrounded_time < JUMP_FORGIVENESS then
 			self.y = self.y - 1
-			self.yspeed = -3.75
+			self.yspeed = -3
 			SFX_jump:play()
 		end
 	end
@@ -182,7 +182,7 @@ function character:update(dt)
 			SFX_jump:play()
 		elseif otg then
 			self.y = self.y - 1
-			self.yspeed = -3.75
+			self.yspeed = -3
 			SFX_jump:play()
 		end
 	end
@@ -228,12 +228,12 @@ function character:update(dt)
 	and (otg or oab)
 	then
 		if self.xspeed > 0 then
-			self.xspeed = self.xspeed - 10
+			self.xspeed = self.xspeed - 5
 			if self.xspeed < 0 then
 				self.xspeed = 0
 			end
 		elseif self.xspeed < 0 then
-			self.xspeed = self.xspeed + 10
+			self.xspeed = self.xspeed + 5
 			if self.xspeed > 0 then
 				self.xspeed = 0
 			end

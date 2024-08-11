@@ -7,12 +7,12 @@ function NewEye(n)
 	n.height = 16
 	n.direction = DIR_RIGHT
 	if n.direction == DIR_LEFT then
-		n.xspeed = -0.5
+		n.xspeed = -0.25
 	else
-		n.xspeed = 0.5
+		n.xspeed = 0.25
 	end
 	n.yspeed = 0
-	n.yaccel = 0.17
+	n.yaccel = 0.10
 	n.xaccel = 0
 	n.captured = false
 	n.dead = false
@@ -74,7 +74,7 @@ function eye:update(dt)
 
 	self.xspeed = self.xspeed + self.xaccel * 60 * dt
 	self.yspeed = self.yspeed + self.yaccel * 60 * dt
-	if (self.yspeed > 3) then self.yspeed = 3 end
+	if (self.yspeed > 2) then self.yspeed = 2 end
 	if otg and self.yspeed > 0 then self.yspeed = 0 end
 
 	self.x = self.x + self.xspeed * 60 * dt
