@@ -131,6 +131,7 @@ function love.load()
 	SFX_ok = NewSource("assets/ok.wav", "static")
 	SFX_cross = NewSource("assets/cross.wav", "static")
 	SFX_revive = NewSource("assets/revive.wav", "static")
+	SFX_death = NewSource("assets/death.wav", "static")
 
 	FNT_points = love.graphics.newImageFont("assets/points.png", "0123456789", 1)
 	FNT_letters = love.graphics.newImageFont("assets/letters.png", "ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789.!?", 1)

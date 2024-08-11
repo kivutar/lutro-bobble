@@ -135,6 +135,7 @@ function character:update(dt)
 
 	if self.dead_t > 0 then
 		if self.dead_t < 180 then
+			if self.dead_t == 179 then SFX_death:play() end
 			self.yspeed = self.yspeed + self.yaccel * 60 * dt
 			if (self.yspeed > 3) then self.yspeed = 3 end
 			self.y = self.y + self.yspeed * 60 * dt
